@@ -21,11 +21,3 @@ DATA
 - Jangan hapus data browser atau situs. Itu menghapus data absensi.
 - Gunakan tombol "Unduh cadangan" secara berkala. Untuk memindahkan atau menggabungkan data ke perangkat lain,
   pakai "Pulihkan atau gabungkan" dan pilih file cadangannya.
-
-MAU JADI FILE APK?
-Setelah situsnya online (langkah 1), buka pwabuilder.com, masukkan alamatnya, lalu pilih paket Android.
-Langkah ini butuh membuat kunci penandatanganan, dan hasilnya perlu dipasang manual (di luar Play Store).
-
-MEMPERBARUI APLIKASI
-Unggah ulang index.html dan sw.js (nama sama) ke GitHub, lalu pilih Commit directly to the main branch.
-Perangkat yang sudah memasang akan memuat versi baru saat dibuka dengan internet, kadang baru terasa setelah dibuka dua kali.
