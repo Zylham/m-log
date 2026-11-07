@@ -146,9 +146,8 @@ input[disabled],select:disabled{opacity:.7}
 .opt.add{border-style:dashed;color:var(--mut)}
 .opt.add .dot{border-style:dashed}
 .err{color:var(--tx)!important;font-weight:700;text-decoration:underline}
-.typing main{padding-bottom:100vh}
 .typing .fx{opacity:0;transition:opacity .15s}
-input,textarea{scroll-margin-top:120px}
+
 </style>
 </head>
 <body>
@@ -580,7 +579,9 @@ document.addEventListener("click",fxClick);
 try{leaves()}catch(e){}
 
 
+var EMB=!!(window.claude&&window.claude.use);
 function bring(el){
+  if(!EMB)return;
   try{el.scrollIntoView({block:"start",behavior:"smooth"})}catch(e){}
   setTimeout(function(){try{var r=el.getBoundingClientRect();if(r.top>220||r.top<0)window.scrollTo({top:Math.max(0,(window.pageYOffset||0)+r.top-120),behavior:"smooth"})}catch(e){}},600);
 }
