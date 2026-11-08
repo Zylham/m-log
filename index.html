@@ -217,7 +217,7 @@ header h2{animation:rise .7s cubic-bezier(.34,1.56,.64,1)}
 :root[data-theme="mahiru"] .panel,:root[data-theme="mahiru"] .m,:root[data-theme="permen"] .panel,:root[data-theme="permen"] .m,:root[data-theme="neko"] .panel,:root[data-theme="neko"] .m,:root[data-theme="matcha"] .panel,:root[data-theme="matcha"] .m,:root[data-theme="awan"] .panel,:root[data-theme="awan"] .m,:root[data-theme="sakura"] .panel,:root[data-theme="sakura"] .m{border-radius:22px}
 :root[data-theme="mahiru"] .btn,:root[data-theme="permen"] .btn,:root[data-theme="neko"] .btn,:root[data-theme="matcha"] .btn,:root[data-theme="awan"] .btn{border-radius:999px}
 html{scroll-behavior:smooth}
-header{background-size:220% 220%;animation:hg 18s ease-in-out infinite}
+header{background-size:220% 220%;background-position:0 50%}
 @keyframes hg{0%,100%{background-position:0 50%}50%{background-position:100% 50%}}
 main>.panel,main>#tP>.panel,main>#tG>.panel{animation:rise .8s cubic-bezier(.22,1,.36,1) backwards}
 main>.panel:nth-child(2),#tP>.panel:nth-child(2){animation-delay:.08s}main>.panel:nth-child(3),#tP>.panel:nth-child(3){animation-delay:.16s}main>.panel:nth-child(4){animation-delay:.24s}
@@ -323,7 +323,7 @@ img.ab-lg{display:block;width:52px;height:52px;padding:0;border-radius:14px;back
 .tst.o{opacity:0}
 @keyframes tin{from{opacity:0;transform:translate(-50%,24px) scale(.85)}}
 .panel,.m{box-shadow:var(--ps,none)}
-body{background-color:var(--bg);background-attachment:fixed}
+body{background-color:var(--bg);isolation:isolate}
 :root[data-theme="samurai"]{--ps:inset 3px 0 0 #c8232c,0 0 0 1px rgba(184,144,58,.25)}
 :root[data-theme="sakura"]{--ps:0 8px 24px rgba(232,122,160,.18)}
 :root[data-theme="hutan"]{--ps:inset 0 3px 0 #2e7d46,0 6px 18px rgba(30,74,44,.10)}
@@ -337,55 +337,55 @@ body{background-color:var(--bg);background-attachment:fixed}
 :root[data-theme="samudra"]{--ps:0 8px 22px rgba(14,124,134,.14)}
 :root[data-theme="matcha"]{--ps:0 8px 22px rgba(47,158,114,.14)}
 :root[data-theme="awan"]{--ps:0 8px 24px rgba(47,134,216,.14)}
-:root[data-theme="samurai"] body{background-image:radial-gradient(ellipse 90% 45% at 50% -8%,rgba(200,35,44,.30),transparent 70%),radial-gradient(circle at 50% 100%,transparent 0 13px,rgba(200,35,44,.10) 14px 15px,transparent 16px 21px,rgba(200,35,44,.08) 22px 23px,transparent 24px);background-size:auto,56px 28px}
-:root[data-theme="sakura"] body{background-image:radial-gradient(circle at 15% 8%,rgba(255,170,200,.45),transparent 45%),radial-gradient(circle at 90% 30%,rgba(255,210,225,.6),transparent 40%),radial-gradient(circle at 40% 100%,rgba(255,190,215,.4),transparent 50%)}
-:root[data-theme="hutan"] body{background-image:linear-gradient(180deg,rgba(63,143,85,.20),transparent 40%),repeating-linear-gradient(100deg,transparent 0 60px,rgba(255,255,220,.22) 60px 90px,transparent 90px 150px)}
-:root[data-theme="gugur"] body{background-image:linear-gradient(180deg,rgba(194,87,26,.18),rgba(255,214,150,.18) 45%,transparent 75%),radial-gradient(circle at 85% 0,rgba(255,200,120,.45),transparent 40%)}
-:root[data-theme="salju"] body{background-image:radial-gradient(ellipse 70% 35% at 30% 0,rgba(110,200,255,.22),transparent 70%),radial-gradient(ellipse 60% 30% at 80% 10%,rgba(160,120,255,.18),transparent 70%)}
-:root[data-theme="emas"] body{background-image:radial-gradient(ellipse 80% 40% at 50% -10%,rgba(212,175,55,.28),transparent 70%),linear-gradient(120deg,transparent 40%,rgba(212,175,55,.06) 50%,transparent 60%)}
-:root[data-theme="royal"] body{background-image:radial-gradient(circle at 10% 0,rgba(138,92,240,.35),transparent 45%),radial-gradient(circle at 95% 40%,rgba(80,60,200,.3),transparent 45%)}
-:root[data-theme="zamrud"] body{background-image:radial-gradient(circle at 0 0,rgba(47,211,154,.22),transparent 45%),radial-gradient(circle at 100% 100%,rgba(212,175,55,.14),transparent 45%)}
-:root[data-theme="neon"] body{background-image:linear-gradient(rgba(255,45,149,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.10) 1px,transparent 1px),radial-gradient(ellipse 80% 40% at 50% 0,rgba(106,0,255,.35),transparent 70%);background-size:36px 36px,36px 36px,auto}
-:root[data-theme="midnight"] body{background-image:radial-gradient(1.2px 1.2px at 20px 30px,rgba(255,255,255,.7),transparent),radial-gradient(1px 1px at 90px 80px,rgba(255,255,255,.5),transparent),radial-gradient(1.4px 1.4px at 150px 20px,rgba(180,200,255,.7),transparent),radial-gradient(ellipse 80% 40% at 50% -10%,rgba(91,147,255,.25),transparent 70%);background-size:180px 120px,180px 120px,180px 120px,auto}
-:root[data-theme="grafit"] body{background-image:radial-gradient(rgba(45,74,107,.14) 1px,transparent 1.2px),linear-gradient(180deg,rgba(45,74,107,.08),transparent 30%);background-size:18px 18px,auto}
-:root[data-theme="samudra"] body{background-image:linear-gradient(180deg,rgba(14,138,148,.20),transparent 45%),repeating-radial-gradient(ellipse at 50% 130%,transparent 0 22px,rgba(14,138,148,.07) 23px 25px)}
-:root[data-theme="anggur"] body{background-image:radial-gradient(circle at 0 0,rgba(214,71,111,.28),transparent 45%),radial-gradient(circle at 100% 70%,rgba(122,28,61,.4),transparent 50%)}
-:root[data-theme="mahiru"] body{background-image:radial-gradient(ellipse 60% 40% at 50% -8%,rgba(255,226,150,.65),transparent 70%),repeating-conic-gradient(from 0deg at 50% -10%,rgba(255,236,170,.18) 0 6deg,transparent 6deg 14deg)}
-:root[data-theme="permen"] body{background-image:radial-gradient(rgba(255,111,174,.18) 3px,transparent 3.5px),radial-gradient(rgba(176,140,255,.18) 3px,transparent 3.5px),linear-gradient(180deg,rgba(255,111,174,.12),transparent 35%);background-size:28px 28px,28px 28px,auto;background-position:0 0,14px 14px,0 0}
-:root[data-theme="neko"] body{background-image:radial-gradient(rgba(224,112,42,.14) 2.5px,transparent 3px),linear-gradient(180deg,rgba(242,166,90,.2),transparent 40%);background-size:22px 22px,auto}
-:root[data-theme="matcha"] body{background-image:radial-gradient(circle at 10% 0,rgba(108,199,154,.4),transparent 45%),radial-gradient(circle at 100% 40%,rgba(159,220,187,.5),transparent 45%)}
-:root[data-theme="awan"] body{background-image:linear-gradient(180deg,rgba(124,196,245,.55),rgba(238,247,255,0) 55%),radial-gradient(ellipse 30% 8% at 20% 12%,rgba(255,255,255,.9),transparent),radial-gradient(ellipse 36% 9% at 75% 22%,rgba(255,255,255,.85),transparent)}
+:root[data-theme="samurai"] body::before{background-image:radial-gradient(ellipse 90% 45% at 50% -8%,rgba(200,35,44,.30),transparent 70%),radial-gradient(circle at 50% 100%,transparent 0 13px,rgba(200,35,44,.10) 14px 15px,transparent 16px 21px,rgba(200,35,44,.08) 22px 23px,transparent 24px);background-size:auto,56px 28px}
+:root[data-theme="sakura"] body::before{background-image:radial-gradient(circle at 15% 8%,rgba(255,170,200,.45),transparent 45%),radial-gradient(circle at 90% 30%,rgba(255,210,225,.6),transparent 40%),radial-gradient(circle at 40% 100%,rgba(255,190,215,.4),transparent 50%)}
+:root[data-theme="hutan"] body::before{background-image:linear-gradient(180deg,rgba(63,143,85,.20),transparent 40%),repeating-linear-gradient(100deg,transparent 0 60px,rgba(255,255,220,.22) 60px 90px,transparent 90px 150px)}
+:root[data-theme="gugur"] body::before{background-image:linear-gradient(180deg,rgba(194,87,26,.18),rgba(255,214,150,.18) 45%,transparent 75%),radial-gradient(circle at 85% 0,rgba(255,200,120,.45),transparent 40%)}
+:root[data-theme="salju"] body::before{background-image:radial-gradient(ellipse 70% 35% at 30% 0,rgba(110,200,255,.22),transparent 70%),radial-gradient(ellipse 60% 30% at 80% 10%,rgba(160,120,255,.18),transparent 70%)}
+:root[data-theme="emas"] body::before{background-image:radial-gradient(ellipse 80% 40% at 50% -10%,rgba(212,175,55,.28),transparent 70%),linear-gradient(120deg,transparent 40%,rgba(212,175,55,.06) 50%,transparent 60%)}
+:root[data-theme="royal"] body::before{background-image:radial-gradient(circle at 10% 0,rgba(138,92,240,.35),transparent 45%),radial-gradient(circle at 95% 40%,rgba(80,60,200,.3),transparent 45%)}
+:root[data-theme="zamrud"] body::before{background-image:radial-gradient(circle at 0 0,rgba(47,211,154,.22),transparent 45%),radial-gradient(circle at 100% 100%,rgba(212,175,55,.14),transparent 45%)}
+:root[data-theme="neon"] body::before{background-image:linear-gradient(rgba(255,45,149,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.10) 1px,transparent 1px),radial-gradient(ellipse 80% 40% at 50% 0,rgba(106,0,255,.35),transparent 70%);background-size:36px 36px,36px 36px,auto}
+:root[data-theme="midnight"] body::before{background-image:radial-gradient(1.2px 1.2px at 20px 30px,rgba(255,255,255,.7),transparent),radial-gradient(1px 1px at 90px 80px,rgba(255,255,255,.5),transparent),radial-gradient(1.4px 1.4px at 150px 20px,rgba(180,200,255,.7),transparent),radial-gradient(ellipse 80% 40% at 50% -10%,rgba(91,147,255,.25),transparent 70%);background-size:180px 120px,180px 120px,180px 120px,auto}
+:root[data-theme="grafit"] body::before{background-image:radial-gradient(rgba(45,74,107,.14) 1px,transparent 1.2px),linear-gradient(180deg,rgba(45,74,107,.08),transparent 30%);background-size:18px 18px,auto}
+:root[data-theme="samudra"] body::before{background-image:linear-gradient(180deg,rgba(14,138,148,.20),transparent 45%),repeating-radial-gradient(ellipse at 50% 130%,transparent 0 22px,rgba(14,138,148,.07) 23px 25px)}
+:root[data-theme="anggur"] body::before{background-image:radial-gradient(circle at 0 0,rgba(214,71,111,.28),transparent 45%),radial-gradient(circle at 100% 70%,rgba(122,28,61,.4),transparent 50%)}
+:root[data-theme="mahiru"] body::before{background-image:radial-gradient(ellipse 60% 40% at 50% -8%,rgba(255,226,150,.65),transparent 70%),repeating-conic-gradient(from 0deg at 50% -10%,rgba(255,236,170,.18) 0 6deg,transparent 6deg 14deg)}
+:root[data-theme="permen"] body::before{background-image:radial-gradient(rgba(255,111,174,.18) 3px,transparent 3.5px),radial-gradient(rgba(176,140,255,.18) 3px,transparent 3.5px),linear-gradient(180deg,rgba(255,111,174,.12),transparent 35%);background-size:28px 28px,28px 28px,auto;background-position:0 0,14px 14px,0 0}
+:root[data-theme="neko"] body::before{background-image:radial-gradient(rgba(224,112,42,.14) 2.5px,transparent 3px),linear-gradient(180deg,rgba(242,166,90,.2),transparent 40%);background-size:22px 22px,auto}
+:root[data-theme="matcha"] body::before{background-image:radial-gradient(circle at 10% 0,rgba(108,199,154,.4),transparent 45%),radial-gradient(circle at 100% 40%,rgba(159,220,187,.5),transparent 45%)}
+:root[data-theme="awan"] body::before{background-image:linear-gradient(180deg,rgba(124,196,245,.55),rgba(238,247,255,0) 55%),radial-gradient(ellipse 30% 8% at 20% 12%,rgba(255,255,255,.9),transparent),radial-gradient(ellipse 36% 9% at 75% 22%,rgba(255,255,255,.85),transparent)}
 
 /* ===== v1.8: tema Petualangan Fantasi dan Legenda Timur ===== */
 :root[data-theme="api"]{--bg:#fff6e5;--card:#fff;--tx:#1a1a2e;--mut:#6a5f55;--bd:#f3cf94;--hd:linear-gradient(135deg,#ff5a00,#ffb300);--hm:#ff5a00;--ac:#ff6a00;--acx:#fff;--gm:#ffd23f;--gmx:#1a1a2e;--st:#ffe9c2;--fx:#ff8a1f;--ps:inset 4px 0 0 #ff6a00,0 6px 18px rgba(255,106,0,.14)}
-:root[data-theme="api"] body{background-image:repeating-conic-gradient(from 0deg at 50% 16%,rgba(255,106,0,.13) 0 1.6deg,transparent 1.6deg 8deg),linear-gradient(180deg,rgba(255,184,0,.24),transparent 35%)}
+:root[data-theme="api"] body::before{background-image:repeating-conic-gradient(from 0deg at 50% 16%,rgba(255,106,0,.13) 0 1.6deg,transparent 1.6deg 8deg),linear-gradient(180deg,rgba(255,184,0,.24),transparent 35%)}
 :root[data-theme="api"] .panel,:root[data-theme="api"] .m{border-radius:12px}
 :root[data-theme="api"] .btn{border-radius:10px;font-style:italic}
 :root[data-theme="bintang"]{--bg:#fff0fb;--card:#fffafe;--tx:#43204a;--mut:#935c9a;--bd:#f2c4ec;--hd:linear-gradient(135deg,#ff7ad9,#8f6bff 60%,#4fd2ff);--hm:#8f6bff;--ac:#e255c8;--acx:#fff;--gm:#c6b1ff;--gmx:#43204a;--st:#fbdcf6;--fx:#ff8be0;--ps:0 8px 26px rgba(226,85,200,.22)}
-:root[data-theme="bintang"] body{background-image:radial-gradient(circle at 12% 8%,rgba(255,122,217,.35),transparent 42%),radial-gradient(circle at 92% 25%,rgba(143,107,255,.28),transparent 42%),radial-gradient(circle at 50% 100%,rgba(79,210,255,.28),transparent 50%),radial-gradient(rgba(255,255,255,.95) 1.4px,transparent 1.8px);background-size:auto,auto,auto,34px 34px}
+:root[data-theme="bintang"] body::before{background-image:radial-gradient(circle at 12% 8%,rgba(255,122,217,.35),transparent 42%),radial-gradient(circle at 92% 25%,rgba(143,107,255,.28),transparent 42%),radial-gradient(circle at 50% 100%,rgba(79,210,255,.28),transparent 50%),radial-gradient(rgba(255,255,255,.95) 1.4px,transparent 1.8px);background-size:auto,auto,auto,34px 34px}
 :root[data-theme="bintang"] .panel,:root[data-theme="bintang"] .m{border-radius:22px}
 :root[data-theme="bintang"] .btn{border-radius:999px}
 :root[data-theme="bintang"] header h2{text-shadow:0 0 16px rgba(255,255,255,.7)}
 :root[data-theme="baja"]{--bg:#070d14;--card:#0e1822;--tx:#e6f3ff;--mut:#8fb0c8;--bd:#1f3a52;--hd:linear-gradient(135deg,#0a1b2b,#134a6e);--hm:#0a1b2b;--ac:#19d3ff;--acx:#00121c;--gm:#ff7a1a;--gmx:#1a0a00;--st:#12283a;--fx:#19d3ff;--ps:0 0 0 1px rgba(25,211,255,.28),0 0 18px rgba(25,211,255,.08)}
-:root[data-theme="baja"] body{background-image:linear-gradient(rgba(25,211,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(25,211,255,.07) 1px,transparent 1px),linear-gradient(180deg,rgba(255,122,26,.2),transparent 14%);background-size:32px 32px,32px 32px,auto}
+:root[data-theme="baja"] body::before{background-image:linear-gradient(rgba(25,211,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(25,211,255,.07) 1px,transparent 1px),linear-gradient(180deg,rgba(255,122,26,.2),transparent 14%);background-size:32px 32px,32px 32px,auto}
 :root[data-theme="baja"] .panel,:root[data-theme="baja"] .m{border-radius:4px}
 :root[data-theme="baja"] .btn{border-radius:3px;letter-spacing:.06em;text-transform:uppercase}
 :root[data-theme="baja"] header h2{text-shadow:0 0 14px rgba(25,211,255,.6)}
 :root[data-theme="portal"]{--bg:#0f1226;--card:#181c3a;--tx:#f1ecff;--mut:#aaa6d6;--bd:#34397a;--hd:linear-gradient(135deg,#1b1f55,#5b3fd1 60%,#e5b94a);--hm:#1b1f55;--ac:#f0c04a;--acx:#1b1400;--gm:#7e6bff;--gmx:#fff;--st:#222752;--fx:#ffd870;--ps:0 0 0 1px rgba(240,192,74,.28),0 10px 28px rgba(0,0,0,.4)}
-:root[data-theme="portal"] body{background-image:radial-gradient(ellipse 70% 40% at 50% 0,rgba(240,192,74,.22),transparent 70%),repeating-radial-gradient(circle at 50% 22%,transparent 0 34px,rgba(240,192,74,.07) 35px 36px),radial-gradient(1.3px 1.3px at 30px 40px,rgba(255,255,255,.7),transparent);background-size:auto,auto,120px 90px}
+:root[data-theme="portal"] body::before{background-image:radial-gradient(ellipse 70% 40% at 50% 0,rgba(240,192,74,.22),transparent 70%),repeating-radial-gradient(circle at 50% 22%,transparent 0 34px,rgba(240,192,74,.07) 35px 36px),radial-gradient(1.3px 1.3px at 30px 40px,rgba(255,255,255,.7),transparent);background-size:auto,auto,120px 90px}
 :root[data-theme="portal"] .panel,:root[data-theme="portal"] .m{border-radius:14px}
 :root[data-theme="portal"] header h2{text-shadow:0 0 16px rgba(255,216,112,.55)}
 :root[data-theme="pertapa"]{--bg:#eef7f1;--card:#fbfffc;--tx:#0f2e24;--mut:#4f7a68;--bd:#bfe0cf;--hd:linear-gradient(135deg,#0b5a45,#2aa882);--hm:#0b5a45;--ac:#138a6a;--acx:#fff;--gm:#d8b24a;--gmx:#2a2000;--st:#d6efe1;--fx:#3fc79a;--ps:0 10px 28px rgba(19,138,106,.14)}
-:root[data-theme="pertapa"] body{background-image:linear-gradient(180deg,rgba(63,181,138,.22),transparent 38%),radial-gradient(ellipse 60% 14% at 25% 22%,rgba(255,255,255,.85),transparent),radial-gradient(ellipse 70% 16% at 80% 40%,rgba(255,255,255,.75),transparent),linear-gradient(0deg,rgba(19,138,106,.14),transparent 25%)}
+:root[data-theme="pertapa"] body::before{background-image:linear-gradient(180deg,rgba(63,181,138,.22),transparent 38%),radial-gradient(ellipse 60% 14% at 25% 22%,rgba(255,255,255,.85),transparent),radial-gradient(ellipse 70% 16% at 80% 40%,rgba(255,255,255,.75),transparent),linear-gradient(0deg,rgba(19,138,106,.14),transparent 25%)}
 :root[data-theme="pertapa"] .panel,:root[data-theme="pertapa"] .m{border-radius:16px}
 :root[data-theme="pertapa"] header h2,:root[data-theme="pertapa"] .ph{letter-spacing:.05em}
 :root[data-theme="singgasana"]{--bg:#1a0707;--card:#270c0c;--tx:#fbeccd;--mut:#c9a37a;--bd:#5a1d16;--hd:linear-gradient(135deg,#5a0b0b,#b3151a);--hm:#5a0b0b;--ac:#f0b429;--acx:#2a0a00;--gm:#c8202a;--gmx:#fff;--st:#351010;--fx:#ffd24d;--ps:0 0 0 1px rgba(240,180,41,.35),0 10px 30px rgba(0,0,0,.5)}
-:root[data-theme="singgasana"] body{background-image:radial-gradient(ellipse 80% 40% at 50% -8%,rgba(240,180,41,.3),transparent 70%),radial-gradient(circle at 50% 100%,transparent 0 12px,rgba(240,180,41,.12) 13px 14px,transparent 15px 20px,rgba(240,180,41,.09) 21px 22px,transparent 23px);background-size:auto,52px 26px}
+:root[data-theme="singgasana"] body::before{background-image:radial-gradient(ellipse 80% 40% at 50% -8%,rgba(240,180,41,.3),transparent 70%),radial-gradient(circle at 50% 100%,transparent 0 12px,rgba(240,180,41,.12) 13px 14px,transparent 15px 20px,rgba(240,180,41,.09) 21px 22px,transparent 23px);background-size:auto,52px 26px}
 :root[data-theme="singgasana"] .panel,:root[data-theme="singgasana"] .m{border-radius:8px}
 :root[data-theme="singgasana"] header h2,:root[data-theme="singgasana"] .ph{letter-spacing:.05em}
 :root[data-theme="singgasana"] header h2{text-shadow:0 0 16px rgba(255,210,77,.5)}
 :root[data-theme="bambu"]{--bg:#f4efe4;--card:#fbf8f0;--tx:#1b1b1b;--mut:#6b645a;--bd:#cfc6b4;--hd:linear-gradient(135deg,#141414,#4a4a4a);--hm:#141414;--ac:#b3202a;--acx:#fff;--gm:#8a8274;--gmx:#fff;--st:#e9e2d2;--fx:#333333;--ps:0 1px 0 #cfc6b4,0 8px 20px rgba(27,27,27,.08)}
-:root[data-theme="bambu"] body{background-image:radial-gradient(ellipse 90% 30% at 50% 0,rgba(27,27,27,.2),transparent 70%),radial-gradient(ellipse 60% 14% at 20% 100%,rgba(27,27,27,.12),transparent),radial-gradient(ellipse 50% 12% at 85% 96%,rgba(27,27,27,.1),transparent)}
+:root[data-theme="bambu"] body::before{background-image:radial-gradient(ellipse 90% 30% at 50% 0,rgba(27,27,27,.2),transparent 70%),radial-gradient(ellipse 60% 14% at 20% 100%,rgba(27,27,27,.12),transparent),radial-gradient(ellipse 50% 12% at 85% 96%,rgba(27,27,27,.1),transparent)}
 :root[data-theme="bambu"] .panel,:root[data-theme="bambu"] .m{border-radius:5px}
 :root[data-theme="bambu"] header h2,:root[data-theme="bambu"] .ph{letter-spacing:.06em}
 .lite header h2{text-shadow:none!important}
@@ -437,6 +437,18 @@ body{background-color:var(--bg);background-attachment:fixed}
 :root[data-theme="bambu"] .btn:not(.d){background:#1b1b1b;border-color:#1b1b1b;color:#f4efe4;border-radius:3px;box-shadow:3px 3px 0 #b3202a}
 :root[data-theme="bambu"] .ph::before{width:.28em;height:.95em;border-radius:2px;margin-right:.6em}
 .lite header{background:var(--hd)!important}
+
+/* ===== v2.0 kinerja: efek lebih ringan, kualitas bisa diatur ===== */
+body::before{content:"";position:fixed;left:0;right:0;top:0;height:var(--fh,100vh);z-index:-1;pointer-events:none}
+.lf{filter:none!important}
+@media (max-width:700px){.lf i.fp{perspective:none}.lf i.fp svg{animation-name:spin}}
+.mid .lf.gl::after{display:none}
+.mid .lf i svg{animation:none!important}
+.mid .lf i.tw{animation-name:sway}
+.mid .md{backdrop-filter:none;-webkit-backdrop-filter:none}
+.mid .m,.mid .btn{box-shadow:none!important}
+.mid header h2{text-shadow:none!important}
+.lite body::before{display:none}
 </style>
 </head>
 <body>
@@ -963,7 +975,7 @@ function applyTheme(id,sv){
 function themeHTML(){
   return '<p class="ph">Tema</p><div class="opts" role="radiogroup">'+TH.map(function(t){if(t[0]==="_")return '<p class="lbl" style="width:100%;margin:10px 0 0"><b>'+t[1]+'</b></p>';var c=TC[t[0]],on=TH_ON===t[0];
     return '<button type="button" class="opt'+(on?" on":"")+'" role="radio" aria-checked="'+on+'" data-act="th" data-v="'+t[0]+'"><span class="sw" style="background:linear-gradient(135deg,'+c[0]+' 50%,'+c[1]+' 50%)"></span>'+t[1]+'</button>'}).join("")+
-    '</div><p class="lbl gap"><b>Mode ringan</b></p><button type="button" class="opt'+(LITE?" on":"")+'" role="switch" aria-checked="'+LITE+'" data-act="lite"><span class="dot"></span>'+(LITE?"Nyala":"Mati")+'</button><div class="r gap"><button class="btn d" data-act="close">Tutup</button></div>';
+    '</div>'+qUI()+'<p class="lbl gap"><b>Mode ringan</b></p><button type="button" class="opt'+(LITE?" on":"")+'" role="switch" aria-checked="'+LITE+'" data-act="lite"><span class="dot"></span>'+(LITE?"Nyala":"Mati")+'</button><div class="r gap"><button class="btn d" data-act="close">Tutup</button></div>';
 }
 function aboutHTML(){
   var G=[["Pengajar","Mencatat kehadiran, izin, alpa, beserta catatan. Tersedia peringatan apabila tidak hadir secara berturut-turut"],["Kelas sendiri","Kelas dapat diatur sesuai kebutuhan, misalnya 1 sampai 7. Tekan + Tambah kelas, atau ketuk nama kelas 3 kali untuk mengubah dan menghapus"],["Materi","Mencatat materi dan catatan untuk setiap kelas"],["Pengajar eksternal","Dilengkapi masa tugas yang dapat diakhiri per orang atau per kelompok"],["Rekap","Rekap dapat disalin, lalu dikirim ke grup"],["Sinkron","Data dapat digunakan bersama melalui kode perangkat"],["Offline","Dapat digunakan tanpa internet. Pembaruan data antarperangkat akan masuk setelah koneksi internet tersedia kembali."],["Kalender dan musik","Memilih kegiatan melalui kalender dan memutar musik bawaan, atau dari tautan Spotify dan YouTube"],["Banyak tema","Lebih dari 25 tema, termasuk Petualangan Fantasi dan Legenda Timur, dengan hiasan jatuh yang menyesuaikan tiap tema"]];
@@ -1219,6 +1231,7 @@ document.addEventListener("click",function(e){
   var b=e.target.closest("[data-act]");if(!b)return;var a=b.dataset.act;
   if(a==="th"){applyTheme(b.dataset.v,true);mOpen("md",themeHTML())}
   else if(a==="lite"){setLite(!LITE);mOpen("md",themeHTML())}
+  else if(a==="q"){qSet(QK,b.dataset.v);if(b.dataset.v==="auto")qSet(QD,"");qApply();mOpen("md",themeHTML());setTimeout(qProbe,1500)}
   else if(a==="close")mClose("md");
   else if(a==="yes")Sy.answer(true);
   else if(a==="no")Sy.answer(false);
@@ -1506,15 +1519,44 @@ var FXC={
  singgasana:{o:[.55,.9],d:[12,24],sw:[12,26],rt:30,n:[10,20],s:[[YCOI,"#f0b429","fg"],[YANG,"#d2262e"],[YSCL,"#d4981a","g"],[ZXC,"#ffd24d","g"],[YCOI,"#ffd24d","fg"],[YANG,"#ec4a4a"],[YSCL,"#c8202a"]]},
  bambu:{o:[.5,.85],d:[15,28],sw:[24,50],rt:55,n:[10,20],s:[[YBAM,"#3f6b45"],[YBAM,"#222222"],[ZDR,"#1b1b1b","x"],[YPLM,"#b3202a"],[YBAM,"#5b8a5a"],[YBLT,"#222222","x"],[YPLM,"#d9636d"]]}
 };
+/* ===== kualitas efek: Otomatis / Penuh / Hemat, ditambah pemeriksaan kelancaran ===== */
+var QK="mlog-qual",QD="mlog-qdown",QPR=false;
+function qGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function qSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+function qPref(){var v=qGet(QK);return v==="full"||v==="mid"?v:"auto"}
+function qRes(){var p=qPref();if(p!=="auto")return p;if(qGet(QD)==="mid")return"mid";return(innerWidth<700||(navigator.hardwareConcurrency||8)<=6||(navigator.deviceMemory||8)<=4)?"mid":"full"}
+var QUAL=qRes();document.documentElement.classList.toggle("mid",QUAL==="mid");
+function qApply(){QUAL=qRes();document.documentElement.classList.toggle("mid",QUAL==="mid");Array.prototype.forEach.call(document.querySelectorAll(".fx"),function(n){n.remove()});if(!LITE)try{leaves()}catch(e){}}
+function qcap(n,sm){return Math.min(n,QUAL==="mid"?(sm?5:9):(sm?9:18))}
+function qfl(f){return QUAL==="mid"?f.replace(/[sftg]/g,""):f}
+function qUI(){
+  return '<p class="lbl gap"><b>Kualitas efek</b></p><div class="opts" role="radiogroup">'+[["auto","Otomatis"],["full","Penuh"],["mid","Hemat"]].map(function(q){var on=qPref()===q[0];return '<button type="button" class="opt'+(on?" on":"")+'" role="radio" aria-checked="'+on+'" data-act="q" data-v="'+q[0]+'"><span class="dot"></span>'+q[1]+'</button>'}).join("")+'</div><p class="lbl">Pilih Hemat apabila tema terasa berat. Pilihan Otomatis menyesuaikan dengan kemampuan perangkat dan mengurangi efek bila aplikasi terasa tersendat.</p>';
+}
+function qProbe(){
+  if(QPR||LITE||RM||qPref()!=="auto"||qGet(QD)==="lite"||document.hidden)return;QPR=true;
+  var n=0,last=0,sum=0;
+  function f(t){
+    if(document.hidden){QPR=false;return}
+    if(last){sum+=t-last;n++}last=t;
+    if(n<45){requestAnimationFrame(f);return}
+    QPR=false;var avg=sum/n;
+    if(avg>30){
+      if(QUAL==="full"){qSet(QD,"mid");qApply();toast("Efek dikurangi agar aplikasi tetap lancar. Dapat diubah di menu Tema.")}
+      else if(avg>38){qSet(QD,"lite");setLite(true);toast("Mode ringan diaktifkan otomatis agar aplikasi tetap lancar. Dapat diubah di menu Tema.")}
+    }
+  }
+  setTimeout(function(){requestAnimationFrame(f)},400);
+}
+var _aq=applyTheme;applyTheme=function(id,sv,x,y){_aq(id,sv,x,y);if(sv)setTimeout(qProbe,1500)};
 function hs(f,c){return f.indexOf(c)>=0}
 leaves=function(){
   if(RM||LITE)return;
   var id=document.documentElement.getAttribute("data-theme")||"auto",cf=FXC[id],sm=innerWidth<600,
     list=cf?cf.s:[[LEAF0,""],[FEA0,""]],op=cf?cf.o:[.09,.19],dr=cf&&cf.d||[16,30],sw=cf&&cf.sw||[16,34],rt=cf&&cf.rt||45,zb=cf&&cf.z||[14,30],
-    n=cf&&cf.n?(sm?cf.n[0]:cf.n[1]):(cf?(sm?11:24):(sm?8:18)),box=document.createElement("div");
+    n=qcap(cf&&cf.n?(sm?cf.n[0]:cf.n[1]):(cf?(sm?11:24):(sm?8:18)),sm),box=document.createElement("div");
   box.className="fx";box.setAttribute("aria-hidden","true");
   for(var i=0;i<n;i++){
-    var sp=list[i%list.length],fl=sp[2]||"",
+    var sp=list[i%list.length],fl=qfl(sp[2]||""),
       sz=(zb[0]+Math.random()*(zb[1]-zb[0]))*(hs(fl,"x")?.45:1)*(hs(fl,"l")?1.7:1),
       d=dr[0]+Math.random()*(dr[1]-dr[0]),l=document.createElement("div"),sd=3+Math.random()*3,td=1.4+Math.random()*2,
       tw=hs(fl,"t"),spn=hs(fl,"s"),flp=hs(fl,"f"),
@@ -1528,6 +1570,7 @@ leaves=function(){
   document.body.appendChild(box);
 };
 try{applyTheme(localStorage.getItem(TKEY)||"auto",false)}catch(e){}
+setTimeout(qProbe,2000);
 
 resetForm(false);all();boot();Sy.start();
 </script>
