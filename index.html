@@ -498,6 +498,11 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:var(--fh,100v
     <div id="aWrap" hidden><input type="text" id="tAsal" class="gap" aria-label="Asal sekolah" placeholder="Asal SMA atau SMK"></div>
     <div class="r gap"><button class="btn" id="tSave">Tambah pengajar</button><button class="btn d" id="tCancel" hidden>Batal</button></div>
   </div>
+  <div class="panel wr" id="nkPanel">
+    <p class="ph">Kenaikan kelas</p>
+    <p class="lbl">Gunakan saat pergantian tahun ajaran. Pengajar naik satu kelas, dan kelas terakhir menjadi alumni yang dapat diabsen secara opsional.</p>
+    <div class="r" style="flex-wrap:wrap"><button class="btn" id="nkBtn" type="button">Naik kelas</button><button class="btn d" id="nkUndo" type="button" hidden>Batalkan kenaikan terakhir</button></div>
+  </div>
 </div>
 
 <div id="tG" hidden>
@@ -552,7 +557,7 @@ function $(id){return document.getElementById(id)}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
 function fmt(d){var p=(d||"").split("-");return p.length===3?p[2]+"/"+p[1]+"/"+p[0]:""}
-function fixT(o){o.name=o.name||"";o.nick=o.nick||"";o.tipe=["internal","calon","eksternal"].indexOf(o.tipe)>=0?o.tipe:"internal";o.asal=o.asal||"";return o}
+function fixT(o){o.name=o.name||"";o.nick=o.nick||"";o.tipe=["internal","calon","eksternal","alumni"].indexOf(o.tipe)>=0?o.tipe:"internal";o.asal=o.asal||"";return o}
 var DAYS=["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"],JN={wajib:"Wajib",rapat:"Rapat",latihan:"Latihan",event:"Event"};
 function dow(d){var p=(d||"").split("-");return p.length===3?new Date(+p[0],+p[1]-1,+p[2]).getDay():-1}
 function defJenis(d){var w=dow(d);return w===6?"wajib":(w===5?"rapat":"latihan")}
@@ -597,7 +602,7 @@ function ev(){return S.events.filter(function(e){return e.id===S.ce})[0]}
 function evSorted(){return S.events.slice().sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:0})}
 function vis(t,e){return(!t.since||e.date>=t.since)&&(!t.end||e.date<=t.end)}
 function tFor(e){return tSorted().filter(function(t){return vis(t,e)})}
-function gk(t){return t.tipe==="eksternal"?"2"+(t.asal||"").toUpperCase():((t.tipe==="calon"?"1":"0")+(t.asal||"").toUpperCase())}
+function gk(t){return t.tipe==="alumni"?"3":t.tipe==="eksternal"?"2"+(t.asal||"").toUpperCase():((t.tipe==="calon"?"1":"0")+(t.asal||"").toUpperCase())}
 function tSorted(){return S.teachers.slice().sort(function(a,b){var x=gk(a),y=gk(b);return x<y?-1:x>y?1:a.name.localeCompare(b.name,"id",{sensitivity:"base"})})}
 function newEvent(){var e=fixE({id:"e"+Date.now().toString(36),title:"Kegiatan "+(S.events.length+1),date:today()});e.jenis=defJenis(e.date);S.events.push(e);S.ce=e.id;touch("events",e.id);selSave()}
 function ensureSel(){if(!ev()&&S.events.length)S.ce=evSorted()[0].id}
@@ -688,7 +693,7 @@ function streak(d,id,upto){
   return k;
 }
 function renderSum(){
-  var e=ev(),T=tFor(e),R=e.tr||{},c={H:0,I:0,A:0,N:0};
+  var e=ev(),R=e.tr||{},T=tFor(e).filter(function(t){return t.tipe!=="alumni"||stOf(R,t.id)!=="N"}),c={H:0,I:0,A:0,N:0};
   T.forEach(function(t){c[stOf(R,t.id)]++});
   $("sum").innerHTML=["H","I","A","N"].map(function(k){return '<button class="t'+k+(flt===k?" on":"")+'" data-f="'+k+'" aria-pressed="'+(flt===k)+'"'+(flt&&flt!==k?' style="opacity:.5"':"")+'><b>'+c[k]+'</b>'+LB[k]+'</button>'}).join("");
   var p=T.length?Math.round(c.H/T.length*100):0;
@@ -702,14 +707,14 @@ function renderPeng(){
   $("evMatC").value=(e.materi||{}).calon||"";
   if(!T.length){$("list").innerHTML='<div class="empty">Belum ada pengajar. Silakan tambahkan melalui formulir di bawah; daftar akan diurutkan sesuai abjad secara otomatis.</div>';renderSum();return}
   var dm=dayMap(),warns=[];
-  var rows=T.map(function(t){var k=streak(dm,t.id,e.date);if(k>=2)warns.push({n:t.name+(t.nick?" ("+t.nick+")":""),k:k});return{t:t,k:k}})
-    .filter(function(x){return !flt||stOf(R,x.t.id)===flt});
+  var rows=T.map(function(t){var k=t.tipe==="alumni"?0:streak(dm,t.id,e.date);if(k>=2)warns.push({n:t.name+(t.nick?" ("+t.nick+")":""),k:k});return{t:t,k:k}})
+    .filter(function(x){var s=stOf(R,x.t.id);if(x.t.tipe==="alumni"&&s==="N"&&(!showAl||flt==="N"))return false;return !flt||s===flt});
   function card(x){
     var t=x.t,r=R[t.id]||{s:"",n:""};
     function b(k,l){return '<button data-s="'+k+'" data-id="'+t.id+'" class="'+(r.s===k?"on":"")+'" aria-pressed="'+(r.s===k)+'"'+dis+'>'+l+'</button>'}
     var ex=t.tipe==="eksternal",ak=armed==="e"+t.id,eb=ex&&canW?'<button class="x wr'+(ak?" arm":"")+'" data-'+(t.end?"reopen":"end")+'="'+t.id+'">'+(t.end?(ak?"Yakin buka lagi?":"Buka lagi"):(ak?"Yakin akhiri?":"Akhiri pengajar ini"))+'</button>':"";
     return '<div class="m"><div class="r"><span class="av">'+esc(initials(t.name).toUpperCase())+'</span><div class="nmw"><span class="nm">'+esc(t.name)+'</span>'+
-      '<span class="subl"><span class="tag'+(ex?" ex":(t.tipe==="calon"?" ca":""))+'">'+(ex?"Eksternal":(t.tipe==="calon"?"Calon "+esc(kd(t.asal)):(t.asal?"Kelas "+esc(kd(t.asal)):"Internal")))+'</span> '+[ex?esc(t.asal):"",t.end?"Selesai "+fmt(t.end):(ex&&t.since?"Mulai "+fmt(t.since):""),t.nick?"Panggilan: "+esc(t.nick):""].filter(Boolean).join(" - ")+'</span>'+
+      '<span class="subl"><span class="tag'+(ex?" ex":(t.tipe==="calon"||t.tipe==="alumni"?" ca":""))+'">'+(ex?"Eksternal":(t.tipe==="alumni"?"Alumni":t.tipe==="calon"?"Calon "+esc(kd(t.asal)):(t.asal?"Kelas "+esc(kd(t.asal)):"Internal")))+'</span> '+[ex?esc(t.asal):(t.tipe==="alumni"&&t.asal?"Asal: "+esc(t.asal):""),t.end?"Selesai "+fmt(t.end):(ex&&t.since?"Mulai "+fmt(t.since):""),t.nick?"Panggilan: "+esc(t.nick):""].filter(Boolean).join(" - ")+'</span>'+
       (x.k>=2?'<span class="wb'+(x.k>=3?" hi":"")+'">Izin/alpa '+x.k+' kali berturut-turut</span>':"")+eb+'</div>'+
       '<button class="x wr" data-edit="'+t.id+'">Ubah</button><button class="x wr'+(armed==="t"+t.id?" arm":"")+'" data-del="'+t.id+'">'+(armed==="t"+t.id?"Yakin hapus?":"Hapus")+'</button></div>'+
       '<div class="seg">'+b("H","Hadir")+b("I","Izin")+b("A","Alpa")+'</div>'+
@@ -717,8 +722,9 @@ function renderPeng(){
   }
   var wh=warns.length?'<div class="warn"><p class="wt">Perlu perhatian</p>'+warns.map(function(w){return '<p>'+esc(w.n)+': izin/alpa '+w.k+' kali berturut-turut pada kegiatan wajib'+(w.k>=3?", segera ditindaklanjuti":"")+'</p>'}).join("")+'</div>':"";
   var last=null,body="";
-  rows.forEach(function(x){var g=gk(x.t);if(g!==last){last=g;body+='<div class="gh">'+esc(x.t.tipe==="eksternal"?"Pengajar eksternal"+(x.t.asal?" - "+x.t.asal:""):(x.t.tipe==="calon"?"Calon pengajar"+(x.t.asal?" - Kelas "+kd(x.t.asal):""):(x.t.asal?"Kelas "+kd(x.t.asal):"Internal tanpa kelas")))+(x.t.tipe==="eksternal"&&x.t.asal&&canW&&S.teachers.some(function(q){return q.tipe==="eksternal"&&q.asal===x.t.asal&&!q.end})?' <button class="x wr'+(armed==="g"+x.t.asal?" arm":"")+'" data-endg="'+esc(x.t.asal)+'">'+(armed==="g"+x.t.asal?"Yakin akhiri kelompok?":"Akhiri kelompok")+'</button>':"")+'</div>'}body+=card(x)});
-  $("list").innerHTML=wh+(rows.length?body:'<div class="empty">Tidak ada nama dengan status ini.</div>');
+  rows.forEach(function(x){var g=gk(x.t);if(g!==last){last=g;body+='<div class="gh">'+esc(x.t.tipe==="alumni"?"Alumni (opsional)":x.t.tipe==="eksternal"?"Pengajar eksternal"+(x.t.asal?" - "+x.t.asal:""):(x.t.tipe==="calon"?"Calon pengajar"+(x.t.asal?" - Kelas "+kd(x.t.asal):""):(x.t.asal?"Kelas "+kd(x.t.asal):"Internal tanpa kelas")))+(x.t.tipe==="eksternal"&&x.t.asal&&canW&&S.teachers.some(function(q){return q.tipe==="eksternal"&&q.asal===x.t.asal&&!q.end})?' <button class="x wr'+(armed==="g"+x.t.asal?" arm":"")+'" data-endg="'+esc(x.t.asal)+'">'+(armed==="g"+x.t.asal?"Yakin akhiri kelompok?":"Akhiri kelompok")+'</button>':"")+(x.t.tipe==="alumni"?' <button class="x" data-al="1">'+(showAl?"Sembunyikan yang belum diabsen":"Tampilkan semua alumni")+'</button>':"")+'</div>'}body+=card(x)});
+  if(!showAl&&!flt&&T.some(function(t){return t.tipe==="alumni"})&&!rows.some(function(x){return x.t.tipe==="alumni"}))body+='<div class="gh">Alumni (opsional) <button class="x" data-al="1">Tampilkan semua alumni</button></div>';
+  $("list").innerHTML=wh+(body?body:'<div class="empty">Tidak ada nama dengan status ini.</div>');
   renderSum();
 }
 function renderGrp(){
@@ -730,8 +736,9 @@ function renderGrp(){
 function setG(k,v){var e=ev(),L=S.tab;e.grp=e.grp||{};e.grp[L]=e.grp[L]||{};e.grp[L][k]=v;touch("events",e.id)}
 function recap(){
   var e=ev(),T=tFor(e),R=e.tr||{},g={H:[],I:[],A:[],N:[]};
-  T.forEach(function(t){var r=R[t.id]||{s:"",n:""};g[r.s||"N"].push(t.name+(t.nick?" ("+t.nick+")":"")+(t.asal?" ["+(t.tipe==="eksternal"?t.asal:kd(t.asal))+"]":"")+(r.n?" - "+r.n:""))});
-  function sec(l,a){return l+" ("+a.length+")"+(a.length?"\n- "+a.join("\n- "):"")}
+  function gl(t){return t.tipe==="alumni"?"Alumni":(t.tipe==="calon"?(t.asal?"Calon "+kd(t.asal):"Calon pengajar"):(t.tipe==="eksternal"?(t.asal||"Eksternal"):kd(t.asal)))}
+  T.forEach(function(t){var r=R[t.id]||{s:"",n:""},s=r.s||"N";if(s==="N"&&t.tipe==="alumni")return;g[s].push({l:gl(t),x:t.name+(t.nick?" ("+t.nick+")":"")+(r.n?" - "+r.n:"")})});
+  function sec(l,a){var o=[l+" ("+a.length+")"],last=null;a.forEach(function(i){if(i.l){if(i.l!==last){o.push(i.l);last=i.l}}else last=null;o.push(i.x)});return o.join("\n")}
   var out=["Absensi: "+e.title+" - "+(DAYS[dow(e.date)]||"")+", "+fmt(e.date)+" ("+JN[jenisOf(e)]+")","","Materi:"];
   CLS().forEach(function(L){var q=(e.grp||{})[L]||{};out.push("- Kelas "+L+": "+((e.materi||{})[L]||"-")+(q.n?" (Catatan: "+q.n+")":""))});out.push("- Calon pengajar: "+((e.materi||{}).calon||"-"));
   out.push("","Pengajar",sec("Hadir",g.H),sec("Izin",g.I),sec("Alpa",g.A));
@@ -758,7 +765,7 @@ function copy(t,btn,label){
   try{navigator.clipboard.writeText(t).then(function(){btn.textContent="Tersalin";setTimeout(function(){btn.textContent=label},1500)},show)}catch(e){show()}
 }
 function setF(x){var t=x.target.closest("button[data-f]");if(!t)return;flt=flt===t.dataset.f?"":t.dataset.f;renderPeng()}
-var fTipe="internal",fKelas="",TP=[["internal","Internal"],["calon","Calon pengajar"],["eksternal","Eksternal"]];
+var showAl=false,fTipe="internal",fKelas="",TP=[["internal","Internal"],["calon","Calon pengajar"],["eksternal","Eksternal"],["alumni","Alumni"]];
 function kelasOpts(){
   var base=[],L="ABCDE",i,c=CLS(),gs=fTipe==="calon"?[c[0]]:(c.length>1?c.slice(1):c);
   gs.forEach(function(g){for(i=0;i<5;i++)base.push(g+L[i])});
@@ -771,9 +778,10 @@ function opt(a,v,l,on){return '<button type="button" class="opt'+(on?" on":"")+'
 function renderForm(){
   $("kNewIn").placeholder="Kelas baru, contoh "+((CLS()[1]||CLS()[0]||"8")+"F");
   $("tTipeO").innerHTML=TP.map(function(t){return opt("t",t[0],t[1],fTipe===t[0])}).join("");
-  var ex=fTipe==="eksternal";
-  $("kWrap").hidden=ex;$("aWrap").hidden=!ex;
-  if(!ex){
+  var ex=fTipe==="eksternal",al=fTipe==="alumni";
+  $("kWrap").hidden=ex||al;$("aWrap").hidden=!(ex||al);$("tAsal").placeholder=al?"Asal kelas atau angkatan (opsional)":"Asal SMA atau SMK";
+  if($("nkUndo"))$("nkUndo").hidden=!nkSnap();
+  if(!ex&&!al){
     $("kLbl").classList.remove("err");
     $("kLbl").textContent=fTipe==="calon"?"Kelas calon pengajar":"Kelas pengajar";
     $("kOpts").innerHTML=kelasOpts().map(function(k){return opt("k",k,kd(k),fKelas===k)}).join("")+'<button type="button" class="opt add" data-kadd="1"><span class="dot"></span>Kelas lain</button>';
@@ -789,7 +797,9 @@ $("sum").addEventListener("click",setF);
 $("fnote").addEventListener("click",setF);
 $("chips").addEventListener("click",function(x){var t=x.target.closest("button");if(t&&t.dataset.tab){S.tab=t.dataset.tab;flt="";armed=null;selSave();all();enter(S.tab==="P"?"tP":"tG")}});
 $("list").addEventListener("click",function(x){
-  var t=x.target.closest("button");if(!t||!canW)return;
+  var t=x.target.closest("button");if(!t)return;
+  if(t.dataset.al){showAl=!showAl;renderPeng();return}
+  if(!canW)return;
   if(t.dataset.s){var r=tr(t.dataset.id);r.s=r.s===t.dataset.s?"":t.dataset.s;touch("events",ev().id);renderPeng();pop('.seg button[data-id="'+t.dataset.id+'"][data-s="'+t.dataset.s+'"].on')}
   else if(t.dataset.end||t.dataset.reopen){var id=t.dataset.end||t.dataset.reopen,k="e"+id;
     if(armed===k){var o=S.teachers.filter(function(q){return q.id===id})[0];if(o){if(t.dataset.end)o.end=ev().date;else delete o.end;touch("teachers",id)}armed=null}else arm(k);
@@ -798,7 +808,7 @@ $("list").addEventListener("click",function(x){
     if(armed===k){S.teachers.forEach(function(q){if(q.tipe==="eksternal"&&q.asal===a&&!q.end){q.end=ev().date;touch("teachers",q.id)}});armed=null}else arm(k);
     renderPeng()}
   else if(t.dataset.edit){var o=S.teachers.filter(function(q){return q.id===t.dataset.edit})[0];if(!o)return;
-    editId=o.id;fTipe=o.tipe;fKelas=o.tipe==="eksternal"?"":o.asal;$("tName").value=o.name;$("tNick").value=o.nick||"";$("tAsal").value=o.tipe==="eksternal"?o.asal:"";renderForm();
+    editId=o.id;fTipe=o.tipe;fKelas=(o.tipe==="eksternal"||o.tipe==="alumni")?"":o.asal;$("tName").value=o.name;$("tNick").value=o.nick||"";$("tAsal").value=(o.tipe==="eksternal"||o.tipe==="alumni")?o.asal:"";renderForm();
     $("tFormT").textContent="Ubah pengajar";$("tSave").textContent="Simpan perubahan";$("tCancel").hidden=false;
     try{$("tForm").scrollIntoView({behavior:"smooth",block:"center"})}catch(e){}}
   else if(t.dataset.del){var k="t"+t.dataset.del;
@@ -819,8 +829,8 @@ $("tCancel").addEventListener("click",function(){resetForm(false)});
 $("tSave").addEventListener("click",function(){
   if(!canW)return;
   var name=$("tName").value.trim();if(!name)return;var nick=$("tNick").value.trim();
-  var ex=fTipe==="eksternal",asal=ex?$("tAsal").value.trim():fKelas;
-  if(!ex&&!asal){$("kLbl").classList.add("err");$("kLbl").textContent="Pilih kelas terlebih dahulu";return}
+  var ex=fTipe==="eksternal",al=fTipe==="alumni",asal=(ex||al)?$("tAsal").value.trim():fKelas;
+  if(!ex&&!al&&!asal){$("kLbl").classList.add("err");$("kLbl").textContent="Pilih kelas terlebih dahulu";return}
   if(editId){var o=S.teachers.filter(function(q){return q.id===editId})[0];if(o){o.name=name;o.nick=nick;o.tipe=fTipe;o.asal=asal;touch("teachers",o.id)}}
   else{var t=fixT({id:"t"+Date.now().toString(36)+Math.random().toString(36).slice(2,5),name:name,nick:nick,tipe:fTipe,asal:asal});if(ex){var ed=ev()?ev().date:today();t.since=ed<today()?ed:today()}S.teachers.push(t);touch("teachers",t.id)}
   resetForm(true);renderPeng();
@@ -978,8 +988,8 @@ function themeHTML(){
     '</div>'+qUI()+'<p class="lbl gap"><b>Mode ringan</b></p><button type="button" class="opt'+(LITE?" on":"")+'" role="switch" aria-checked="'+LITE+'" data-act="lite"><span class="dot"></span>'+(LITE?"Nyala":"Mati")+'</button><div class="r gap"><button class="btn d" data-act="close">Tutup</button></div>';
 }
 function aboutHTML(){
-  var G=[["Pengajar","Mencatat kehadiran, izin, alpa, beserta catatan. Tersedia peringatan apabila tidak hadir secara berturut-turut"],["Kelas sendiri","Kelas dapat diatur sesuai kebutuhan, misalnya 1 sampai 7. Tekan + Tambah kelas, atau ketuk nama kelas 3 kali untuk mengubah dan menghapus"],["Materi","Mencatat materi dan catatan untuk setiap kelas"],["Pengajar eksternal","Dilengkapi masa tugas yang dapat diakhiri per orang atau per kelompok"],["Rekap","Rekap dapat disalin, lalu dikirim ke grup"],["Sinkron","Data dapat digunakan bersama melalui kode perangkat"],["Offline","Dapat digunakan tanpa internet. Pembaruan data antarperangkat akan masuk setelah koneksi internet tersedia kembali."],["Kalender dan musik","Memilih kegiatan melalui kalender dan memutar musik bawaan, atau dari tautan Spotify dan YouTube"],["Banyak tema","Lebih dari 25 tema, termasuk Petualangan Fantasi dan Legenda Timur, dengan hiasan jatuh yang menyesuaikan tiap tema"]];
-  return '<div class="ab"><div class="ab-h"><img class="ab-lg" src="logo-192.png" alt="" width="52" height="52"><div><p class="ph" style="margin:0">M-log</p><p class="lbl" style="margin:0">Catatan absensi kegiatan</p><p class="lbl" style="margin:2px 0 0">Dibuat oleh <b>Ilham F. R.</b></p><p class="lbl" style="margin:2px 0 0">Versi saat ini <b>v2.0</b></p></div></div>'+
+  var G=[["Pengajar","Mencatat kehadiran, izin, alpa, beserta catatan. Tersedia peringatan apabila tidak hadir secara berturut-turut"],["Kelas sendiri","Kelas dapat diatur sesuai kebutuhan, misalnya 1 sampai 7. Tekan + Tambah kelas, atau ketuk nama kelas 3 kali untuk mengubah dan menghapus"],["Materi","Mencatat materi dan catatan untuk setiap kelas"],["Pengajar eksternal","Dilengkapi masa tugas yang dapat diakhiri per orang atau per kelompok"],["Naik kelas dan alumni","Kenaikan kelas dilakukan dengan satu tombol. Kelas terakhir menjadi alumni yang dapat diabsen secara opsional"],["Rekap","Rekap dapat disalin, lalu dikirim ke grup"],["Sinkron","Data dapat digunakan bersama melalui kode perangkat. Kegiatan dan pengajar yang sama digabung secara otomatis"],["Offline","Dapat digunakan tanpa internet. Pembaruan data antarperangkat akan masuk setelah koneksi internet tersedia kembali."],["Kalender dan musik","Memilih kegiatan melalui kalender dan memutar musik bawaan, atau dari tautan Spotify dan YouTube"],["Banyak tema","Lebih dari 25 tema, termasuk Petualangan Fantasi dan Legenda Timur, dengan hiasan jatuh yang menyesuaikan tiap tema"]];
+  return '<div class="ab"><div class="ab-h"><img class="ab-lg" src="logo-192.png" alt="" width="52" height="52"><div><p class="ph" style="margin:0">M-log</p><p class="lbl" style="margin:0">Catatan absensi kegiatan</p><p class="lbl" style="margin:2px 0 0">Dibuat oleh <b>Ilham F. R.</b></p><p class="lbl" style="margin:2px 0 0">Versi saat ini <b>v2.1</b></p></div></div>'+
   '<div class="qb"><span class="qm">\u201C</span><p class="qs0">Kutipan hari ini</p><p class="qq">'+esc(quoteNow())+'</p></div>'+
   '<p class="ab-t">Tujuan website</p><p class="ab-p">Aplikasi ini dibuat untuk mencatat absensi kegiatan agar lebih rapi dan mudah digunakan secara bersama-sama.</p>'+
   '<div class="ab-g">'+G.map(function(g,i){return '<div class="ab-i" style="--k:'+i+'"><b>'+g[0]+'</b><span>'+g[1]+'</span></div>'}).join("")+'</div>'+
@@ -1079,10 +1089,36 @@ function rx(it){
   if(sig!==sg(kind,R))send([it.k]);
   return !loc;
 }
+/* gabungkan kegiatan dan pengajar kembar yang dibuat terpisah di tiap perangkat sebelum tersambung */
+function nz(s){return String(s||"").trim().toLowerCase().replace(/\s+/g," ")}
+function byId(a,b){return a.id<b.id?-1:a.id>b.id?1:0}
+function dedupe(){
+  if(!gKey)return false;
+  var ch=false,tm={},tk={};
+  S.teachers.slice().sort(byId).forEach(function(t){var k=[nz(t.name),t.tipe,nz(t.asal)].join("|");if(tk[k])tm[t.id]=tk[k];else tk[k]=t.id});
+  var dt=Object.keys(tm);
+  if(dt.length){
+    S.events.forEach(function(e){var c=false,tr=e.tr||{};dt.forEach(function(d){if(tr[d]!==undefined){var to=tm[d],cur=tr[to];if(!cur||(!cur.s&&!cur.n))tr[to]=tr[d];delete tr[d];c=true}});if(c){e.tr=tr;touch("events",e.id)}});
+    S.teachers=S.teachers.filter(function(t){return !tm[t.id]});
+    dt.forEach(function(d){del("teachers",d)});ch=true;
+  }
+  var ek={};
+  S.events.slice().sort(byId).forEach(function(e){
+    if(!/^Kegiatan \d+$/.test(e.title||""))return;
+    var k=e.date+"|"+nz(e.title);
+    if(!ek[k]){ek[k]=e.id;return}
+    var X=find("events",ek[k]),M=mg("events",X,e,X.id),i=S.events.indexOf(X);
+    S.events[i]=M;PREV["events/"+X.id]=flat("events",M);
+    S.events=S.events.filter(function(y){return y.id!==e.id});
+    del("events",e.id);if(S.ce===e.id)S.ce=X.id;queue("events/"+X.id);ch=true;
+  });
+  if(ch)saveLocal();
+  return ch;
+}
 function grp(f,d){
   st.peers[f]={n:d.n,t:Date.now()};note(f,d.n);
   if(d.t==="hello"&&d.v){var mine=vers(),out=[];Object.keys(mine).concat(Object.keys(d.v)).forEach(function(k){if(mine[k]!==d.v[k]&&out.indexOf(k)<0)out.push(k)});if(out.length)send(out)}
-  else if(d.t==="docs"&&Array.isArray(d.items)){var ch=false;d.items.forEach(function(it){if(it&&it.k&&rx(it))ch=true});if(ch){saveLocal();svT();ensureSel();softAll()}}
+  else if(d.t==="docs"&&Array.isArray(d.items)){var ch=false;d.items.forEach(function(it){if(it&&it.k&&rx(it))ch=true});if(dedupe())ch=true;if(ch){saveLocal();svT();ensureSel();softAll()}}
   ui();
 }
 async function onMsg(t,s){
@@ -1208,6 +1244,7 @@ return{
       setInterval(function(){if(gKey&&isOn())hello()},45000);
       function kick(){cn.forEach(function(c){c.kick()});hello()}
       window.addEventListener("online",kick);
+      setTimeout(function(){if(dedupe()){saveLocal();svT();ensureSel();all()}},3500);
       document.addEventListener("visibilitychange",function(){if(!document.hidden)kick()});
     });
   },
@@ -1571,6 +1608,44 @@ leaves=function(){
 };
 try{applyTheme(localStorage.getItem(TKEY)||"auto",false)}catch(e){}
 setTimeout(qProbe,2000);
+
+/* ===== Naik kelas dan alumni ===== */
+var NKK="mlog-nk";
+function nkSnap(){try{var v=JSON.parse(localStorage.getItem(NKK)||"null");return v&&v.items&&v.items.length?v:null}catch(e){return null}}
+function nkParse(a){var c=CLS().slice().sort(function(x,y){return y.length-x.length});for(var i=0;i<c.length;i++){var k=c[i];if(a.indexOf(k)===0&&/^[A-Za-z]{0,2}$/.test(a.slice(k.length)))return{c:k,r:a.slice(k.length)}}return null}
+function nkPlan(){
+  var cl=CLS(),p={up:[],al:[],sk:[]};
+  S.teachers.forEach(function(t){
+    if((t.tipe!=="internal"&&t.tipe!=="calon")||!t.asal)return;
+    var q=nkParse(t.asal);if(!q){p.sk.push(t);return}
+    var i=cl.indexOf(q.c);if(i<cl.length-1)p.up.push({t:t,asal:cl[i+1]+q.r});else p.al.push(t);
+  });
+  return p;
+}
+function nkHTML(){
+  var p=nkPlan(),cl=CLS();
+  if(!p.up.length&&!p.al.length)return '<p class="ph">Kenaikan kelas</p><p class="lbl">Belum ada pengajar internal atau calon pengajar yang dapat dinaikkan.</p>'+(p.sk.length?'<p class="lbl">'+p.sk.length+' nama memiliki kelas yang tidak dikenali.</p>':"")+'<div class="r gap"><button class="btn d" data-act="nkno">Tutup</button></div>';
+  return '<p class="ph">Kenaikan kelas</p><p>Semua pengajar internal dan calon pengajar akan naik satu kelas. Kelas terakhir ('+esc(cl[cl.length-1])+') menjadi alumni.</p>'+
+    '<p class="lbl">Naik kelas: <b>'+p.up.length+'</b> nama</p><p class="lbl">Menjadi alumni: <b>'+p.al.length+'</b> nama</p>'+(p.sk.length?'<p class="lbl">Tidak berubah (kelas tidak dikenali): <b>'+p.sk.length+'</b> nama</p>':"")+
+    '<p class="lbl gap">Lakukan hanya sekali untuk setiap tahun ajaran, dari satu perangkat saja. Perubahan ini dapat dibatalkan sesudahnya.</p>'+
+    '<div class="r gap"><button class="btn" data-act="nkgo">Ya, naikkan kelas</button><button class="btn d" data-act="nkno">Batal</button></div>';
+}
+function nkApply(){
+  var p=nkPlan(),items=[];
+  p.up.forEach(function(x){items.push({id:x.t.id,tipe:x.t.tipe,asal:x.t.asal});x.t.tipe="internal";x.t.asal=x.asal;touch("teachers",x.t.id)});
+  p.al.forEach(function(t){items.push({id:t.id,tipe:t.tipe,asal:t.asal});t.tipe="alumni";touch("teachers",t.id)});
+  try{localStorage.setItem(NKK,JSON.stringify({t:Date.now(),items:items}))}catch(e){}
+  mClose("md2");resetForm(true);all();toast("Kenaikan kelas selesai: "+p.up.length+" naik kelas, "+p.al.length+" menjadi alumni");
+}
+function nkUndo(){
+  var s=nkSnap();if(!s)return;var n=0;
+  s.items.forEach(function(i){var t=S.teachers.filter(function(x){return x.id===i.id})[0];if(t){t.tipe=i.tipe;t.asal=i.asal;touch("teachers",t.id);n++}});
+  try{localStorage.removeItem(NKK)}catch(e){}
+  resetForm(true);all();toast("Kenaikan kelas dibatalkan untuk "+n+" nama");
+}
+$("nkBtn").addEventListener("click",function(){if(canW)mOpen("md2",nkHTML())});
+$("nkUndo").addEventListener("click",function(){if(canW&&confirm("Batalkan kenaikan kelas terakhir? Pengajar kembali ke kelas sebelumnya."))nkUndo()});
+document.addEventListener("click",function(e){var b=e.target.closest("[data-act]");if(!b)return;if(b.dataset.act==="nkgo")nkApply();else if(b.dataset.act==="nkno")mClose("md2")});
 
 resetForm(false);all();boot();Sy.start();
 </script>
