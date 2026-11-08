@@ -1,29 +1,29 @@
 {
- "name": "Absensi Kegiatan",
- "short_name": "Absensi",
+ "name": "M-log",
+ "short_name": "M-log",
  "description": "Absensi pengajar dan penerima materi",
  "start_url": "./",
  "scope": "./",
  "display": "standalone",
  "orientation": "any",
- "background_color": "#0c0c0c",
+ "background_color": "#1b1234",
  "theme_color": "#0c0c0c",
  "lang": "id",
  "icons": [
   {
-   "src": "icon-192.png",
+   "src": "logo-192.png",
    "sizes": "192x192",
    "type": "image/png",
    "purpose": "any"
   },
   {
-   "src": "icon-512.png",
+   "src": "logo-512.png",
    "sizes": "512x512",
    "type": "image/png",
    "purpose": "any"
   },
   {
-   "src": "icon-maskable-512.png",
+   "src": "logo-maskable-512.png",
    "sizes": "512x512",
    "type": "image/png",
    "purpose": "maskable"

@@ -7,12 +7,12 @@
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Absensi">
+<meta name="apple-mobile-web-app-title" content="M-log">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="icon" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="logo-192.png">
+<link rel="apple-touch-icon" href="logo-180.png">
 <script>try{var _t=localStorage.getItem("absensi-theme");if(_t&&_t!=="auto")document.documentElement.setAttribute("data-theme",_t)}catch(e){}</script>
-<title>Absensi Kegiatan</title>
+<title>M-log</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;800&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;800&family=Zen+Maru+Gothic:wght@400;500;700&display=swap"></noscript>
 <style>
@@ -194,7 +194,6 @@ body,header,select,input[type=text],textarea{transition:background-color .45s ea
 .md{animation:fadein .25s ease}
 .mc{animation:mcin .5s cubic-bezier(.34,1.56,.64,1)}
 .bar i{transition:width .9s cubic-bezier(.34,1.56,.64,1)}
-.chip.on{animation:pop .5s cubic-bezier(.3,1.4,.5,1)}
 .sum b{display:inline-block;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
 .sum button:active b{transform:scale(1.3)}
 header h2{animation:rise .7s cubic-bezier(.34,1.56,.64,1)}
@@ -226,13 +225,12 @@ main>.panel:nth-child(2),#tP>.panel:nth-child(2){animation-delay:.08s}main>.pane
 .md{backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .md.out{animation:fadeout .24s ease forwards}.md.out .mc{animation:mcout .24s ease forwards}
 @keyframes fadeout{to{opacity:0}}@keyframes mcout{to{opacity:0;transform:translateY(20px) scale(.94)}}
-.opt.on{animation:pop .5s cubic-bezier(.3,1.4,.5,1)}
 .bar i{background:linear-gradient(90deg,var(--tx),var(--ac),var(--tx));background-size:200% 100%;animation:shine 3s linear infinite}
 @keyframes shine{to{background-position:-200% 0}}
 .av{transition:transform .5s cubic-bezier(.34,1.56,.64,1)}.m:hover .av{transform:rotate(-8deg) scale(1.12)}
 .seg button{transition:transform .38s cubic-bezier(.34,1.56,.64,1),background-color .3s,color .3s,border-color .3s}
-#list>.m{animation:rise .6s cubic-bezier(.22,1,.36,1) backwards}
-#list>.m:nth-child(2){animation-delay:.04s}#list>.m:nth-child(3){animation-delay:.08s}#list>.m:nth-child(4){animation-delay:.12s}#list>.m:nth-child(5){animation-delay:.16s}#list>.m:nth-child(n+6){animation-delay:.2s}
+.enter #list>.m{animation:rise .6s cubic-bezier(.22,1,.36,1) backwards}
+.enter #list>.m:nth-child(2){animation-delay:.04s}.enter #list>.m:nth-child(3){animation-delay:.08s}.enter #list>.m:nth-child(4){animation-delay:.12s}.enter #list>.m:nth-child(5){animation-delay:.16s}.enter #list>.m:nth-child(n+6){animation-delay:.2s}
 .dtb{display:inline-flex;align-items:center;gap:8px;flex:none;background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:10px 13px;font:700 14px "Zen Maru Gothic",sans-serif;cursor:pointer;white-space:nowrap;transition:transform .35s cubic-bezier(.34,1.56,.64,1),border-color .3s,box-shadow .3s}
 .dtb:hover{border-color:var(--ac);box-shadow:0 0 0 3px color-mix(in srgb,var(--ac) 22%,transparent)}.dtb:active{transform:scale(.94)}
 .ci{width:18px;height:18px;flex:none;color:var(--ac)}
@@ -288,16 +286,39 @@ main>.panel:nth-child(2),#tP>.panel:nth-child(2){animation-delay:.08s}main>.pane
 .lite .fx{display:none}
 .lite header,.lite .cal-h,.lite .ab-lg,.lite .bar i,.lite .halo,.lite .wg,.lite .cal-h::before,.lite .deco,.lite .chip.on,.lite .opt.on{animation:none!important}
 .lite .md{backdrop-filter:none;-webkit-backdrop-filter:none}
-.lite main>.panel,.lite #list>.m,.lite .cdy,.lite .ab-i,.lite .cev,.lite .qb,.lite #tP>.panel,.lite #tG>.panel,.lite .enter>.panel,.lite .enter #list>*{animation:none!important}
+.lite main>.panel,.lite .enter #list>.m,.lite .cdy,.lite .ab-i,.lite .cev,.lite .qb,.lite #tP>.panel,.lite #tG>.panel,.lite .enter>.panel,.lite .enter #list>*{animation:none!important}
 .lite .panel,.lite .m,.lite .av{transition:none}
 .lite .lf,.lite .panel,.lite .m{filter:none!important;box-shadow:none!important}
+
+/* ===== pop up pilih kegiatan, logo ===== */
+.selb{flex:1;min-width:0;display:flex;align-items:center;gap:10px;text-align:left;background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:9px 12px;cursor:pointer;transition:transform .38s cubic-bezier(.34,1.56,.64,1),border-color .3s,box-shadow .3s}
+.selb:hover{border-color:var(--ac)}.selb:active{transform:scale(.97)}
+.sb-t,.pk-t{flex:1;min-width:0;display:flex;flex-direction:column}
+.sb-t b,.pk-t b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:15px}
+.sb-t small,.pk-t small{color:var(--mut);font-size:12.5px}
+.selb svg{flex:none;width:18px;height:18px;color:var(--mut)}
+.pk-l{display:flex;flex-direction:column;gap:8px;max-height:54vh;overflow:auto;padding:2px;margin-bottom:12px;overscroll-behavior:contain}
+.pki{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--card);border:1.5px solid var(--bd);border-radius:16px;padding:11px 13px;cursor:pointer;animation:rise .5s cubic-bezier(.22,1,.36,1) backwards;animation-delay:calc(var(--k)*45ms);transition:transform .38s cubic-bezier(.34,1.56,.64,1),border-color .25s,background-color .25s}
+.pki:active{transform:scale(.95)}.pki.on{border-color:var(--ac);background:var(--st)}
+.pki .dot{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid var(--mut);display:grid;place-items:center}
+.pki.on .dot{border-color:var(--ac)}.pki.on .dot::after{content:"";width:9px;height:9px;border-radius:50%;background:var(--ac)}
+.pkg{font-style:normal;flex:none;font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--st);color:var(--mut)}
+.pkg.wajib{background:var(--ac);color:var(--acx)}.pkg.rapat{background:var(--gm);color:var(--gmx)}.pkg.latihan{background:transparent;border:1.5px solid var(--ac);color:var(--ac)}
+img.ab-lg{display:block;width:52px;height:52px;padding:0;border-radius:14px;background:none;animation:none;object-fit:cover}
+.lite .pki{animation:none}
+
+.dv{display:flex;flex-direction:column;gap:8px;margin:8px 0 12px}
+.dvi{display:flex;align-items:center;gap:10px;border:1px solid var(--bd);border-radius:14px;padding:9px 11px;background:var(--bg)}
+.dvd{flex:none;width:10px;height:10px;border-radius:50%;background:var(--mut)}.dvd.on{background:#34c27a;box-shadow:0 0 0 3px rgba(52,194,122,.25)}
+.dvt{flex:1;min-width:0;display:flex;flex-direction:column}.dvt b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dvt small{color:var(--mut);font-size:12px}
+.dvb{flex:none;padding:7px 12px;min-height:36px}.btn.arm{background:#c0392b;border-color:#c0392b;color:#fff}
 </style>
 </head>
 <body>
 <header><div class="hin">
   <div class="tb"><button id="tbTheme" type="button">Tema</button><button id="tbMusic" type="button">Musik</button><button id="tbSync" type="button"><i class="sd" id="sd"></i>Sinkron</button><button id="tbAbout" type="button">Tentang</button></div>
   <svg class="deco" viewBox="0 0 160 112" aria-hidden="true"><g fill="none" stroke="#fff" stroke-width="1" opacity=".4"><ellipse cx="116" cy="20" rx="26" ry="7"/><path d="M24 104C34 70 78 48 150 44C122 66 84 90 24 104Z"/><path d="M24 104C42 84 82 70 140 70C116 84 84 98 24 104Z"/><path d="M24 104C52 98 84 96 128 98C106 104 80 108 24 104Z"/></g></svg>
-  <h1 id="hSub">Absensi Kegiatan</h1>
+  <h1 id="hSub">M-log</h1>
   <h2 id="hTitle"></h2>
   <p class="meta" id="meta"></p>
   <div class="chips" id="chips"></div>
@@ -306,7 +327,7 @@ main>.panel:nth-child(2),#tP>.panel:nth-child(2){animation-delay:.08s}main>.pane
 <main>
 <div class="panel">
   <p class="ph">Kegiatan</p>
-  <div class="r"><select id="evSel" aria-label="Pilih kegiatan"></select><button class="btn wr" id="evNew">Kegiatan baru</button></div>
+  <div class="r"><button type="button" id="evSel" class="selb" aria-haspopup="dialog" aria-label="Pilih kegiatan"></button><button class="btn wr" id="evNew">Kegiatan baru</button></div>
   <div class="r gap"><input type="text" id="evTitle" aria-label="Nama kegiatan" placeholder="Nama kegiatan"><button type="button" id="evDate" class="dtb" aria-label="Pilih tanggal"></button></div>
   <div class="r gap" style="flex-wrap:wrap"><button class="btn d wr" id="qFri" type="button">Jumat terdekat</button><button class="btn d wr" id="qSat" type="button">Sabtu terdekat</button></div>
   <p class="lbl gap">Jenis kegiatan</p>
@@ -505,8 +526,8 @@ function renderTop(){
   var e=ev();
   $("chips").innerHTML=TABS.map(function(t){return '<button class="chip'+(t[0]===S.tab?" on":"")+'" data-tab="'+t[0]+'">'+t[1]+'</button>'}).join("");
   $("hTitle").textContent=S.tab==="P"?"Pengajar":"Kelas "+S.tab;
-  $("hSub").textContent=S.tab==="P"?"Absensi Kegiatan":"Absensi Kegiatan - Penerima materi";
-  $("evSel").innerHTML=evSorted().map(function(x){return '<option value="'+x.id+'"'+(x.id===S.ce?" selected":"")+'>'+esc(x.title||"Tanpa nama")+" ("+fmt(x.date)+") - "+JN[jenisOf(x)]+"</option>"}).join("");
+  $("hSub").textContent=S.tab==="P"?"M-log":"M-log - Penerima materi";
+  var ej=jenisOf(e);$("evSel").innerHTML='<span class="sb-t"><b>'+esc(e.title||"Tanpa nama")+'</b><small>'+Cal.short(e.date)+' \u00B7 '+JN[ej]+'</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
   $("evTitle").value=e.title;$("evDate").innerHTML=Cal.ico+"<span>"+Cal.short(e.date)+"</span>";
   var j=jenisOf(e),dn=DAYS[dow(e.date)]||"";
   $("jOpts").innerHTML=Object.keys(JN).map(function(k){return opt("j",k,JN[k],j===k)}).join("");
@@ -671,9 +692,8 @@ $("tSave").addEventListener("click",function(){
   else{var t=fixT({id:"t"+Date.now().toString(36)+Math.random().toString(36).slice(2,5),name:name,nick:nick,tipe:fTipe,asal:asal});if(ex){var ed=ev()?ev().date:today();t.since=ed<today()?ed:today()}S.teachers.push(t);touch("teachers",t.id)}
   resetForm(true);renderPeng();
 });
-$("evSel").addEventListener("change",function(){S.ce=this.value;selSave();all()});
 $("evNew").addEventListener("click",function(){if(canW){newEvent();all()}});
-$("evTitle").addEventListener("input",function(){var e=ev();e.title=this.value;touch("events",e.id);var o=$("evSel").selectedOptions[0];if(o)o.textContent=this.value+" ("+fmt(e.date)+") - "+JN[jenisOf(e)]});
+$("evTitle").addEventListener("input",function(){var e=ev();e.title=this.value;touch("events",e.id);var bt=$("evSel").querySelector("b");if(bt)bt.textContent=this.value||"Tanpa nama"});
 function setDate(d){if(!canW)return;var e=ev();e.date=d;if(!e.jm)e.jenis=defJenis(d);touch("events",e.id);all()}
 $("evDate").addEventListener("click",function(){Cal.open()});
 $("qFri").addEventListener("click",function(){setDate(nearest(5))});
@@ -724,6 +744,7 @@ function fxClick(e){
   var x=e.clientX,y=e.clientY;
   if(!x&&!y){var r=b.getBoundingClientRect();x=r.left+r.width/2;y=r.top+r.height/2}
   spawn("rp",x,y,"");
+  if(b.matches&&b.matches(".chip,.opt,.btn,.tb button,.sum button,.seg button,.pki,.dtb,.selb"))boink(b);
   if(b.dataset.s||b.dataset.tab||b.dataset.f||b.dataset.k||b.dataset.t||b.dataset.j||b.id==="tSave"){
     for(var i=0;i<9;i++){
       var a=(Math.PI*2*i/9)+Math.random()*.8,dist=44+Math.random()*46;
@@ -732,6 +753,11 @@ function fxClick(e){
   }
 }
 function pop(sel){try{var n=document.querySelector(sel);if(n){n.classList.add("pop");setTimeout(function(){n.classList.remove("pop")},450)}}catch(e){}}
+function boink(b){var n=b;
+  if(!document.contains(b)){var q;
+    if(b.id)q="#"+b.id;else{var k=Object.keys(b.dataset);if(!k.length)return;q="button"+(b.classList[0]?"."+b.classList[0]:"")+k.map(function(x){return '[data-'+x.replace(/[A-Z]/g,function(m){return"-"+m.toLowerCase()})+'="'+String(b.dataset[x]).replace(/"/g,'\\"')+'"]'}).join("")}
+    try{n=document.querySelector(q)}catch(e){n=null}}
+  if(n){n.classList.remove("pop");void n.offsetWidth;n.classList.add("pop");setTimeout(function(){n.classList.remove("pop")},580)}}
 function enter(id){try{var n=$(id);n.classList.remove("enter");void n.offsetWidth;n.classList.add("enter");setTimeout(function(){n.classList.remove("enter")},950)}catch(e){}}
 document.addEventListener("click",fxClick);
 try{leaves()}catch(e){}
@@ -801,7 +827,7 @@ function themeHTML(){
 }
 function aboutHTML(){
   var G=[["Pengajar","Catat hadir, izin, alpa, plus catatan. Ada peringatan kalau bolos berturut-turut"],["Penerima materi","Jumlah peserta kelas 7, 8, dan 9"],["Rekap","Tinggal salin terus kirim ke grup"],["Sinkron","Data bisa dipakai bareng lewat kode"],["Offline","Bisa dipakai tanpa internet. Update realtime bareng perangkat yang tersambung baru masuk begitu ada jaringan."],["Banyak tema","Ada yang kalem, ada yang lucu"]];
-  return '<div class="ab"><div class="ab-h"><span class="ab-lg">'+Cal.halo+'</span><div><p class="ph" style="margin:0">Absensi Kegiatan</p><p class="lbl" style="margin:0">Dibuat oleh <b>Kak Ilham</b></p></div></div>'+
+  return '<div class="ab"><div class="ab-h"><img class="ab-lg" src="logo-192.png" alt="" width="52" height="52"><div><p class="ph" style="margin:0">M-log</p><p class="lbl" style="margin:0">Catatan absensi kegiatan, dibuat oleh <b>Kak Ilham</b></p></div></div>'+
   '<div class="qb"><span class="qm">\u201C</span><p class="qs0">Kutipan hari ini</p><p class="qq">'+esc(quoteNow())+'</p></div>'+
   '<p class="ab-t">Tujuan website</p><p class="ab-p">Web ini dibuat buat nyatet absensi kegiatan biar lebih rapi dan gampang dipakai bareng-bareng.</p>'+
   '<div class="ab-g">'+G.map(function(g,i){return '<div class="ab-i" style="--k:'+i+'"><b>'+g[0]+'</b><span>'+g[1]+'</span></div>'}).join("")+'</div>'+
@@ -812,10 +838,10 @@ function mClose(id){var m=$(id);if(m.hidden)return;if(id==="md")m.dataset.p="";m
 /* ===== Sinkronisasi antar perangkat (MQTT publik + enkripsi ujung ke ujung) ===== */
 var Sy=(function(){
 var ROOT="absensi-zylham/v1/",AL="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",BR=["wss://broker.emqx.io:8084/mqtt","wss://broker.hivemq.com:8884/mqtt"],SK="absensi-sync",TK="absensi-tomb";
-var st={code:"",name:"",gk:"",peers:{}},TB={},PREV={},cn=[],gKey=null,gid="",pend=null,ans={},seen=[],q={},qt=null,helT=null,msg="",rq=null,enabled=false;
+var st={code:"",name:"",gk:"",peers:{},mem:{},ban:{}},TB={},PREV={},cn=[],gKey=null,gid="",pend=null,ans={},seen=[],q={},qt=null,helT=null,msg="",rq=null,enabled=false,kk=null,rk={},lsv=0;
 var te=new TextEncoder(),td=new TextDecoder(),okc=!!(window.crypto&&crypto.subtle&&window.WebSocket);
 function ld(k,d){try{return JSON.parse(localStorage.getItem(k)||"null")||d}catch(e){return d}}
-function sv(){try{localStorage.setItem(SK,JSON.stringify({code:st.code,name:st.name,gk:st.gk}))}catch(e){}}
+function sv(){try{localStorage.setItem(SK,JSON.stringify({code:st.code,name:st.name,gk:st.gk,mem:st.mem,ban:st.ban}))}catch(e){}}
 function svT(){try{localStorage.setItem(TK,JSON.stringify(TB))}catch(e){}}
 function b64(u){var s="";for(var i=0;i<u.length;i+=8192)s+=String.fromCharCode.apply(null,u.subarray(i,i+8192));return btoa(s)}
 function unb64(s){var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
@@ -885,7 +911,7 @@ function queue(k){if(!gKey)return;q[k]=1;clearTimeout(qt);qt=setTimeout(function
 function vers(){var v={};["teachers","events"].forEach(function(k){arr(k).forEach(function(o){v[k+"/"+o.id]=o._u||0})});Object.keys(TB).forEach(function(k){v[k]=TB[k]});return v}
 function item(k){var p=k.split("/"),o=find(p[0],p[1]);if(o)return{k:k,d:o,u:o._u||0};if(TB[k])return{k:k,d:null,u:TB[k]};return null}
 function send(keys){var it=keys.map(item).filter(Boolean);for(var i=0;i<it.length;i+=30)gsend({t:"docs",items:it.slice(i,i+30)})}
-async function gsend(o){if(!gKey||!gid)return;o.n=nm();var e=await en(gKey,o);pubAll(ROOT+"g/"+gid,{i:rnd(8),f:st.code,v:e.v,c:e.c})}
+async function gsend(o){if(!gKey||!gid)return;o.n=nm();o.s=st.code;var e=await en(gKey,o);pubAll(ROOT+"g/"+gid,{i:rnd(8),f:st.code,v:e.v,c:e.c})}
 function hello(){clearTimeout(helT);helT=setTimeout(function(){gsend({t:"hello",v:vers()})},700)}
 function rx(it){
   var p=it.k.split("/"),kind=p[0],id=p[1];if(kind!=="teachers"&&kind!=="events")return false;
@@ -902,7 +928,7 @@ function rx(it){
   return !loc;
 }
 function grp(f,d){
-  st.peers[f]={n:d.n,t:Date.now()};
+  st.peers[f]={n:d.n,t:Date.now()};note(f,d.n);
   if(d.t==="hello"&&d.v){var mine=vers(),out=[];Object.keys(mine).concat(Object.keys(d.v)).forEach(function(k){if(mine[k]!==d.v[k]&&out.indexOf(k)<0)out.push(k)});if(out.length)send(out)}
   else if(d.t==="docs"&&Array.isArray(d.items)){var ch=false;d.items.forEach(function(it){if(it&&it.k&&rx(it))ch=true});if(ch){saveLocal();svT();ensureSel();softAll()}}
   ui();
@@ -912,7 +938,14 @@ async function onMsg(t,s){
   if(!o||o.f===st.code)return;
   if(o.i){if(seen.indexOf(o.i)>=0)return;seen.push(o.i);if(seen.length>300)seen.shift()}
   if(t===ROOT+"in/"+st.code)return inbox(o);
-  if(gid&&gKey&&t===ROOT+"g/"+gid){var d;try{d=await de(gKey,o)}catch(e){return}grp(o.f,d)}
+  if(gid&&gKey&&t===ROOT+"g/"+gid){var d;try{d=await de(gKey,o)}catch(e){return}
+    if(!d||typeof d!=="object")return;
+    var sf=String(d.s||o.f);
+    if(st.ban[sf]){reban(sf);return}
+    if(d.t==="kick"){onKick(sf,d);return}
+    if(d.t==="bye"){onBye(sf,d);return}
+    if(d.t==="unban"){if(d.c&&st.ban[d.c]){delete st.ban[d.c];sv()}return}
+    grp(sf,d)}
 }
 
 /* jembatan: permintaan, persetujuan, penolakan */
@@ -922,10 +955,10 @@ async function inbox(o){
     if(!o.pk||!o.rid)return;
     if(ans[o.rid]){reply(o.f,ans[o.rid]);return}
     if(!$("md2").hidden)return;
-    rq=o;$("md2").dataset.rid=o.rid;
+    rq=o;$("md2").dataset.rid=o.rid;$("md2").dataset.k="";
     mOpen("md2",'<p class="ph">Perangkat ingin tersambung</p><p>Kamu kenal perangkat ini?</p><div class="cd">'+fc(String(o.f))+'</div><p class="lbl">'+esc(o.n||"Tanpa nama")+'</p><p>Mau berbagi data sama perangkat ini? Kalau iya, kalian tersambung dan bisa isi absen bareng.</p><div class="r gap"><button class="btn" data-act="yes">Ya, berbagi data</button><button class="btn d" data-act="no">Tidak</button></div>');
   }else if(o.t==="ok"&&pend&&pend.to===o.f){
-    try{var k=await dk(pend.priv,o.pk),d=await de(k,o);st.gk=d.gk;await setKey();sv();stop("Tersambung dengan "+fc(o.f)+". Data akan disamakan.");subG();clean();st.peers[o.f]={t:Date.now()};hello()}
+    try{var k=await dk(pend.priv,o.pk),d=await de(k,o);st.gk=d.gk;await setKey();sv();stop("Tersambung dengan "+fc(o.f)+". Data akan disamakan.");subG();clean();st.peers[o.f]={t:Date.now()};note(o.f,"");hello()}
     catch(e){stop("Gagal tersambung, coba lagi.")}
   }else if(o.t==="no"&&pend&&pend.to===o.f)stop("Permintaan ditolak oleh "+fc(o.f)+".");
 }
@@ -938,7 +971,7 @@ async function approve(o){
   try{
     if(!st.gk){st.gk=b64(crypto.getRandomValues(new Uint8Array(32)));await setKey();sv();subG()}
     var p=await kp(),k=await dk(p.privateKey,o.pk),e=await en(k,{gk:st.gk}),pub=await crypto.subtle.exportKey("jwk",p.publicKey);
-    var a={t:"ok",f:st.code,pk:pub,v:e.v,c:e.c};ans[o.rid]=a;reply(o.f,a);st.peers[o.f]={n:o.n,t:Date.now()};ui();hello();
+    var a={t:"ok",f:st.code,pk:pub,v:e.v,c:e.c};ans[o.rid]=a;reply(o.f,a);st.peers[o.f]={n:o.n,t:Date.now()};note(o.f,o.n);if(st.ban[o.f]){delete st.ban[o.f];sv();gsend({t:"unban",c:o.f}).catch(function(){})}ui();hello();
   }catch(e){}
 }
 function stop(m){if(pend)clearInterval(pend.iv);pend=null;msg=m;ui()}
@@ -962,7 +995,33 @@ function clean(){
   if(!ev())S.ce=null;saveLocal();ensureSel();all();
 }
 function subG(){if(gid)cn.forEach(function(c){c.sub(ROOT+"g/"+gid)})}
-function leave(){st.gk="";gKey=null;gid="";st.peers={};sv();msg="Kamu sudah keluar dari grup. Data di perangkat ini tetap ada.";ui()}
+function wipe(){st.gk="";gKey=null;gid="";st.peers={};st.mem={};st.ban={};kk=null;sv()}
+function leave(){
+  var fin=function(){wipe();msg="Kamu sudah keluar dari grup. Data di perangkat ini tetap ada.";ui()};
+  if(gKey&&gid)gsend({t:"bye"}).then(fin,fin);else fin()}
+
+/* putus sinkron dengan perangkat tertentu */
+function note(c,n){if(!c||c===st.code)return;var m=st.mem[c],ch=!m||(n&&m.n!==n);st.mem[c]={n:n||(m&&m.n)||"",t:Date.now()};if(ch||Date.now()-lsv>60000){lsv=Date.now();sv()}}
+function pname(c){var m=st.mem[c];return(m&&m.n)||fc(String(c))}
+function endPop(who,why){
+  var h='<p class="ph">Sinkronisasi berakhir</p><p>Sinkronisasi berakhir dengan perangkat <b>'+esc(who)+'</b>.</p>'+(why?'<p class="lbl">'+esc(why)+'</p>':'')+'<p class="lbl">Data yang sudah tersamakan tetap ada di perangkat ini. Perubahan sesudahnya tidak ikut tersinkron.</p><div class="r gap"><button type="button" class="btn" data-act="endok" style="width:100%">Mengerti</button></div>';
+  (function t(n){var m=$("md2");if(!m)return;if(m.hidden){m.dataset.rid="";m.dataset.k="end";mOpen("md2",h)}else if(n<20)setTimeout(function(){t(n+1)},3000)})(0)}
+function onKick(f,d){
+  if(!d.to)return;
+  var kc=String(d.kc||f),kn=d.kn||fc(kc);
+  if(d.to===st.code){wipe();msg="Sinkronisasi berakhir dengan "+kn+".";ui();endPop(kn+" ("+fc(kc)+")","Perangkat ini diputus dari grup berbagi data.");return}
+  if(st.ban[d.to])return;
+  var tn=d.tn||pname(d.to);st.ban[d.to]={t:Date.now(),kn:kn,kc:kc};delete st.mem[d.to];delete st.peers[d.to];sv();
+  msg=kn+" memutus sinkronisasi dengan "+tn+".";ui();endPop(tn,"Diputus oleh "+kn+".")}
+function onBye(f,d){var who=d.n||pname(f);delete st.mem[f];delete st.peers[f];sv();msg=who+" keluar dari grup.";ui();endPop(who,"Perangkat itu keluar dari grup.")}
+function reban(f){var n=Date.now();if(rk[f]&&n-rk[f]<30000)return;rk[f]=n;var bb=st.ban[f]||{};gsend({t:"kick",to:f,tn:pname(f),kn:bb.kn||nm(),kc:bb.kc||st.code}).catch(function(){})}
+function kick(c){
+  if(!st.gk||!gKey||!c||c===st.code)return;
+  var tn=pname(c),mk=function(){return{t:"kick",to:c,tn:tn,kn:nm(),kc:st.code}};
+  st.ban[c]={t:Date.now(),kn:nm(),kc:st.code};delete st.mem[c];delete st.peers[c];kk=null;sv();
+  gsend(mk()).catch(function(){});setTimeout(function(){gsend(mk()).catch(function(){})},4000);
+  msg="Sinkronisasi dengan "+tn+" diputus. Perubahan sesudah ini tidak ikut tersinkron lagi dengan perangkat itu.";ui()}
+function askKick(c){if(kk===c){kk=null;kick(c);return}kk=c;setTimeout(function(){if(kk===c){kk=null;ui()}},4000);ui()}
 
 /* tampilan */
 function ui(){
@@ -970,7 +1029,11 @@ function ui(){
   var s=$("syS");if(!s||$("md").hidden)return;
   var now=Date.now(),ps=Object.keys(st.peers).filter(function(k){return now-st.peers[k].t<150000});
   var h='<p class="lbl gap">'+(on?"Online.":"Lagi offline. Data tetap aman dan otomatis disamakan pas online lagi.")+'</p>';
-  h+=st.gk?'<p class="lbl">Tergabung dalam grup berbagi data. Perangkat aktif lain: <b>'+ps.length+'</b>'+(ps.length?" ("+ps.map(function(k){return esc(st.peers[k].n||fc(k))}).join(", ")+")":"")+'.</p>':'<p class="lbl">Belum tersambung dengan perangkat lain.</p>';
+  if(st.gk){
+    var ms=Object.keys(st.mem).sort(function(x,y){return(st.mem[y].t||0)-(st.mem[x].t||0)});
+    h+='<p class="lbl">Tergabung dalam grup berbagi data.</p>';
+    h+=ms.length?'<div class="dv">'+ms.map(function(k){var m=st.mem[k],pe=st.peers[k],ac=!!pe&&now-pe.t<150000;return '<div class="dvi"><span class="dvd'+(ac?" on":"")+'"></span><span class="dvt"><b>'+esc(m.n||fc(k))+'</b><small>'+fc(k)+' \u00B7 '+(ac?"Aktif":"Tidak aktif")+'</small></span><button type="button" class="btn d dvb'+(kk===k?" arm":"")+'" data-act="kick" data-c="'+esc(k)+'">'+(kk===k?"Yakin putuskan?":"Putuskan")+'</button></div>'}).join("")+'</div>':'<p class="lbl">Belum ada perangkat lain di grup ini.</p>';
+  }else h+='<p class="lbl">Belum tersambung dengan perangkat lain.</p>';
   if(msg)h+='<p class="lbl"><b>'+esc(msg)+'</b></p>';
   h+='<div class="r gap" style="flex-wrap:wrap">'+(pend?'<button class="btn d" data-act="cancel">Batalkan permintaan</button>':"")+(st.gk?'<button class="btn d" data-act="leave">Keluar dari grup</button>':"")+'<button class="btn d" data-act="close">Tutup</button></div>';
   s.innerHTML=h;
@@ -985,7 +1048,7 @@ function upd(up){ui();if(up){cn.forEach(function(c){c.sub(ROOT+"in/"+st.code)});
 return{
   start:function(){
     if(window.claude&&window.claude.use)return;
-    enabled=true;var s=ld(SK,{});st.code=s.code||rnd(8);st.name=s.name||"";st.gk=s.gk||"";TB=ld(TK,{});sv();
+    enabled=true;var s=ld(SK,{});st.code=s.code||rnd(8);st.name=s.name||"";st.gk=s.gk||"";st.mem=s.mem||{};st.ban=s.ban||{};TB=ld(TK,{});sv();
     ["teachers","events"].forEach(function(k){arr(k).forEach(function(o){var kk=k+"/"+o.id;if(!PREV[kk])PREV[kk]=flat(k,o)})});
     if(!okc){ui();return}
     setKey().then(function(){
@@ -996,7 +1059,7 @@ return{
       document.addEventListener("visibilitychange",function(){if(!document.hidden)kick()});
     });
   },
-  mark:mark,del:del,join:join,leave:leave,answer:answer,panel:panel,ui:ui,
+  mark:mark,del:del,join:join,leave:leave,askKick:askKick,answer:answer,panel:panel,ui:ui,
   cancel:function(){stop("Permintaan dibatalkan.")},
   code:function(){return fc(st.code)},
   setName:function(v){st.name=v.trim();sv()}
@@ -1012,6 +1075,7 @@ $("tbAbout").addEventListener("click",function(){mOpen("md",aboutHTML())});
 $("tbSync").addEventListener("click",function(){mOpen("md",Sy.panel());$("md").dataset.p="sync";Sy.ui()});
 document.addEventListener("click",function(e){
   if(e.target.id==="md"){mClose("md");return}
+  if(e.target.id==="md2"&&$("md2").dataset.k==="end"){mClose("md2");return}
   var b=e.target.closest("[data-act]");if(!b)return;var a=b.dataset.act;
   if(a==="th"){applyTheme(b.dataset.v,true);mOpen("md",themeHTML())}
   else if(a==="lite"){setLite(!LITE);mOpen("md",themeHTML())}
@@ -1021,6 +1085,8 @@ document.addEventListener("click",function(e){
   else if(a==="go")Sy.join($("syIn").value);
   else if(a==="cancel")Sy.cancel();
   else if(a==="leave"){if(confirm("Keluar dari grup? Data di perangkat ini tetap ada."))Sy.leave()}
+  else if(a==="kick")Sy.askKick(b.dataset.c);
+  else if(a==="endok")mClose("md2");
   else if(a==="cp"){var t=Sy.code();try{navigator.clipboard.writeText(t);b.textContent="Tersalin"}catch(x){}}
 });
 document.addEventListener("input",function(e){if(e.target.id==="syNm")Sy.setName(e.target.value)});
@@ -1033,7 +1099,6 @@ function showQ(){var n=$("qtx");if(n&&n.textContent!==quoteNow())n.textContent=q
 function qSched(){var n=new Date(),m=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1,0,0,1);setTimeout(function(){showQ();qSched()},m-n)}
 showQ();qSched();
 document.addEventListener("visibilitychange",function(){if(!document.hidden)showQ()});
-$("evSel").addEventListener("change",function(){enter(S.tab==="P"?"tP":"tG")});
 
 
 /* ===== Kalender (gaya Mahiru: malaikat, halo, bulu) ===== */
@@ -1077,6 +1142,14 @@ document.addEventListener("touchend",function(e){if(x0===null)return;var dx=e.ch
 return{open:open,short:short,ico:ICO,halo:HALO}
 })();
 
+
+/* ===== Pop up pilih kegiatan ===== */
+function evPickHTML(){
+  var L=evSorted();
+  return '<div class="pk"><p class="ph" style="margin:0">Pilih kegiatan</p><p class="lbl" style="margin:2px 0 10px">'+L.length+' kegiatan tersimpan</p><div class="pk-l">'+L.map(function(x,i){var j=jenisOf(x);return '<button type="button" class="pki'+(x.id===S.ce?" on":"")+'" data-id="'+esc(x.id)+'" style="--k:'+i+'"><span class="dot"></span><span class="pk-t"><b>'+esc(x.title||"Tanpa nama")+'</b><small>'+Cal.short(x.date)+'</small></span><em class="pkg '+j+'">'+JN[j]+'</em></button>'}).join("")+'</div><div class="r gap"><button type="button" class="btn d" data-act="close" style="width:100%">Tutup</button></div></div>'}
+$("evSel").addEventListener("click",function(){mOpen("md",evPickHTML())});
+document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".pki");if(!b)return;var id=b.dataset.id;setTimeout(function(){S.ce=id;selSave();mClose("md");all();enter(S.tab==="P"?"tP":"tG")},200)});
+
 /* ===== Musik (tautan Spotify / YouTube / YouTube Music, per perangkat) ===== */
 var MK="absensi-music",muMsg="";
 function mEmbed(u){
@@ -1094,7 +1167,7 @@ function mpShow(e){
   var p=$("mp"),b=p.querySelector(".mpb");
   if(!e){p.hidden=true;b.innerHTML="";return}
   if(e.audio){b.innerHTML='<audio controls autoplay loop preload="auto" src="'+esc(e.audio)+'" style="width:100%"></audio>';p.hidden=false;
-    try{if(navigator.mediaSession)navigator.mediaSession.metadata=new MediaMetadata({title:"Musik Absensi",artist:"Absensi Kegiatan"})}catch(x){}return}
+    try{if(navigator.mediaSession)navigator.mediaSession.metadata=new MediaMetadata({title:"Musik M-log",artist:"M-log"})}catch(x){}return}
   b.innerHTML='<iframe src="'+e.src+'" height="'+e.h+'" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';p.hidden=false;
 }
 function musicHTML(){
