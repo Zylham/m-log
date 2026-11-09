@@ -20,7 +20,7 @@ FITUR TOOLBAR (di bagian atas aplikasi)
            Kedua perangkat harus membuka aplikasi untuk saling menyamakan data. Jam perangkat sebaiknya akurat.
 - Mode ringan: di menu Tema, untuk HP lama. Mematikan efek daun jatuh dan animasi berat. Otomatis nyala di HP yang spesifikasinya rendah.
 - Sinkron: di daftar perangkat ada tombol "Putuskan" (tekan dua kali). Perangkat yang diputus langsung keluar dari grup dan muncul pop up "Sinkronisasi berakhir dengan perangkat ...". Kalau perangkat itu sedang offline, pop up muncul begitu ia online lagi. Perangkat lain di grup juga diberi tahu dan tidak lagi menerima data dari perangkat yang diputus. Untuk bergabung lagi, perangkat itu harus minta persetujuan lewat kode.
-- Tentang: pop up berisi kutipan hari ini (berganti otomatis tiap tengah malam), tujuan website, dan pembuatnya (Ilham F. R.).
+- Tentang: pop up berisi kutipan hari ini (berganti otomatis tiap tengah malam), dan tujuan website.
 - Kalender: ketuk tanggal di panel Kegiatan untuk membuka kalender bergaya Mahiru. Titik di tanggal menandai kegiatan. Geser kiri/kanan untuk ganti bulan.
 - Pengajar eksternal: tombol "Akhiri pengajar ini" (per nama) dan "Akhiri kelompok" (per sekolah). Setelah diakhiri,
   nama tidak muncul di tanggal sesudahnya, tapi data di tanggal sebelumnya tetap ada. Bisa dibuka lagi.
