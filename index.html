@@ -449,6 +449,9 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:var(--fh,100v
 .mid .m,.mid .btn{box-shadow:none!important}
 .mid header h2{text-shadow:none!important}
 .lite body::before{display:none}
+.xo{border:1.5px solid var(--bd);border-radius:14px;padding:12px;margin-top:10px;background:var(--card)}
+.xo .xt{margin:0;font-weight:800;font-size:16px}.xo .lbl{margin:3px 0 9px}.xo select{margin-bottom:9px}.xo .btn{width:100%}
+.xg{margin:18px 0 0;font-weight:800;font-size:12.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--mut)}
 </style>
 </head>
 <body>
@@ -1649,7 +1652,7 @@ $("nkBtn").addEventListener("click",function(){if(canW)mOpen("md2",nkHTML())});
 $("nkUndo").addEventListener("click",function(){if(canW&&confirm("Batalkan kenaikan kelas terakhir? Pengajar kembali ke kelas sebelumnya."))nkUndo()});
 document.addEventListener("click",function(e){var b=e.target.closest("[data-act]");if(!b)return;if(b.dataset.act==="nkgo")nkApply();else if(b.dataset.act==="nkno")mClose("md2")});
 
-/* ===== Unduh rekap Excel (.xlsx) khusus hari Sabtu ===== */
+/* ===== Unduh Excel (.xlsx): rekap mingguan, kegiatan, event, bulanan ===== */
 function xEsc(s){return String(s==null?"":s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
 var XCRC=(function(){var t=[];for(var n=0;n<256;n++){var c=n;for(var k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
 function xCrc(u){var c=0xFFFFFFFF;for(var i=0;i<u.length;i++)c=XCRC[(c^u[i])&255]^(c>>>8);return(c^0xFFFFFFFF)>>>0}
@@ -1669,45 +1672,269 @@ function xZip(files){
   var all=parts.concat(cen,[end]),n=0;all.forEach(function(a){n+=a.length});
   var out=new Uint8Array(n),p=0;all.forEach(function(a){out.set(a,p);p+=a.length});return out;
 }
-function xBuild(head,rows){
-  var H='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n',cols="ABCDE";
-  function cell(c,r,v,s,num){return num?'<c r="'+c+r+'" s="'+s+'"><v>'+v+'</v></c>':'<c r="'+c+r+'" s="'+s+'" t="inlineStr"><is><t xml:space="preserve">'+xEsc(v)+'</t></is></c>'}
-  var sd='<row r="1" ht="22" customHeight="1">'+head.map(function(h,i){return cell(cols[i],1,h,1)}).join("")+'</row>';
-  rows.forEach(function(r,i){var n=i+2;sd+='<row r="'+n+'">'+cell("A",n,r[0],3,true)+cell("B",n,r[1],2)+cell("C",n,r[2],2)+cell("D",n,r[3],3)+cell("E",n,r[4],2)+'</row>'});
-  var sheet=H+'<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><cols><col min="1" max="1" width="6" customWidth="1"/><col min="2" max="2" width="30" customWidth="1"/><col min="3" max="3" width="20" customWidth="1"/><col min="4" max="4" width="26" customWidth="1"/><col min="5" max="5" width="40" customWidth="1"/></cols><sheetData>'+sd+'</sheetData></worksheet>';
-  var styles=H+'<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFD9E2F3"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left style="thin"><color rgb="FF7F7F7F"/></left><right style="thin"><color rgb="FF7F7F7F"/></right><top style="thin"><color rgb="FF7F7F7F"/></top><bottom style="thin"><color rgb="FF7F7F7F"/></bottom><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="4"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="2" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="1" xfId="0" applyBorder="1" applyAlignment="1"><alignment horizontal="left" vertical="top" wrapText="1"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="1" xfId="0" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="top"/></xf></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>';
-  return xZip([
-    {n:"[Content_Types].xml",d:H+'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>'},
-    {n:"_rels/.rels",d:H+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'},
-    {n:"xl/workbook.xml",d:H+'<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Absensi" sheetId="1" r:id="rId1"/></sheets></workbook>'},
-    {n:"xl/_rels/workbook.xml.rels",d:H+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'},
-    {n:"xl/styles.xml",d:styles},
-    {n:"xl/worksheets/sheet1.xml",d:sheet}
-  ]);
+var XM=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"],
+  XT={H:"Hadir",I:"Izin",A:"Alpa",N:"Belum diisi"},
+  XCL={H:["C6EFCE","006100"],I:["FFEB9C","9C5700"],A:["FFC7CE","9C0006"],N:["EDEDED","7F7F7F"]},
+  XC={nav:"1F3864",blu:"2F5597",lt:"D9E2F3",grp:"DDEBF7",zeb:"F5F8FC",gr:"EEF1F6"},
+  XH='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n',
+  XNS='xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"';
+function xCol(i){var s="";for(i++;i>0;i=Math.floor((i-1)/26))s=String.fromCharCode(65+(i-1)%26)+s;return s}
+function xIso(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function xDate(d){return(DAYS[dow(d)]||"")+", "+fmt(d)}
+function xName(t){return t.name+(t.nick?" ("+t.nick+")":"")}
+function xSlug(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^A-Za-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,40)||"Kegiatan"}
+function xNow(){var d=new Date();return fmt(today())+" "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")}
+function xGrp(t){return t.tipe==="alumni"?"Alumni":(t.tipe==="calon"?(t.asal?"Calon pengajar "+kd(t.asal):"Calon pengajar"):(t.tipe==="eksternal"?"Eksternal"+(t.asal?" - "+t.asal:""):"Kelas "+(kd(t.asal)||"-")))}
+function xKl(t){return t.tipe==="alumni"?"Alumni":(t.tipe==="calon"?(t.asal?"Calon "+kd(t.asal):"Calon"):(t.tipe==="eksternal"?(t.asal||"Eksternal"):(kd(t.asal)||"-")))}
+function xAct(evs){return evs.some(function(e){return grpActive(e)||Object.keys(e.tr||{}).some(function(id){return (e.tr[id]||{}).s})})}
+function xFit(a,mn,mx){var m=0;a.forEach(function(v){String(v==null?"":v).split("\n").forEach(function(l){if(l.length>m)m=l.length})});return Math.max(mn,Math.min(mx,Math.ceil(m*1.12+3)))}
+function xLines(txt,w){var n=0;String(txt||"").split("\n").forEach(function(l){n+=Math.max(1,Math.ceil((l.length*0.95)/Math.max(1,w-2)))});return n}
+
+/* pencatat gaya sel */
+function xSt(){
+  var fo=['<font><sz val="11"/><name val="Calibri"/></font>'],fl=['<fill><patternFill patternType="none"/></fill>','<fill><patternFill patternType="gray125"/></fill>'],
+    xf=['<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>'],ix={},fx={},lx={};
+  function pick(a,m,k,v){if(m[k]==null){m[k]=a.length;a.push(v)}return m[k]}
+  return{
+    g:function(o){
+      var k=JSON.stringify(o);if(ix[k]!=null)return ix[k];
+      var f=pick(fo,fx,[o.b,o.i,o.sz,o.c].join("|"),'<font>'+(o.b?'<b/>':'')+(o.i?'<i/>':'')+'<sz val="'+(o.sz||11)+'"/><color rgb="FF'+(o.c||"000000")+'"/><name val="Calibri"/></font>'),
+        l=o.bg?pick(fl,lx,o.bg,'<fill><patternFill patternType="solid"><fgColor rgb="FF'+o.bg+'"/><bgColor indexed="64"/></patternFill></fill>'):0;
+      ix[k]=xf.length;
+      xf.push('<xf numFmtId="'+(o.nf||0)+'" fontId="'+f+'" fillId="'+l+'" borderId="'+(o.bd?1:0)+'" xfId="0" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="'+(o.h||"left")+'" vertical="'+(o.v||"center")+'"'+(o.w?' wrapText="1"':'')+(o.ind?' indent="'+o.ind+'"':'')+'/></xf>');
+      return ix[k]},
+    xml:function(){
+      var c="FFC9D3E3",e=function(n){return '<'+n+' style="thin"><color rgb="'+c+'"/></'+n+'>'},
+        dx=["H","I","A","N"].map(function(k){return '<dxf><font><b/><color rgb="FF'+XCL[k][1]+'"/></font><fill><patternFill><bgColor rgb="FF'+XCL[k][0]+'"/></patternFill></fill></dxf>'}).join("");
+      return XH+'<styleSheet '+XNS+'><fonts count="'+fo.length+'">'+fo.join("")+'</fonts><fills count="'+fl.length+'">'+fl.join("")+'</fills><borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border>'+e("left")+e("right")+e("top")+e("bottom")+'<diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="'+xf.length+'">'+xf.join("")+'</cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles><dxfs count="4">'+dx+'</dxfs></styleSheet>'}
+  };
 }
-function xSatEvent(){
-  var e=ev();if(!e)return null;
-  if(dow(e.date)===6)return e;
-  var c=S.events.filter(function(x){return dow(x.date)===6&&x.date<=e.date}).sort(function(a,b){return a.date<b.date?1:-1})[0];
-  return c||S.events.filter(function(x){return dow(x.date)===6}).sort(function(a,b){return a.date<b.date?-1:1})[0]||null;
+/* pembangun lembar */
+function xSheet(name,tab){
+  var rows=[null],mg=[];
+  return{name:name,tab:tab,rows:rows,mg:mg,cols:[],cf:[],fz:null,land:false,pt:null,
+    add:function(h,cells){rows.push({h:h,c:cells||[]});return rows.length-1},
+    mrow:function(r,c1,c2,v,s){var R=rows[r];for(var c=c1;c<=c2;c++)R.c[c]={v:c===c1?v:"",s:s};if(c2>c1)mg.push(xCol(c1)+r+":"+xCol(c2)+r)}};
 }
-function xRows(e){
-  var T=tFor(e),R=e.tr||{},rows=[],SN={H:"Hadir",I:"Izin",A:"Alpa",N:"Belum diisi"};
-  function kl(t){return t.tipe==="alumni"?"Alumni":(t.tipe==="calon"?(t.asal?"Calon "+kd(t.asal):"Calon pengajar"):(t.tipe==="eksternal"?(t.asal||"Eksternal"):(kd(t.asal)||"-")))}
+function xSheetXml(sh,first){
+  var rs="";
+  for(var r=1;r<sh.rows.length;r++){
+    var R=sh.rows[r],cs="";
+    for(var c=0;c<R.c.length;c++){
+      var x=R.c[c];if(!x)continue;var ref=xCol(c)+r,v=x.v;
+      if(x.f!=null)cs+='<c r="'+ref+'" s="'+x.s+'"'+(typeof v==="string"?' t="str"':'')+'><f>'+xEsc(x.f)+'</f><v>'+xEsc(v)+'</v></c>';
+      else if(typeof v==="number")cs+='<c r="'+ref+'" s="'+x.s+'"><v>'+v+'</v></c>';
+      else if(v===""||v==null)cs+='<c r="'+ref+'" s="'+x.s+'"/>';
+      else cs+='<c r="'+ref+'" s="'+x.s+'" t="inlineStr"><is><t xml:space="preserve">'+xEsc(v)+'</t></is></c>';
+    }
+    rs+='<row r="'+r+'"'+(R.h?' ht="'+R.h+'" customHeight="1"':'')+'>'+cs+'</row>';
+  }
+  var pane="";
+  if(sh.fz){var fc=sh.fz[1],fr=sh.fz[0],tl=xCol(fc)+(fr+1);pane='<pane '+(fc?'xSplit="'+fc+'" ':'')+'ySplit="'+fr+'" topLeftCell="'+tl+'" activePane="'+(fc?"bottomRight":"bottomLeft")+'" state="frozen"/>'}
+  var p=1,cf=sh.cf.map(function(q){return '<conditionalFormatting sqref="'+q.ref+'">'+q.v.map(function(t,i){return t==null?"":'<cfRule type="cellIs" dxfId="'+i+'" priority="'+(p++)+'" operator="equal"><formula>"'+xEsc(t)+'"</formula></cfRule>'}).join("")+'</conditionalFormatting>'}).join("");
+  return XH+'<worksheet '+XNS+'><sheetPr><tabColor rgb="FF'+(sh.tab||XC.blu)+'"/><pageSetUpPr fitToPage="1"/></sheetPr><sheetViews><sheetView showGridLines="0"'+(first?' tabSelected="1"':'')+' workbookViewId="0">'+pane+'</sheetView></sheetViews><sheetFormatPr defaultRowHeight="18"/><cols>'+
+    sh.cols.map(function(w,i){return '<col min="'+(i+1)+'" max="'+(i+1)+'" width="'+w+'" customWidth="1"/>'}).join("")+'</cols><sheetData>'+rs+'</sheetData>'+
+    (sh.mg.length?'<mergeCells count="'+sh.mg.length+'">'+sh.mg.map(function(m){return '<mergeCell ref="'+m+'"/>'}).join("")+'</mergeCells>':'')+cf+
+    '<printOptions horizontalCentered="1"/><pageMargins left="0.4" right="0.4" top="0.5" bottom="0.6" header="0.3" footer="0.3"/><pageSetup paperSize="9" orientation="'+(sh.land?"landscape":"portrait")+'" fitToWidth="1" fitToHeight="'+((sh.rows.length-1)<=(sh.land?36:56)?1:0)+'"/><headerFooter><oddFooter>&amp;L&amp;8M-log&amp;C&amp;8Halaman &amp;P dari &amp;N&amp;R&amp;8&amp;D</oddFooter></headerFooter></worksheet>';
+}
+function xBook(sheets,st){
+  var n=sheets.length,pt=sheets.map(function(s,i){return s.pt?'<definedName name="_xlnm.Print_Titles" localSheetId="'+i+'">\''+s.name+'\'!$'+s.pt[0]+':$'+s.pt[1]+'</definedName>':""}).join("");
+  var files=[
+    {n:"[Content_Types].xml",d:XH+'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>'+sheets.map(function(s,i){return '<Override PartName="/xl/worksheets/sheet'+(i+1)+'.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'}).join("")+'<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>'},
+    {n:"_rels/.rels",d:XH+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'},
+    {n:"xl/workbook.xml",d:XH+'<workbook '+XNS+' xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><bookViews><workbookView activeTab="0"/></bookViews><sheets>'+sheets.map(function(s,i){return '<sheet name="'+xEsc(s.name)+'" sheetId="'+(i+1)+'" r:id="rId'+(i+1)+'"/>'}).join("")+'</sheets>'+(pt?'<definedNames>'+pt+'</definedNames>':'')+'<calcPr fullCalcOnLoad="1"/></workbook>'},
+    {n:"xl/_rels/workbook.xml.rels",d:XH+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+sheets.map(function(s,i){return '<Relationship Id="rId'+(i+1)+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet'+(i+1)+'.xml"/>'}).join("")+'<Relationship Id="rId'+(n+1)+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'},
+    {n:"xl/styles.xml",d:st.xml()}
+  ];
+  sheets.forEach(function(s,i){files.push({n:"xl/worksheets/sheet"+(i+1)+".xml",d:xSheetXml(s,i===0)})});
+  return xZip(files);
+}
+/* kepala lembar: judul, subjudul, ringkasan */
+function xHead(sh,st,nc,ttl,sub,sum){
+  var r=sh.add(34);sh.mrow(r,0,nc-1,ttl,st.g({sz:16,b:1,c:"FFFFFF",bg:XC.nav,ind:1}));
+  r=sh.add(22);sh.mrow(r,0,nc-1,sub,st.g({b:1,c:XC.nav,bg:XC.lt,ind:1}));
+  r=sh.add(22);sh.mrow(r,0,nc-1,sum,st.g({sz:10,c:"404040",bg:"F2F5FA",ind:1}));
+  sh.add(8);
+}
+function xFoot(sh,st,nc,legend){
+  sh.add(8);var r=sh.add(20);sh.mrow(r,0,nc-1,legend,st.g({sz:9,i:1,c:"595959",ind:1}));
+  r=sh.add(18);sh.mrow(r,0,nc-1,"Dibuat dengan M-log pada "+xNow(),st.g({sz:9,i:1,c:"7F7F7F",ind:1}));
+}
+/* ---------- satu kegiatan ---------- */
+function xEventSheet(e,st,ttl){
+  var R=e.tr||{},T=tFor(e).filter(function(t){return t.tipe!=="alumni"||stOf(R,t.id)!=="N"}),cn={H:0,I:0,A:0,N:0},gc={};
+  T.forEach(function(t){cn[stOf(R,t.id)]++;var g=xGrp(t);gc[g]=(gc[g]||0)+1});
+  var act=!(T.length&&cn.N===T.length&&!grpActive(e)),sh=xSheet("Absensi",XC.blu),nc=5;
+  var nmW=xFit(T.map(xName),24,44),klW=xFit(T.map(xKl),10,24),ktW=xFit(T.map(function(t){return (R[t.id]||{}).n||""}),26,50);
+  sh.cols=[6,nmW,klW,15,ktW];sh.land=false;
+  xHead(sh,st,nc,ttl,xDate(e.date)+"   |   "+(e.title||"Tanpa nama")+"   |   "+JN[jenisOf(e)],
+    !T.length?"Belum ada pengajar.":(!act?"Belum ada pengajar yang diabsen, sehingga hari ini dianggap libur.":"Hadir "+cn.H+"    |    Izin "+cn.I+"    |    Alpa "+cn.A+"    |    Belum diisi "+cn.N+"    |    Kehadiran "+Math.round(cn.H/T.length*100)+"% dari "+T.length+" pengajar"));
+  var hs=st.g({b:1,c:"FFFFFF",bg:XC.blu,bd:1,h:"center",w:1}),hr=sh.add(26,["No","Nama","Kelas","Status","Keterangan"].map(function(v){return{v:v,s:hs}}));
+  sh.pt=[hr,hr];sh.fz=[hr,0];
+  var first=hr+1,last=null,no=0,z=0;
   T.forEach(function(t){
-    var r=R[t.id]||{s:"",n:""},s=r.s||"N";if(s==="N"&&t.tipe==="alumni")return;
-    rows.push([rows.length+1,t.name+(t.nick?" ("+t.nick+")":""),kl(t),SN[s]||"Belum diisi",r.n||""]);
+    var g=xGrp(t);
+    if(g!==last){last=g;z=0;var gr=sh.add(21);sh.mrow(gr,0,nc-1,g+"   ("+gc[g]+" orang)",st.g({b:1,c:XC.nav,bg:XC.grp,bd:1,ind:1}))}
+    no++;z++;var q=R[t.id]||{s:"",n:""},s=q.s||"N",bg=z%2?"FFFFFF":XC.zeb,nt=q.n||"",ln=xLines(nt,ktW);
+    sh.add(Math.max(20,ln*15+5),[
+      {v:no,s:st.g({bg:bg,bd:1,h:"center"})},{v:xName(t),s:st.g({bg:bg,bd:1,ind:1})},{v:xKl(t),s:st.g({bg:bg,bd:1,h:"center"})},
+      {v:XT[s],s:st.g({b:1,c:XCL[s][1],bg:XCL[s][0],bd:1,h:"center"})},{v:nt,s:st.g({bg:bg,bd:1,w:1,ind:1})}]);
   });
-  return rows;
+  var end=sh.rows.length-1;
+  if(end>=first)sh.cf.push({ref:"D"+first+":D"+end,v:[XT.H,XT.I,XT.A,XT.N]});
+  xFoot(sh,st,nc,"Warna status: hijau = Hadir, kuning = Izin, merah = Alpa, abu-abu = Belum diisi.");
+  return sh;
 }
-function xSave(){
-  var e=xSatEvent();
-  if(!e){toast("Belum ada kegiatan pada hari Sabtu.");return}
-  var rows=xRows(e);
-  if(!rows.length){toast("Belum ada pengajar untuk diunduh.");return}
-  var bytes=xBuild(["No","Nama","Kelas","Absensi (Sabtu, "+fmt(e.date)+")","Keterangan"],rows),
-    name="Absensi-Sabtu-"+e.date+".xlsx",type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    cur=ev();
+/* lembar materi dan catatan kelas */
+function xMateriSheet(evs,st,withTgl){
+  var data=[];
+  evs.forEach(function(e){
+    CLS().forEach(function(L){var m=(e.materi||{})[L]||"",n=((e.grp||{})[L]||{}).n||"";if(m||n)data.push([e,"Kelas "+L,m,n])});
+    var c=(e.materi||{}).calon||"";if(c)data.push([e,"Calon pengajar",c,""]);
+  });
+  if(!data.length)return null;
+  var sh=xSheet("Materi",XC.nav),nc=5,tg=18,kg=xFit(data.map(function(d){return d[0].title}),16,30),mW=xFit(data.map(function(d){return d[2]}),30,50),nW=xFit(data.map(function(d){return d[3]}),22,40);
+  sh.cols=[tg,kg,14,mW,nW];
+  xHead(sh,st,nc,"MATERI DAN CATATAN KELAS",evs.length===1?xDate(evs[0].date)+"   |   "+(evs[0].title||"Tanpa nama"):"Gabungan "+evs.length+" kegiatan","Materi yang diajarkan dan catatan untuk setiap kelas.");
+  var hs=st.g({b:1,c:"FFFFFF",bg:XC.blu,bd:1,h:"center",w:1}),hr=sh.add(26,["Tanggal","Kegiatan","Kelas","Materi","Catatan"].map(function(v){return{v:v,s:hs}}));
+  sh.pt=[hr,hr];sh.fz=[hr,0];var z=0;
+  data.forEach(function(d){
+    z++;var bg=z%2?"FFFFFF":XC.zeb,ln=Math.max(xLines(d[2],mW),xLines(d[3],nW));
+    sh.add(Math.max(20,ln*15+5),[{v:fmt(d[0].date),s:st.g({bg:bg,bd:1,h:"center"})},{v:d[0].title||"Tanpa nama",s:st.g({bg:bg,bd:1,w:1,ind:1})},{v:d[1],s:st.g({bg:bg,bd:1,h:"center"})},{v:d[2],s:st.g({bg:bg,bd:1,w:1,ind:1})},{v:d[3],s:st.g({bg:bg,bd:1,w:1,ind:1})}]);
+  });
+  xFoot(sh,st,nc,"Hanya kelas yang memiliki materi atau catatan yang ditampilkan.");
+  return sh;
+}
+function xEventBook(e,ttl){
+  var st=xSt(),a=[xEventSheet(e,st,ttl)],m=xMateriSheet([e],st);
+  if(m)a.push(m);
+  return xBook(a,st);
+}
+/* ---------- matriks bulanan ---------- */
+function xCell(t,col){
+  if(!col.act)return null;var best=null,pr={H:4,I:3,A:2,N:1};
+  col.evs.forEach(function(e){if(!vis(t,e))return;var s=stOf(e.tr||{},t.id);if(best===null||pr[s]>pr[best])best=s});
+  return best;
+}
+function xMatrix(name,tab,ttl,sub,cols,st){
+  var T=tSorted().filter(function(t){
+    if(!cols.some(function(c){return c.evs.some(function(e){return vis(t,e)})}))return false;
+    return t.tipe!=="alumni"||cols.some(function(c){var s=xCell(t,c);return s&&s!=="N"});
+  });
+  var k=cols.length,sh=xSheet(name,tab),nc=3+k+4,D0=3,D1=D0+k-1,cH=D1+1,cI=cH+1,cA=cI+1,cP=cA+1,gc={};
+  T.forEach(function(t){var g=xGrp(t);gc[g]=(gc[g]||0)+1});
+  sh.cols=[6,xFit(T.map(xName),24,44),xFit(T.map(xKl),10,24)];
+  cols.forEach(function(){sh.cols.push(9.5)});sh.cols.push(9,9,9,13);sh.land=true;
+  var actN=cols.filter(function(c){return c.act}).length,gH=0,gI=0,gA=0;
+  var hs=st.g({b:1,c:"FFFFFF",bg:XC.blu,bd:1,h:"center",w:1}),cell=function(o){return st.g(o)};
+  var hdr=[{v:"No",s:hs},{v:"Nama",s:hs},{v:"Kelas",s:hs}];
+  cols.forEach(function(c){hdr.push({v:fmt(c.date).slice(0,5)+"\n"+c.l2,s:c.act?hs:st.g({b:1,c:"FFFFFF",bg:"8C96A8",bd:1,h:"center",w:1})})});
+  ["Hadir","Izin","Alpa","Kehadiran"].forEach(function(v){hdr.push({v:v,s:st.g({b:1,c:"FFFFFF",bg:XC.nav,bd:1,h:"center",w:1})})});
+  /* kepala dibuat belakangan agar ringkasan tahu total */
+  var top=[sh.add(34),sh.add(22),sh.add(22),sh.add(8)],hr=sh.add(36,hdr);
+  sh.pt=[hr,hr];sh.fz=[hr,3];
+  var first=hr+1,last=null,no=0,z=0,rowsN=[];
+  T.forEach(function(t){
+    var g=xGrp(t);
+    if(g!==last){last=g;z=0;var gr=sh.add(21);sh.mrow(gr,0,nc-1,g+"   ("+gc[g]+" orang)",cell({b:1,c:XC.nav,bg:XC.grp,bd:1,ind:1}))}
+    no++;z++;var bg=z%2?"FFFFFF":XC.zeb,c=[{v:no,s:cell({bg:bg,bd:1,h:"center"})},{v:xName(t),s:cell({bg:bg,bd:1,ind:1})},{v:xKl(t),s:cell({bg:bg,bd:1,h:"center"})}],h=0,i=0,a=0;
+    cols.forEach(function(cl){
+      var s=xCell(t,cl),ch=s===null?"\u2013":(s==="N"?"?":s);
+      if(s==="H")h++;else if(s==="I")i++;else if(s==="A")a++;
+      c.push({v:ch,s:s&&s!=="N"?cell({b:1,c:XCL[s][1],bg:XCL[s][0],bd:1,h:"center"}):cell({c:"9AA3B2",bg:s==="N"?XCL.N[0]:"F4F5F8",bd:1,h:"center"})});
+    });
+    var r=sh.rows.length,rg=xCol(D0)+r+":"+xCol(D1)+r,tot=h+i+a;
+    c[cH]={v:h,f:'COUNTIF('+rg+',"H")',s:cell({b:1,bg:bg,bd:1,h:"center"})};
+    c[cI]={v:i,f:'COUNTIF('+rg+',"I")',s:cell({b:1,bg:bg,bd:1,h:"center"})};
+    c[cA]={v:a,f:'COUNTIF('+rg+',"A")',s:cell({b:1,bg:bg,bd:1,h:"center"})};
+    c[cP]={v:tot?h/tot:"-",f:'IF(SUM('+xCol(cH)+r+':'+xCol(cA)+r+')=0,"-",'+xCol(cH)+r+'/SUM('+xCol(cH)+r+':'+xCol(cA)+r+'))',s:cell({b:1,bg:bg,bd:1,h:"center",nf:9})};
+    sh.add(21,c);gH+=h;gI+=i;gA+=a;rowsN.push(r);
+  });
+  var end=sh.rows.length-1;
+  if(k&&end>=first)sh.cf.push({ref:xCol(D0)+first+":"+xCol(D1)+end,v:["H","I","A","?"]});
+  /* baris total per kegiatan */
+  sh.add(6);
+  var rowOf={},lab=cell({b:1,c:XC.nav,bg:XC.gr,bd:1,ind:1}),sn=cell({b:1,bg:XC.gr,bd:1,h:"center"});
+  [["H","Jumlah hadir"],["I","Jumlah izin"],["A","Jumlah alpa"]].forEach(function(q){
+    var r=sh.add(21),cnt={},tot=0;rowOf[q[0]]=r;sh.mrow(r,0,2,q[1],lab);
+    cols.forEach(function(cl,j){var n=0;T.forEach(function(t){if(xCell(t,cl)===q[0])n++});cnt[j]=n;sh.rows[r].c[D0+j]={v:n,f:'COUNTIF('+xCol(D0+j)+first+':'+xCol(D0+j)+end+',"'+q[0]+'")',s:sn};tot+=n});
+    var tc=q[0]==="H"?cH:q[0]==="I"?cI:cA;
+    sh.rows[r].c[tc]={v:tot,f:'SUM('+xCol(D0)+r+':'+xCol(D1)+r+')',s:sn};
+    for(var c=cH;c<=cP;c++)if(!sh.rows[r].c[c])sh.rows[r].c[c]={v:"",s:sn};
+  });
+  var rp=sh.add(22);sh.mrow(rp,0,2,"Persentase kehadiran",lab);
+  cols.forEach(function(cl,j){
+    var h=0,i=0,a=0;T.forEach(function(t){var s=xCell(t,cl);if(s==="H")h++;else if(s==="I")i++;else if(s==="A")a++});
+    var L=xCol(D0+j),t3=h+i+a;
+    sh.rows[rp].c[D0+j]={v:t3?h/t3:"-",f:'IF(SUM('+L+rowOf.H+':'+L+rowOf.A+')=0,"-",'+L+rowOf.H+'/SUM('+L+rowOf.H+':'+L+rowOf.A+'))',s:cell({b:1,bg:XC.gr,bd:1,h:"center",nf:9})};
+  });
+  var tt=gH+gI+gA;
+  sh.rows[rp].c[cP]={v:tt?gH/tt:"-",f:'IF(SUM('+xCol(cH)+rowOf.H+':'+xCol(cA)+rowOf.A+')=0,"-",'+xCol(cH)+rowOf.H+'/SUM('+xCol(cH)+rowOf.H+':'+xCol(cA)+rowOf.A+'))',s:cell({b:1,c:"FFFFFF",bg:XC.nav,bd:1,h:"center",nf:9})};
+  for(var c=cH;c<cP;c++)if(!sh.rows[rp].c[c])sh.rows[rp].c[c]={v:"",s:sn};
+  xFoot(sh,st,nc,"H = Hadir, I = Izin, A = Alpa, ? = belum diisi, \u2013 = tidak ada kegiatan atau tidak terdaftar. Kehadiran = Hadir \u00F7 (Hadir + Izin + Alpa).");
+  /* isi kepala (judul, subjudul, ringkasan) sekarang */
+  var rr=sh.rows,mk=function(r,txt,s){rr[r].c=[];sh.mrow(r,0,nc-1,txt,s)};
+  mk(top[0],ttl,st.g({sz:16,b:1,c:"FFFFFF",bg:XC.nav,ind:1}));
+  mk(top[1],sub,st.g({b:1,c:XC.nav,bg:XC.lt,ind:1}));
+  mk(top[2],"Pengajar: "+T.length+"    |    Kegiatan berlangsung: "+actN+" dari "+k+"    |    Rata-rata kehadiran: "+(tt?Math.round(gH/tt*100):0)+"%",st.g({sz:10,c:"404040",bg:"F2F5FA",ind:1}));
+  sh.stat={T:T,act:actN,k:k,tot:tt};
+  return sh;
+}
+/* lembar keterangan: semua catatan, izin, dan alpa */
+function xNoteSheet(cols,T,st,jenis){
+  var data=[];
+  cols.forEach(function(c){c.evs.forEach(function(e){T.forEach(function(t){
+    if(!vis(t,e))return;var q=(e.tr||{})[t.id]||{},s=q.s||"";if(s&&(q.n||s==="I"||s==="A"))data.push({d:e.date,e:e,t:t,s:s,n:q.n||""})})})});
+  if(!data.length)return null;
+  data.sort(function(a,b){return a.d<b.d?-1:a.d>b.d?1:xName(a.t).localeCompare(xName(b.t),"id")});
+  var sh=xSheet("Keterangan",XC.nav),nc=jenis?6:5,nW=xFit(data.map(function(d){return xName(d.t)}),24,40),kW=xFit(data.map(function(d){return d.n}),28,55),cW=xFit(data.map(function(d){return xKl(d.t)}),10,24);
+  sh.cols=jenis?[14,12,nW,cW,12,kW]:[14,nW,cW,12,kW];
+  xHead(sh,st,nc,"KETERANGAN IZIN, ALPA, DAN CATATAN",data.length+" catatan","Daftar izin, alpa, dan keterangan yang tercatat pada periode ini.");
+  var hs=st.g({b:1,c:"FFFFFF",bg:XC.blu,bd:1,h:"center",w:1}),hd=["Tanggal"].concat(jenis?["Jenis"]:[],["Nama","Kelas","Status","Keterangan"]),hr=sh.add(26,hd.map(function(v){return{v:v,s:hs}}));
+  sh.pt=[hr,hr];sh.fz=[hr,0];var z=0;
+  data.forEach(function(d){
+    z++;var bg=z%2?"FFFFFF":XC.zeb,cs=function(o){o.bg=bg;o.bd=1;return st.g(o)},row=[{v:fmt(d.d),s:cs({h:"center"})}];
+    if(jenis)row.push({v:JN[jenisOf(d.e)],s:cs({h:"center"})});
+    row.push({v:xName(d.t),s:cs({ind:1})},{v:xKl(d.t),s:cs({h:"center"})},{v:XT[d.s],s:st.g({b:1,c:XCL[d.s][1],bg:XCL[d.s][0],bd:1,h:"center"})},{v:d.n,s:cs({w:1,ind:1})});
+    sh.add(Math.max(20,xLines(d.n,kW)*15+5),row);
+  });
+  var statC=jenis?4:3,end=sh.rows.length-1;
+  sh.cf.push({ref:xCol(statC)+(hr+1)+":"+xCol(statC)+end,v:[XT.H,XT.I,XT.A,XT.N]});
+  xFoot(sh,st,nc,"Hanya baris dengan status izin, alpa, atau keterangan yang ditampilkan.");
+  return sh;
+}
+function xMonthSat(key){
+  var y=+key.slice(0,4),m=+key.slice(5,7)-1,cols=[],d=new Date(y,m,1);
+  for(;d.getMonth()===m;d.setDate(d.getDate()+1)){
+    if(d.getDay()!==6)continue;
+    var ds=xIso(d),es=S.events.filter(function(x){return x.date===ds}),pk=es.filter(function(x){return jenisOf(x)==="wajib"});
+    if(!pk.length)pk=es;var a=xAct(pk);cols.push({date:ds,evs:pk,act:a,l2:a?"Sabtu":"Libur"});
+  }
+  if(!cols.some(function(c){return c.act}))return{err:"Belum ada absensi hari Sabtu pada "+XM[m]+" "+y+"."};
+  var st=xSt(),sh=xMatrix("Rekap Sabtu",XC.blu,"REKAP ABSENSI BULANAN (HARI SABTU)",XM[m]+" "+y+"   |   "+cols.length+" hari Sabtu",cols,st),a=[sh];
+  var nt=xNoteSheet(cols,sh.stat.T,st,false);if(nt)a.push(nt);
+  var ms=xMateriSheet([].concat.apply([],cols.map(function(c){return c.evs})).sort(function(p,q){return p.date<q.date?-1:1}),st);if(ms)a.push(ms);
+  return{bytes:xBook(a,st),name:"Absensi-Bulanan-Sabtu-"+key+".xlsx"};
+}
+function xMonthLR(key){
+  var y=+key.slice(0,4),m=+key.slice(5,7)-1,st=xSt(),a=[],all=[];
+  [["latihan","Latihan","548235"],["rapat","Rapat","7030A0"]].forEach(function(J){
+    var cols=S.events.filter(function(e){return e.date.slice(0,7)===key&&jenisOf(e)===J[0]}).sort(function(p,q){return p.date<q.date?-1:p.date>q.date?1:(p.title||"").localeCompare(q.title||"","id")}).map(function(e){return{date:e.date,evs:[e],act:xAct([e]),l2:xAct([e])?(DAYS[dow(e.date)]||"").slice(0,3):"Libur"}});
+    if(!cols.length)return;
+    var sh=xMatrix(J[1],J[2],"REKAP ABSENSI BULANAN "+J[1].toUpperCase(),XM[m]+" "+y+"   |   "+cols.length+" kegiatan "+J[1].toLowerCase(),cols,st);
+    a.push(sh);all=all.concat(cols);
+  });
+  if(!a.length)return{err:"Belum ada latihan atau rapat pada "+XM[m]+" "+y+"."};
+  if(!all.some(function(c){return c.act}))return{err:"Belum ada absensi latihan atau rapat pada "+XM[m]+" "+y+"."};
+  var T=[];a.forEach(function(s){s.stat.T.forEach(function(t){if(T.indexOf(t)<0)T.push(t)})});
+  var nt=xNoteSheet(all,tSorted().filter(function(t){return T.indexOf(t)>=0}),st,true);if(nt)a.push(nt);
+  var ms=xMateriSheet([].concat.apply([],all.map(function(c){return c.evs})).sort(function(p,q){return p.date<q.date?-1:1}),st);if(ms)a.push(ms);
+  return{bytes:xBook(a,st),name:"Absensi-Bulanan-Latihan-Rapat-"+key+".xlsx"};
+}
+/* ---------- unduh & antarmuka ---------- */
+function xSave(bytes,name,msg){
+  var type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+  mClose("md2");
   try{
     var file=new File([bytes],name,{type:type});
     if(/iPhone|iPad|iPod/.test(navigator.userAgent)&&navigator.canShare&&navigator.canShare({files:[file]})){navigator.share({files:[file]}).catch(function(){});return}
@@ -1715,9 +1942,43 @@ function xSave(){
   var u=URL.createObjectURL(new Blob([bytes],{type:type})),a=document.createElement("a");
   a.href=u;a.download=name;document.body.appendChild(a);a.click();
   setTimeout(function(){a.remove();URL.revokeObjectURL(u)},4000);
-  toast(cur&&cur.id!==e.id?"Mengunduh rekap Sabtu, "+fmt(e.date):"Rekap Excel diunduh");
+  toast(msg||"Excel diunduh");
 }
-$("xlsBtn").addEventListener("click",xSave);
+function xEvById(id){return S.events.filter(function(e){return e.id===id})[0]}
+function xSatEvent(){
+  var e=ev();if(!e)return null;
+  if(dow(e.date)===6)return e;
+  var c=S.events.filter(function(x){return dow(x.date)===6&&x.date<=e.date}).sort(function(a,b){return a.date<b.date?1:-1})[0];
+  return c||S.events.filter(function(x){return dow(x.date)===6}).sort(function(a,b){return a.date<b.date?-1:1})[0]||null;
+}
+function xMonths(){var m={};S.events.forEach(function(e){m[e.date.slice(0,7)]=1});m[today().slice(0,7)]=1;return Object.keys(m).sort().reverse()}
+function xHTML(){
+  var e=ev(),byD=function(a,b){return a.date<b.date?1:a.date>b.date?-1:0},
+    sat=S.events.filter(function(x){return dow(x.date)===6}).sort(byD),evn=S.events.filter(function(x){return jenisOf(x)==="event"}).sort(byD),
+    ds=xSatEvent(),de=e&&jenisOf(e)==="event"?e.id:(evn[0]||{}).id,mk=xMonths(),md=e?e.date.slice(0,7):today().slice(0,7);
+  function ol(a,sel){return a.map(function(x){return '<option value="'+x.id+'"'+(x.id===sel?" selected":"")+'>'+esc(xDate(x.date)+" - "+(x.title||"Tanpa nama"))+'</option>'}).join("")}
+  function card(t,d,body){return '<div class="xo"><p class="xt">'+t+'</p><p class="lbl">'+d+'</p>'+body+'</div>'}
+  function btn(k){return '<button class="btn" type="button" data-act="xdl" data-k="'+k+'">Unduh</button>'}
+  return '<p class="ph">Unduh Excel</p><p class="lbl">Pilih jenis rekap. Setiap berkas berisi tabel berwarna yang rapi dan siap dicetak.</p>'+
+    '<p class="xg">Satu kegiatan</p>'+
+    card("Absen mingguan (Sabtu)","Seluruh pengajar pada satu kegiatan hari Sabtu.",sat.length?'<select id="xSat" aria-label="Pilih kegiatan hari Sabtu">'+ol(sat,ds&&ds.id)+'</select>'+btn("sat"):'<p class="lbl"><b>Belum ada kegiatan pada hari Sabtu.</b></p>')+
+    card("Absen kegiatan ini","Kegiatan yang sedang dibuka (hari apa pun):<br><b>"+(e?esc(e.title||"Tanpa nama")+"</b> - "+esc(xDate(e.date))+" - "+JN[jenisOf(e)]:"-</b>"),e?btn("cur"):"")+
+    card("Absen event","Kegiatan berjenis Event.",evn.length?'<select id="xEvt" aria-label="Pilih event">'+ol(evn,de)+'</select>'+btn("evt"):'<p class="lbl"><b>Belum ada kegiatan berjenis Event.</b></p>')+
+    '<p class="xg">Rekap satu bulan</p><label class="lbl" for="xMon" style="display:block;margin-top:6px">Bulan</label><select id="xMon">'+mk.map(function(k){return '<option value="'+k+'"'+(k===md?" selected":"")+'>'+XM[+k.slice(5,7)-1]+" "+k.slice(0,4)+'</option>'}).join("")+'</select>'+
+    card("Absen bulanan (Sabtu)","Satu bulan penuh, hanya hari Sabtu. Setiap Sabtu menjadi satu kolom.",btn("bln"))+
+    card("Absen bulanan latihan dan rapat","Satu bulan penuh untuk kegiatan Latihan dan Rapat, masing-masing satu lembar.",btn("lr"))+
+    '<div class="r gap"><button class="btn d" type="button" data-act="xno">Tutup</button></div>';
+}
+function xGo(k){
+  var e,r;
+  if(k==="sat"){e=xEvById($("xSat").value);if(e)xSave(xEventBook(e,"REKAP ABSENSI MINGGUAN (HARI SABTU)"),"Absensi-Mingguan-Sabtu-"+e.date+".xlsx","Rekap mingguan diunduh, "+fmt(e.date))}
+  else if(k==="cur"){e=ev();if(e)xSave(xEventBook(e,"REKAP ABSENSI KEGIATAN"),"Absensi-"+xSlug(e.title)+"-"+e.date+".xlsx","Rekap kegiatan diunduh")}
+  else if(k==="evt"){e=xEvById($("xEvt").value);if(e)xSave(xEventBook(e,"REKAP ABSENSI EVENT"),"Absensi-Event-"+xSlug(e.title)+"-"+e.date+".xlsx","Rekap event diunduh")}
+  else if(k==="bln"){r=xMonthSat($("xMon").value);if(r.err)toast(r.err);else xSave(r.bytes,r.name,"Rekap bulanan diunduh")}
+  else if(k==="lr"){r=xMonthLR($("xMon").value);if(r.err)toast(r.err);else xSave(r.bytes,r.name,"Rekap latihan dan rapat diunduh")}
+}
+$("xlsBtn").addEventListener("click",function(){if(!S.events.length){toast("Belum ada kegiatan untuk diunduh.");return}mOpen("md2",xHTML())});
+document.addEventListener("click",function(e){var b=e.target.closest("[data-act]");if(!b)return;if(b.dataset.act==="xdl")xGo(b.dataset.k);else if(b.dataset.act==="xno")mClose("md2")});
 
 resetForm(false);all();boot();Sy.start();
 </script>
