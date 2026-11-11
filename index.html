@@ -450,6 +450,38 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:var(--fh,100v
 .mid header h2{text-shadow:none!important}
 .lite body::before{display:none}
 .xg{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin-top:8px}.xg .btn{width:100%;text-align:center}
+
+/* ===== popup unduh Excel ===== */
+.xbtn{display:inline-flex;align-items:center;gap:8px}
+.xbtn svg{width:18px;height:18px;flex:none}
+.xp-h{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.xp-h .ph{margin:0}.xp-h .lbl{margin:2px 0 0}
+.xp-ic{flex:none;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:var(--ac);color:var(--acx);box-shadow:0 6px 16px rgba(0,0,0,.25);animation:pop .6s cubic-bezier(.3,1.4,.5,1)}
+.xp-ic svg{width:26px;height:26px}
+.xo{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 12px;margin:8px 0;border:1.5px solid var(--bd);border-radius:16px;background:var(--bg);color:var(--tx);font:inherit;cursor:pointer;animation:rise .55s cubic-bezier(.34,1.56,.64,1) backwards;animation-delay:calc(var(--i) * 70ms);transition:transform .35s cubic-bezier(.34,1.56,.64,1),border-color .2s,box-shadow .25s,background-color .25s}
+.xo:active{transform:scale(.97)}
+@media (hover:hover){.xo:not([disabled]):hover{transform:translateY(-2px);border-color:var(--ac);box-shadow:var(--ps,0 8px 20px rgba(0,0,0,.15))}}
+.xi{flex:none;width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:var(--st);color:var(--ac);border:1px solid var(--bd);transition:background-color .25s,color .25s}
+.xo:not([disabled]):hover .xi{background:var(--ac);color:var(--acx)}
+.xi svg{width:22px;height:22px}
+.xt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.xt b{font:800 15px "Shippori Mincho B1",Georgia,serif;letter-spacing:.01em}
+.xt small{font-size:12.5px;color:var(--mut);line-height:1.35}
+.xa{flex:none;font-size:26px;line-height:1;color:var(--mut);transition:transform .3s cubic-bezier(.34,1.56,.64,1),color .2s}
+.xo:not([disabled]):hover .xa{transform:translateX(4px);color:var(--ac)}
+.xo[disabled]{opacity:.5;cursor:not-allowed;border-style:dashed}
+
+/* ===== tema Elektro ===== */
+:root[data-theme="elektro"]{--bg:#050b16;--card:#0b1626;--tx:#e6f4ff;--mut:#7fa6c8;--bd:#173553;--hd:linear-gradient(135deg,#031a3a,#0a4fb3 55%,#00c8ff);--hm:#031a3a;--ac:#00c8ff;--acx:#021018;--gm:#ffd400;--gmx:#1a1500;--st:#0f2238;--fx:#38d6ff;--ps:inset 3px 0 0 #00c8ff,0 0 0 1px rgba(0,200,255,.22),0 0 24px rgba(0,200,255,.08)}
+:root[data-theme="elektro"] body::before{background-image:radial-gradient(ellipse 80% 38% at 50% -8%,rgba(0,200,255,.30),transparent 70%),radial-gradient(ellipse 50% 30% at 100% 100%,rgba(255,212,0,.10),transparent 70%),linear-gradient(rgba(0,200,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,.07) 1px,transparent 1px),radial-gradient(circle,rgba(0,200,255,.5) 1.5px,transparent 2.2px);background-size:auto,auto,44px 44px,44px 44px,88px 88px}
+:root[data-theme="elektro"] header{box-shadow:0 0 28px rgba(0,200,255,.35)}
+:root[data-theme="elektro"] header h2{text-shadow:0 0 16px rgba(0,200,255,.6)}
+:root[data-theme="elektro"] .btn:not(.d){box-shadow:0 0 16px rgba(0,200,255,.5)}
+:root[data-theme="elektro"] .chip.on{box-shadow:0 0 14px rgba(0,200,255,.55)}
+:root[data-theme="elektro"] .xp-ic{box-shadow:0 0 18px rgba(0,200,255,.6)}
+:root[data-theme="elektro"] .fx::before{content:"";position:absolute;left:0;right:0;top:0;height:60%;background:radial-gradient(ellipse 70% 100% at 50% 0,rgba(140,225,255,.5),transparent 70%);opacity:0;animation:zap 11s infinite}
+@keyframes zap{0%,90%,100%{opacity:0}91%{opacity:.9}92.5%{opacity:.15}94%{opacity:.7}96%{opacity:0}}
+.mid .fx::before,.lite .fx::before{display:none}
 </style>
 </head>
 <body>
@@ -518,9 +550,9 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:var(--fh,100v
 
 <div class="panel">
   <p class="ph">Rekap</p>
-  <div class="r" style="flex-wrap:wrap"><button class="btn" id="copyBtn">Salin rekap</button><button class="btn d wr" id="evDel">Hapus kegiatan</button></div>
-  <p class="lbl gap"><b>Unduh Excel</b></p>
-  <div class="xg"><button class="btn" type="button" data-x="week">Absen mingguan (Sabtu)</button><button class="btn" type="button" data-x="cur">Absen kegiatan ini</button><button class="btn" type="button" data-x="event">Absen event</button><button class="btn" type="button" data-x="month" id="xMonth">Absen bulanan (Sabtu)</button><button class="btn" type="button" data-x="monthlr" id="xMonthLR">Absen bulanan latihan/rapat</button></div>
+  <div class="r"><button class="btn" id="copyBtn">Salin rekap</button></div>
+  <div class="r gap"><button class="btn xbtn" id="xlsOpen" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>Unduh format Excel</button></div>
+  <div class="r gap"><button class="btn d wr" id="evDel">Hapus kegiatan</button></div>
   <textarea id="recap" rows="10" readonly class="gap" style="display:none"></textarea>
 </div>
 
@@ -970,9 +1002,10 @@ YSCL='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 22C6.5 22 2.5 17
 YBAM='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.5 21.5C3 11 10.5 3.5 21.5 2.5c-.6 10.8-8.2 18.3-19 19z"/><path d="M4.5 19.5L18.5 5.5" stroke="var(--bg)" stroke-width=".9" opacity=".5" fill="none" stroke-linecap="round"/></svg>',
 YBLT='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5c1.8-2.5 4.6-1.2 4 1.5 2.8-.8 4.6 1.8 2.8 3.8 2 1.8.6 4.8-2.2 4.3.8 2.8-2 4.6-4 2.8-1.8 2.2-4.8.6-4.2-2.2-2.8.4-4.2-2.4-2.2-4.2C4 8.3 5.8 6 8 7.3 7.4 4.5 10.2 2.8 12 4.5z"/></svg>',
 YPLM='<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="3.8"/><circle cx="18" cy="10.4" r="3.8"/><circle cx="15.7" cy="17.5" r="3.8"/><circle cx="8.3" cy="17.5" r="3.8"/><circle cx="6" cy="10.4" r="3.8"/><circle cx="12" cy="12" r="2.2" fill="#ffd24d"/></svg>';
-var FXS={api:[YEMB,ZB],bintang:[YST5,HRT],baja:[YGER,YHXB],portal:[YCRY,YMAG],pertapa:[YLOT,YORB],singgasana:[YCOI,YSCL],bambu:[YBAM,YPLM],midnight:[STAR,DIA],grafit:[DIA,DIA],samudra:[BUB,BUB],anggur:[PET,DIA],mahiru:[FEA0,STAR],permen:[HRT,STAR],neko:[PAW,HRT],matcha:[LEAF0,BUB],awan:[CLD,BUB],emas:[STAR,DIA],royal:[DIA,STAR],zamrud:[LEAF0,STAR],neon:[STAR,FLK],samurai:[MAPLE,FEA0],sakura:[PET,PET],hutan:[LEAF0,TWIG],gugur:[MAPLE,TWIG],salju:[FLK,FLK]};
-var TH=[["_","Dasar"],["auto","Otomatis"],["light","Putih"],["dark","Hitam"],["_","Profesional"],["midnight","Midnight"],["grafit","Grafit"],["samudra","Samudra"],["anggur","Anggur"],["emas","Emas hitam"],["royal","Royal"],["_","Pastel"],["mahiru","Mahiru"],["permen","Permen"],["neko","Neko"],["matcha","Matcha"],["awan","Awan"],["sakura","Sakura"],["_","Alam dan Jepang"],["samurai","Samurai"],["hutan","Hutan"],["gugur","Musim gugur"],["salju","Salju"],["zamrud","Zamrud"],["neon","Neon"],["_","Petualangan Fantasi"],["api","Api Semangat"],["bintang","Bintang Sihir"],["baja","Baja Raksasa"],["portal","Dunia Lain"],["_","Legenda Timur"],["pertapa","Pertapa Langit"],["singgasana","Singgasana Naga"],["bambu","Pendekar Bambu"]];
-var TC={auto:["#f2f2f2","#0a0a0a"],light:["#f2f2f2","#0c0c0c"],dark:["#0a0a0a","#f2f2f2"],samurai:["#140d0d","#c8232c"],sakura:["#fff3f6","#c2457a"],hutan:["#eef3ea","#2e7d46"],gugur:["#fbf1e4","#c2571a"],salju:["#0b1220","#8ec5ff"],emas:["#0d0b07","#d4af37"],royal:["#0e0a1f","#9b7bff"],zamrud:["#07140f","#2fd39a"],neon:["#09050f","#ff2d95"],midnight:["#0a1020","#5b93ff"],grafit:["#eef1f5","#2d4a6b"],samudra:["#ecf6f7","#0e7c86"],anggur:["#150a10","#d6476f"],mahiru:["#fdf6e9","#c4811f"],permen:["#fff1f8","#f0509a"],neko:["#fff7ee","#e0702a"],matcha:["#effaf2","#2f9e72"],awan:["#eef7ff","#2f86d8"],api:["#fff6e5","#ff6a00"],bintang:["#fff0fb","#e255c8"],baja:["#070d14","#19d3ff"],portal:["#0f1226","#f0c04a"],pertapa:["#eef7f1","#138a6a"],singgasana:["#1a0707","#f0b429"],bambu:["#f4efe4","#b3202a"]};
+var ZAT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/><circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/></svg>',ZNO='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v6M12 16v6M2 12h6M16 12h6"/></svg>';
+var FXS={elektro:[ZB,ZAT],api:[YEMB,ZB],bintang:[YST5,HRT],baja:[YGER,YHXB],portal:[YCRY,YMAG],pertapa:[YLOT,YORB],singgasana:[YCOI,YSCL],bambu:[YBAM,YPLM],midnight:[STAR,DIA],grafit:[DIA,DIA],samudra:[BUB,BUB],anggur:[PET,DIA],mahiru:[FEA0,STAR],permen:[HRT,STAR],neko:[PAW,HRT],matcha:[LEAF0,BUB],awan:[CLD,BUB],emas:[STAR,DIA],royal:[DIA,STAR],zamrud:[LEAF0,STAR],neon:[STAR,FLK],samurai:[MAPLE,FEA0],sakura:[PET,PET],hutan:[LEAF0,TWIG],gugur:[MAPLE,TWIG],salju:[FLK,FLK]};
+var TH=[["_","Dasar"],["auto","Otomatis"],["light","Putih"],["dark","Hitam"],["_","Profesional"],["midnight","Midnight"],["grafit","Grafit"],["samudra","Samudra"],["anggur","Anggur"],["emas","Emas hitam"],["royal","Royal"],["_","Pastel"],["mahiru","Mahiru"],["permen","Permen"],["neko","Neko"],["matcha","Matcha"],["awan","Awan"],["sakura","Sakura"],["_","Alam dan Jepang"],["samurai","Samurai"],["hutan","Hutan"],["gugur","Musim gugur"],["salju","Salju"],["zamrud","Zamrud"],["neon","Neon"],["_","Teknologi"],["elektro","Elektro"],["_","Petualangan Fantasi"],["api","Api Semangat"],["bintang","Bintang Sihir"],["baja","Baja Raksasa"],["portal","Dunia Lain"],["_","Legenda Timur"],["pertapa","Pertapa Langit"],["singgasana","Singgasana Naga"],["bambu","Pendekar Bambu"]];
+var TC={auto:["#f2f2f2","#0a0a0a"],light:["#f2f2f2","#0c0c0c"],dark:["#0a0a0a","#f2f2f2"],samurai:["#140d0d","#c8232c"],sakura:["#fff3f6","#c2457a"],hutan:["#eef3ea","#2e7d46"],gugur:["#fbf1e4","#c2571a"],salju:["#0b1220","#8ec5ff"],emas:["#0d0b07","#d4af37"],royal:["#0e0a1f","#9b7bff"],zamrud:["#07140f","#2fd39a"],neon:["#09050f","#ff2d95"],elektro:["#050b16","#00c8ff"],midnight:["#0a1020","#5b93ff"],grafit:["#eef1f5","#2d4a6b"],samudra:["#ecf6f7","#0e7c86"],anggur:["#150a10","#d6476f"],mahiru:["#fdf6e9","#c4811f"],permen:["#fff1f8","#f0509a"],neko:["#fff7ee","#e0702a"],matcha:["#effaf2","#2f9e72"],awan:["#eef7ff","#2f86d8"],api:["#fff6e5","#ff6a00"],bintang:["#fff0fb","#e255c8"],baja:["#070d14","#19d3ff"],portal:["#0f1226","#f0c04a"],pertapa:["#eef7f1","#138a6a"],singgasana:["#1a0707","#f0b429"],bambu:["#f4efe4","#b3202a"]};
 var TALIAS={shonen:"api",ajaib:"bintang",mecha:"baja",isekai:"portal",kultivator:"pertapa",naga:"singgasana",tinta:"bambu",komikpop:"auto",manga:"auto",koran:"auto"};
 function applyTheme(id,sv){
   var oid=id;id=TALIAS[id]||id;if(!TC[id])id="auto";if(oid!==id)sv=true;
@@ -1544,6 +1577,7 @@ var FXC={
  royal:{o:[.25,.5],s:[[DIA,"#b9a2ff","g"],[STAR,"#d9ccff","tg"],[ZR,"#e0c068","g"],[ZG,"#9b7bff","tg"]]},
  zamrud:{o:[.22,.46],s:[[LEAF0,"#3fd9a0","g"],[DIA,"#2fd39a","g"],[ZG,"#e6c35c","tg"],[LEAF0,"#1fa578"]]},
  neon:{o:[.3,.6],s:[[ZG,"#00e5ff","tg"],[ZB,"#ff2d95","g"],[STAR,"#b266ff","tg"],[ZD,"#00e5ff","xg"]]},
+ elektro:{o:[.32,.66],d:[14,26],rt:35,s:[[ZB,"#ffd400","tg"],[ZAT,"#38d6ff","sg"],[ZG,"#7df0ff","tg"],[ZNO,"#00c8ff","g"],[ZD,"#ffd400","xg"]]},
  midnight:{o:[.25,.55],s:[[STAR,"#8fb4ff","tg"],[ZM,"#dbe6ff","g"],[ZG,"#ffffff","tg"],[ZD,"#8fb4ff","x"]]},
  grafit:{o:[.12,.24],rt:10,s:[[ZD,"#5b7aa0","x"],[DIA,"#7d93ad"],[ZD,"#2d4a6b","x"]]},
  samudra:{o:[.2,.42],d:[20,36],s:[[BUB,"#2fb4bf"],[BUB,"#6fd3da"],[ZD,"#ffffff","x"]]},
@@ -1866,7 +1900,37 @@ function xLabels(){
   if(b)b.textContent="Absen bulanan latihan/rapat"+(ml?" - "+ml:"");
 }
 var _rtX=renderTop;renderTop=function(){_rtX();xLabels()};
-document.addEventListener("click",function(x){var b=x.target.closest("[data-x]");if(b)xGo(b.dataset.x)});
+document.addEventListener("click",function(x){var b=x.target.closest("[data-x]");if(b&&!b.disabled){mClose("md");xGo(b.dataset.x)}});
+/* ===== popup pilihan unduh Excel ===== */
+var XI={
+  week:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18M8 15h2"/></svg>',
+  cur:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 14l2 2 3-4"/></svg>',
+  event:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>',
+  month:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 9h18M9 9v12M15 9v12M3 15h18"/></svg>',
+  monthlr:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 12h6M9 16h4"/></svg>',
+  xls:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>'
+};
+function xInfo(){
+  var cur=ev(),key=cur?cur.date.slice(0,7):"",ml=cur?XM[+key.slice(5,7)-1]+" "+key.slice(0,4):"",
+    sat=xSatEvent(),evt=xEvt(),
+    ns=cur?S.events.filter(function(x){return String(x.date).slice(0,7)===key&&dow(x.date)===6}).length:0,
+    nl=cur?S.events.filter(function(x){return String(x.date).slice(0,7)===key&&(jenisOf(x)==="latihan"||jenisOf(x)==="rapat")}).length:0;
+  function d(e){return(DAYS[dow(e.date)]||"")+", "+fmt(e.date)}
+  return[
+    {k:"week",t:"Absen mingguan (Sabtu)",d:sat?"Hanya hari Sabtu \u00B7 "+d(sat):"Belum ada kegiatan hari Sabtu",ok:!!sat},
+    {k:"cur",t:"Absen kegiatan ini",d:cur?(cur.title||"Kegiatan")+" \u00B7 "+d(cur)+" \u00B7 "+JN[jenisOf(cur)]:"Belum ada kegiatan",ok:!!cur},
+    {k:"event",t:"Absen event",d:evt?(evt.title||"Event")+" \u00B7 "+d(evt):"Belum ada kegiatan berjenis Event",ok:!!evt},
+    {k:"month",t:"Absen bulanan (Sabtu)",d:ns?ml+" \u00B7 "+ns+" kegiatan hari Sabtu":"Belum ada kegiatan Sabtu pada "+ml,ok:ns>0},
+    {k:"monthlr",t:"Absen bulanan latihan/rapat",d:nl?ml+" \u00B7 "+nl+" kegiatan latihan dan rapat":"Belum ada latihan atau rapat pada "+ml,ok:nl>0}
+  ];
+}
+function xHTML(){
+  return '<div class="xp"><div class="xp-h"><span class="xp-ic">'+XI.xls+'</span><div><p class="ph">Unduh format Excel</p><p class="lbl">Pilih jenis absen yang ingin diunduh</p></div></div><div class="xl">'+
+    xInfo().map(function(o,i){return '<button type="button" class="xo" style="--i:'+i+'" data-x="'+o.k+'"'+(o.ok?'':' disabled')+'><span class="xi">'+XI[o.k]+'</span><span class="xt"><b>'+esc(o.t)+'</b><small>'+esc(o.d)+'</small></span><span class="xa" aria-hidden="true">&#8250;</span></button>'}).join("")+
+    '</div><p class="lbl">Bulan pada pilihan bulanan mengikuti kegiatan yang sedang dibuka.</p><div class="r gap"><button class="btn d" type="button" data-act="close">Tutup</button></div></div>';
+}
+$("xlsOpen").addEventListener("click",function(){mOpen("md",xHTML())});
+
 
 resetForm(false);all();boot();Sy.start();
 </script>
