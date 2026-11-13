@@ -482,6 +482,31 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:var(--fh,100v
 :root[data-theme="elektro"] .fx::before{content:"";position:absolute;left:0;right:0;top:0;height:60%;background:radial-gradient(ellipse 70% 100% at 50% 0,rgba(140,225,255,.5),transparent 70%);opacity:0;animation:zap 11s infinite}
 @keyframes zap{0%,90%,100%{opacity:0}91%{opacity:.9}92.5%{opacity:.15}94%{opacity:.7}96%{opacity:0}}
 .mid .fx::before,.lite .fx::before{display:none}
+
+/* ===== kejutan ulang tahun ===== */
+.bdfx{position:fixed;left:0;right:0;top:0;height:var(--fh,100vh);z-index:135;pointer-events:none;overflow:hidden}
+.bdfx::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,var(--ac),transparent 60%);opacity:0;animation:bdfl 1.5s ease-out}
+@keyframes bdfl{0%{opacity:.5}100%{opacity:0}}
+.bdp{position:absolute;top:-50px;animation-name:bdfall;animation-timing-function:linear;animation-fill-mode:forwards;will-change:transform}
+.bdp i{display:block;width:100%;height:100%;animation:bdsw 1.4s ease-in-out infinite alternate}
+.bdp svg,.bdb svg{width:100%;height:100%;display:block}
+@keyframes bdfall{from{transform:translateY(0) rotate(0)}to{transform:translateY(calc(var(--fh,100vh) + 90px)) rotate(var(--r,360deg))}}
+@keyframes bdsw{from{transform:translateX(-16px) rotate(-25deg)}to{transform:translateX(16px) rotate(25deg)}}
+.bdb{position:absolute;left:50%;top:46%;opacity:0;animation:bdburst 1.35s cubic-bezier(.1,.8,.3,1) forwards}
+@keyframes bdburst{0%{opacity:1;transform:translate(-50%,-50%) scale(.2)}70%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1) rotate(var(--r,0deg))}}
+.bdw{position:fixed;inset:0;z-index:140;display:grid;place-items:center;padding:20px;pointer-events:none}
+.bdc{position:relative;pointer-events:auto;width:min(88vw,360px);overflow:hidden;text-align:center;padding:22px 20px 26px;border:2px solid var(--ac);border-radius:24px;background:var(--card);color:var(--tx);box-shadow:var(--ps,0 0 0 1px var(--bd)),0 24px 70px rgba(0,0,0,.45),0 0 36px color-mix(in srgb,var(--ac) 40%,transparent);animation:bdin .75s cubic-bezier(.34,1.56,.64,1)}
+.bdc.out{animation:bdout .38s ease-in forwards}
+@keyframes bdin{from{opacity:0;transform:translateY(40px) scale(.7) rotate(-3deg)}to{opacity:1;transform:none}}
+@keyframes bdout{to{opacity:0;transform:translateY(-24px) scale(.9)}}
+.bdi{width:56px;height:56px;margin:0 auto 6px;border-radius:50%;display:grid;place-items:center;background:var(--ac);color:var(--acx);animation:pop .8s .15s cubic-bezier(.3,1.4,.5,1) backwards}
+.bdi svg{width:30px;height:30px}
+.bdh{margin:6px 0 0!important;font:800 15px "Shippori Mincho B1",Georgia,serif;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.bdn{margin:2px 0 8px!important;font:800 30px/1.15 "Shippori Mincho B1",Georgia,serif;background:linear-gradient(90deg,var(--ac),var(--gm),var(--ac));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:bdsh 3s linear infinite}
+@keyframes bdsh{to{background-position:-200% 0}}
+.bdw2{margin:0!important;font-style:italic;font-size:15px;line-height:1.55}
+.bdt{position:absolute;left:0;right:0;bottom:0;height:5px;background:var(--ac);transform-origin:left;animation:bdbar 4.62s linear forwards}
+@keyframes bdbar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
 </style>
 </head>
 <body>
@@ -1025,7 +1050,7 @@ function themeHTML(){
 }
 function aboutHTML(){
   var G=[["Pengajar","Mencatat kehadiran, izin, alpa, beserta catatan. Tersedia peringatan apabila tidak hadir secara berturut-turut"],["Kelas sendiri","Kelas dapat diatur sesuai kebutuhan, misalnya 1 sampai 7. Tekan + Tambah kelas, atau ketuk nama kelas 3 kali untuk mengubah dan menghapus"],["Materi","Mencatat materi dan catatan untuk setiap kelas"],["Pengajar eksternal","Dilengkapi masa tugas yang dapat diakhiri per orang atau per kelompok"],["Naik kelas dan alumni","Kenaikan kelas dilakukan dengan satu tombol. Kelas terakhir menjadi alumni yang dapat diabsen secara opsional"],["Rekap","Rekap dapat disalin, lalu dikirim ke grup, atau diunduh dalam format Excel: mingguan (Sabtu), kegiatan ini, event, bulanan (Sabtu), dan bulanan latihan/rapat"],["Sinkron","Data dapat digunakan bersama melalui kode perangkat. Kegiatan dan pengajar yang sama digabung secara otomatis. Hanya perangkat yang kodenya digunakan untuk menyambung yang dapat memutuskan perangkat tersebut, sedangkan perangkat lain hanya dapat keluar dari grup"],["Offline","Dapat digunakan tanpa internet. Pembaruan data antarperangkat akan masuk setelah koneksi internet tersedia kembali."],["Kalender dan musik","Memilih kegiatan melalui kalender dan memutar musik bawaan, atau dari tautan Spotify dan YouTube"],["Banyak tema","Lebih dari 25 tema, termasuk Petualangan Fantasi dan Legenda Timur, dengan hiasan jatuh yang menyesuaikan tiap tema"]];
-  return '<div class="ab"><div class="ab-h"><img class="ab-lg" src="logo-192.png" alt="" width="52" height="52"><div><p class="ph" style="margin:0">M-log</p><p class="lbl" style="margin:0">Catatan absensi kegiatan</p><p class="lbl" style="margin:2px 0 0">Dibuat oleh <b>Ilham F. R.</b></p><p class="lbl" style="margin:2px 0 0">Versi saat ini <b>v2.2</b></p></div></div>'+
+  return '<div class="ab"><div class="ab-h"><img class="ab-lg" src="logo-192.png" alt="" width="52" height="52"><div><p class="ph" style="margin:0">M-log</p><p class="lbl" style="margin:0">Catatan absensi kegiatan</p><p class="lbl" style="margin:2px 0 0">Dibuat oleh <b>Ilham F. R.</b></p><p class="lbl" style="margin:2px 0 0">Ulang tahun: <b>13 November</b></p><p class="lbl" style="margin:2px 0 0">Versi saat ini <b>v2.3</b></p></div></div>'+
   '<div class="qb"><span class="qm">\u201C</span><p class="qs0">Kutipan hari ini</p><p class="qq">'+esc(quoteNow())+'</p></div>'+
   '<p class="ab-t">Tujuan website</p><p class="ab-p">Aplikasi ini dibuat untuk mencatat absensi kegiatan agar lebih rapi dan mudah digunakan secara bersama-sama.</p>'+
   '<div class="ab-g">'+G.map(function(g,i){return '<div class="ab-i" style="--k:'+i+'"><b>'+g[0]+'</b><span>'+g[1]+'</span></div>'}).join("")+'</div>'+
@@ -1931,6 +1956,40 @@ function xHTML(){
 }
 $("xlsOpen").addEventListener("click",function(){mOpen("md",xHTML())});
 
+
+/* ===== kejutan ulang tahun (13 November) saat Tentang dibuka ===== */
+var BW=["Semoga sehat selalu dan dimudahkan setiap langkahnya.","Semoga ilmu yang dipelajari membawa banyak manfaat.","Terima kasih telah membuat M-log bermanfaat untuk banyak orang.","Semoga setiap karya terus berkembang dan menginspirasi.","Semoga tahun ini penuh pencapaian dan kebahagiaan.","Selamat bertambah usia, tetap semangat dan rendah hati.","Semoga cita-citamu tercapai satu per satu.","Semoga rezeki lancar, ilmu bertambah, dan hati selalu tenang.","Semoga selalu dikelilingi orang-orang baik.","Kerja kerasmu hari ini adalah bekal masa depan yang cerah.","Semoga tidak ada bug di tahun yang baru ini.","Semoga rangkaian hidupmu selalu terhubung dengan baik dan tidak pernah korslet.","Semoga arus kebahagiaan mengalir tanpa hambatan.","Semoga setiap proyek selesai tepat waktu dan hasilnya memuaskan.","Semoga semangat belajar dan berbagi tidak pernah padam.","Satu tahun baru, satu lembar baru. Tulislah dengan hal-hal baik.","Semoga tahun ini membawa kesempatan yang lebih besar.","Semoga kebaikanmu kembali berlipat ganda.","Semoga hari ini menyenangkan dari pagi sampai malam.","Semoga langkahmu selalu dimudahkan dan dilindungi.","Semoga mimpi-mimpimu menemukan jalannya.","Semoga setiap usaha berbuah hasil yang manis."];
+var bdT=0,bdL=-1;
+function isBday(d){d=d||new Date();return d.getMonth()===10&&d.getDate()===13}
+function bdClear(){clearTimeout(bdT);Array.prototype.forEach.call(document.querySelectorAll(".bdfx,.bdw"),function(n){n.remove()})}
+function bday(){
+  bdClear();
+  var id=document.documentElement.getAttribute("data-theme")||"auto",cf=(typeof FXC!=="undefined")?FXC[id]:null,
+    list=cf&&!cf.u?cf.s:[[STAR,"var(--ac)"],[ZG,"var(--gm)"],[HRT,"var(--fx)"],[ZD,"var(--ac)","x"]],
+    n=0,i,w=document.createElement("div"),fx=null;
+  var k;do{k=Math.floor(Math.random()*BW.length)}while(k===bdL&&BW.length>1);bdL=k;
+  w.className="bdw";w.setAttribute("role","status");w.setAttribute("aria-live","polite");
+  w.innerHTML='<div class="bdc"><div class="bdi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21h16M5 21v-7a2 2 0 012-2h10a2 2 0 012 2v7M5 16c2 1.5 3 1.5 4.5 0s3-1.5 5 0 3 1.5 4.5 0M12 12V9M12 9c-1 0-1.5-1-1.5-2s1.5-2.500 1.5-2.500S13.500 6 13.500 7s-.5 2-1.500 2z"/></svg></div><p class="bdh">Selamat Ulang Tahun!</p><p class="bdn">ILHAM F. R.</p><p class="bdw2">'+esc(BW[k])+'</p><div class="bdt"></div></div>';
+  if(!LITE&&!RM){
+    n=QUAL==="mid"?22:44;fx=document.createElement("div");fx.className="bdfx";fx.setAttribute("aria-hidden","true");
+    var h="";
+    for(i=0;i<n;i++){
+      var sp=list[i%list.length],sz=(16+Math.random()*18)*((sp[2]||"").indexOf("x")>=0?.55:1),dur=2.6+Math.random()*1.8,dl=Math.random()*.7,
+        sw=1+Math.random()*1.2;
+      h+='<div class="bdp" style="left:'+(Math.random()*100)+'%;width:'+sz+'px;height:'+sz+'px;color:'+(sp[1]||"var(--ac)")+';--r:'+(180+Math.random()*540)+'deg;animation-duration:'+dur+'s;animation-delay:'+dl+'s"><i style="animation-duration:'+sw+'s">'+sp[0]+'</i></div>';
+    }
+    var nb=QUAL==="mid"?10:18;
+    for(i=0;i<nb;i++){
+      var sp2=list[i%list.length],a=Math.PI*2*i/nb+Math.random()*.4,r=100+Math.random()*130,s2=14+Math.random()*16;
+      h+='<div class="bdb" style="width:'+s2+'px;height:'+s2+'px;color:'+(sp2[1]||"var(--ac)")+';--dx:'+Math.round(Math.cos(a)*r)+'px;--dy:'+Math.round(Math.sin(a)*r)+'px;--r:'+Math.round(Math.random()*540-270)+'deg">'+sp2[0]+'</div>';
+    }
+    fx.innerHTML=h;document.body.appendChild(fx);
+  }
+  document.body.appendChild(w);
+  w.addEventListener("click",bdClear);
+  bdT=setTimeout(function(){var c=w.querySelector(".bdc");if(c)c.classList.add("out");setTimeout(bdClear,380)},4620);
+}
+$("tbAbout").addEventListener("click",function(){if(isBday())bday()});
 
 resetForm(false);all();boot();Sy.start();
 </script>
