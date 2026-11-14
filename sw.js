@@ -1,4 +1,4 @@
-const V="absensi-v31",CORE=["./","./index.html","./manifest.webmanifest","./logo-192.png","./logo-512.png"];
+const V="absensi-v33",CORE=["./","./index.html","./manifest.webmanifest","./logo-192.png","./logo-512.png"];
 self.addEventListener("install",e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting()))});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==V).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 self.addEventListener("fetch",e=>{
@@ -6,5 +6,12 @@ self.addEventListener("fetch",e=>{
   e.respondWith(caches.match(r).then(hit=>{
     const net=fetch(r).then(res=>{if(res&&(res.ok||res.type==="opaque")){const cp=res.clone();caches.open(V).then(c=>c.put(r,cp))}return res}).catch(()=>hit||caches.match("./index.html"));
     return hit||net;
+  }));
+});
+self.addEventListener("notificationclick",e=>{
+  e.notification.close();
+  e.waitUntil(self.clients.matchAll({type:"window",includeUncontrolled:true}).then(list=>{
+    for(const c of list){if("focus" in c){c.postMessage({t:"mlog-open"});return c.focus()}}
+    if(self.clients.openWindow)return self.clients.openWindow("./#sync");
   }));
 });

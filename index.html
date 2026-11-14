@@ -507,11 +507,16 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:var(--fh,100v
 .bdw2{margin:0!important;font-style:italic;font-size:15px;line-height:1.55}
 .bdt{position:absolute;left:0;right:0;bottom:0;height:5px;background:var(--ac);transform-origin:left;animation:bdbar 4.62s linear forwards}
 @keyframes bdbar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+
+/* ===== lencana permintaan masuk ===== */
+.sbd{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;margin-left:7px;border-radius:99px;background:#ff3b30;color:#fff;font:800 11px/1 "Zen Maru Gothic",sans-serif;animation:sbp 1.6s ease-in-out infinite}
+.sbd[hidden]{display:none}
+@keyframes sbp{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
 </style>
 </head>
 <body>
 <header><div class="hin">
-  <div class="tb"><button id="tbTheme" type="button">Tema</button><button id="tbMusic" type="button">Musik</button><button id="tbSync" type="button"><i class="sd" id="sd"></i>Sinkron</button><button id="tbAbout" type="button">Tentang</button></div>
+  <div class="tb"><button id="tbTheme" type="button">Tema</button><button id="tbMusic" type="button">Musik</button><button id="tbSync" type="button"><i class="sd" id="sd"></i>Sinkron<b class="sbd" id="sbd" hidden></b></button><button id="tbAbout" type="button">Tentang</button></div>
   <svg class="deco" viewBox="0 0 160 112" aria-hidden="true"><g fill="none" stroke="#fff" stroke-width="1" opacity=".4"><ellipse cx="116" cy="20" rx="26" ry="7"/><path d="M24 104C34 70 78 48 150 44C122 66 84 90 24 104Z"/><path d="M24 104C42 84 82 70 140 70C116 84 84 98 24 104Z"/><path d="M24 104C52 98 84 96 128 98C106 104 80 108 24 104Z"/></g></svg>
   <h1 id="hSub">M-log</h1>
   <h2 id="hTitle"></h2>
@@ -1049,8 +1054,8 @@ function themeHTML(){
     '</div>'+qUI()+'<p class="lbl gap"><b>Mode ringan</b></p><button type="button" class="opt'+(LITE?" on":"")+'" role="switch" aria-checked="'+LITE+'" data-act="lite"><span class="dot"></span>'+(LITE?"Nyala":"Mati")+'</button><div class="r gap"><button class="btn d" data-act="close">Tutup</button></div>';
 }
 function aboutHTML(){
-  var G=[["Pengajar","Mencatat kehadiran, izin, alpa, beserta catatan. Tersedia peringatan apabila tidak hadir secara berturut-turut"],["Kelas sendiri","Kelas dapat diatur sesuai kebutuhan, misalnya 1 sampai 7. Tekan + Tambah kelas, atau ketuk nama kelas 3 kali untuk mengubah dan menghapus"],["Materi","Mencatat materi dan catatan untuk setiap kelas"],["Pengajar eksternal","Dilengkapi masa tugas yang dapat diakhiri per orang atau per kelompok"],["Naik kelas dan alumni","Kenaikan kelas dilakukan dengan satu tombol. Kelas terakhir menjadi alumni yang dapat diabsen secara opsional"],["Rekap","Rekap dapat disalin, lalu dikirim ke grup, atau diunduh dalam format Excel: mingguan (Sabtu), kegiatan ini, event, bulanan (Sabtu), dan bulanan latihan/rapat"],["Sinkron","Data dapat digunakan bersama melalui kode perangkat. Jumlah perangkat dalam satu grup tidak dibatasi. Kegiatan dan pengajar yang sama digabung secara otomatis. Hanya perangkat yang kodenya digunakan untuk menyambung yang dapat memutuskan perangkat tersebut, sedangkan perangkat lain hanya dapat keluar dari grup"],["Offline","Dapat digunakan tanpa internet. Pembaruan data antarperangkat akan masuk setelah koneksi internet tersedia kembali."],["Kalender dan musik","Memilih kegiatan melalui kalender dan memutar musik bawaan, atau dari tautan Spotify dan YouTube"],["Banyak tema","Lebih dari 25 tema, termasuk Petualangan Fantasi dan Legenda Timur, dengan hiasan jatuh yang menyesuaikan tiap tema"]];
-  return '<div class="ab"><div class="ab-h"><img class="ab-lg" src="logo-192.png" alt="" width="52" height="52"><div><p class="ph" style="margin:0">M-log</p><p class="lbl" style="margin:0">Catatan absensi kegiatan</p><p class="lbl" style="margin:2px 0 0">Dibuat oleh <b>Ilham F. R.</b></p><p class="lbl" style="margin:2px 0 0">Ulang tahun: <b>13 November</b></p><p class="lbl" style="margin:2px 0 0">Versi saat ini <b>v2.3</b></p></div></div>'+
+  var G=[["Pengajar","Mencatat kehadiran, izin, alpa, beserta catatan. Tersedia peringatan apabila tidak hadir secara berturut-turut"],["Kelas sendiri","Kelas dapat diatur sesuai kebutuhan, misalnya 1 sampai 7. Tekan + Tambah kelas, atau ketuk nama kelas 3 kali untuk mengubah dan menghapus"],["Materi","Mencatat materi dan catatan untuk setiap kelas"],["Pengajar eksternal","Dilengkapi masa tugas yang dapat diakhiri per orang atau per kelompok"],["Naik kelas dan alumni","Kenaikan kelas dilakukan dengan satu tombol. Kelas terakhir menjadi alumni yang dapat diabsen secara opsional"],["Rekap","Rekap dapat disalin, lalu dikirim ke grup, atau diunduh dalam format Excel: mingguan (Sabtu), kegiatan ini, event, bulanan (Sabtu), dan bulanan latihan/rapat"],["Sinkron","Data dapat digunakan bersama melalui kode perangkat. Jumlah perangkat dalam satu grup tidak dibatasi. Permintaan sambung tidak kedaluwarsa dan dapat dijawab kapan saja, dengan notifikasi dan tautan sambung. Kegiatan dan pengajar yang sama digabung secara otomatis. Hanya perangkat yang kodenya digunakan untuk menyambung yang dapat memutuskan perangkat tersebut, sedangkan perangkat lain hanya dapat keluar dari grup"],["Offline","Dapat digunakan tanpa internet. Pembaruan data antarperangkat akan masuk setelah koneksi internet tersedia kembali."],["Kalender dan musik","Memilih kegiatan melalui kalender dan memutar musik bawaan, atau dari tautan Spotify dan YouTube"],["Banyak tema","Lebih dari 25 tema, termasuk Petualangan Fantasi dan Legenda Timur, dengan hiasan jatuh yang menyesuaikan tiap tema"]];
+  return '<div class="ab"><div class="ab-h"><img class="ab-lg" src="logo-192.png" alt="" width="52" height="52"><div><p class="ph" style="margin:0">M-log</p><p class="lbl" style="margin:0">Catatan absensi kegiatan</p><p class="lbl" style="margin:2px 0 0">Dibuat oleh <b>Ilham F. R.</b></p><p class="lbl" style="margin:2px 0 0">Ulang tahun: <b>13 November</b></p><p class="lbl" style="margin:2px 0 0">Versi saat ini <b>v2.4</b></p></div></div>'+
   '<div class="qb"><span class="qm">\u201C</span><p class="qs0">Kutipan hari ini</p><p class="qq">'+esc(quoteNow())+'</p></div>'+
   '<p class="ab-t">Tujuan website</p><p class="ab-p">Aplikasi ini dibuat untuk mencatat absensi kegiatan agar lebih rapi dan mudah digunakan secara bersama-sama.</p>'+
   '<div class="ab-g">'+G.map(function(g,i){return '<div class="ab-i" style="--k:'+i+'"><b>'+g[0]+'</b><span>'+g[1]+'</span></div>'}).join("")+'</div>'+
@@ -1061,10 +1066,10 @@ function mClose(id){var m=$(id);if(m.hidden)return;if(id==="md")m.dataset.p="";m
 /* ===== Sinkronisasi antar perangkat (MQTT publik + enkripsi ujung ke ujung) ===== */
 var Sy=(function(){
 var ROOT="absensi-zylham/v1/",AL="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",BR=["wss://broker.emqx.io:8084/mqtt","wss://broker.hivemq.com:8884/mqtt"],SK="absensi-sync",TK="absensi-tomb";
-var st={code:"",name:"",gk:"",peers:{},mem:{},ban:{},par:{}},TB={},PREV={},cn=[],gKey=null,gid="",pend=null,ans={},seen=[],seenM={},rqQ=[],rcv={},jt=null,jq={},hc=0,pdirty=true,q={},qt=null,helT=null,msg="",rq=null,enabled=false,kk=null,rk={},lsv=0;
+var st={code:"",name:"",gk:"",peers:{},mem:{},ban:{},par:{},done:{}},TB={},PREV={},cn=[],gKey=null,gid="",pend=null,ans={},seen=[],seenM={},rqQ=[],rcv={},jt=null,jq={},hc=0,pdirty=true,q={},qt=null,helT=null,msg="",rq=null,enabled=false,kk=null,rk={},lsv=0;
 var te=new TextEncoder(),td=new TextDecoder(),okc=!!(window.crypto&&crypto.subtle&&window.WebSocket);
 function ld(k,d){try{return JSON.parse(localStorage.getItem(k)||"null")||d}catch(e){return d}}
-function sv(){try{localStorage.setItem(SK,JSON.stringify({code:st.code,name:st.name,gk:st.gk,mem:st.mem,ban:st.ban,par:st.par}))}catch(e){}}
+function sv(){try{localStorage.setItem(SK,JSON.stringify({code:st.code,name:st.name,gk:st.gk,mem:st.mem,ban:st.ban,par:st.par,done:st.done}))}catch(e){}}
 function svT(){try{localStorage.setItem(TK,JSON.stringify(TB))}catch(e){}}
 function b64(u){var s="";for(var i=0;i<u.length;i+=8192)s+=String.fromCharCode.apply(null,u.subarray(i,i+8192));return btoa(s)}
 function unb64(s){var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
@@ -1099,12 +1104,13 @@ function mq(url,hd){
     ws.onmessage=function(e){if(ws!==me)return;buf=cat([buf,new Uint8Array(e.data)]);pr()};
     ws.onclose=ws.onerror=function(){if(ws!==me)return;down();again()};
   }
-  c.pub=function(t,s){if(c.up)tx(pk(0x30,cat([s2(t),te.encode(s)])))};
+  c.pub=function(t,s,r){if(c.up)tx(pk(r?0x31:0x30,cat([s2(t),te.encode(s)])))};
   c.sub=function(t){if(tp.indexOf(t)<0)tp.push(t);if(c.up)ss(t)};
   c.kick=function(){if(!c.up&&(!ws||ws.readyState>1)){clearTimeout(rt);open()}};
   return c;
 }
-function pubAll(t,o){var s=JSON.stringify(o);cn.forEach(function(c){c.pub(t,s)})}
+function pubAll(t,o,r){var s=JSON.stringify(o);cn.forEach(function(c){c.pub(t,s,r)})}
+function clr(t){cn.forEach(function(c){c.pub(t,"",true)})}
 function isOn(){return cn.some(function(c){return c.up})}
 
 /* data: gabung per-bidang, yang terbaru menang */
@@ -1191,7 +1197,7 @@ async function onMsg(t,s){
   var o;try{o=JSON.parse(s)}catch(e){return}
   if(!o||o.f===st.code)return;
   if(o.i){if(seenM[o.i])return;seenM[o.i]=1;seen.push(o.i);if(seen.length>4000)delete seenM[seen.shift()]}
-  if(t===ROOT+"in/"+st.code)return inbox(o);
+  if(t===ROOT+"in/"+st.code||t.indexOf(ROOT+"rq/"+st.code+"/")===0||t.indexOf(ROOT+"rs/"+st.code+"/")===0)return inbox(o);
   if(gid&&gKey&&t===ROOT+"g/"+gid){var d;try{d=await de(gKey,o)}catch(e){return}
     if(!d||typeof d!=="object")return;
     var sf=String(d.s||o.f);
@@ -1204,53 +1210,79 @@ async function onMsg(t,s){
 }
 
 /* jembatan: permintaan, persetujuan, penolakan */
-function reply(to,a){pubAll(ROOT+"in/"+to,a)}
+/* ===== permintaan sambung tahan lama, notifikasi, daftar masuk ===== */
+var PK="absensi-pend",inc={};
+function badge(){var n=Object.keys(inc).length,b=$("sbd");if(b){b.hidden=!n;b.textContent=n>9?"9+":String(n)}}
+function markDone(rid,y){st.done[rid]={y:y?1:0,t:Date.now()};var k=Object.keys(st.done);if(k.length>300){k.sort(function(a,b){return st.done[a].t-st.done[b].t}).slice(0,k.length-300).forEach(function(x){delete st.done[x]})}sv()}
+function reply(to,a){pubAll(ROOT+"in/"+to,a);pubAll(ROOT+"rs/"+to+"/"+st.code,a,true)}
 function reqShow(o){
   rq=o;$("md2").dataset.rid=o.rid;$("md2").dataset.k="";
-  var w=rqQ.filter(function(x){return !ans[x.rid]&&Date.now()-x.t0<300000}).length;
-  mOpen("md2",'<p class="ph">Perangkat ingin tersambung</p><p>Apakah Anda mengenali perangkat ini?</p><div class="cd">'+fc(String(o.f))+'</div><p class="lbl">'+esc(o.n||"Tanpa nama")+'</p><p>Bagikan data dengan perangkat ini? Jika ya, kedua perangkat akan tersambung dan dapat mengisi absensi bersama.</p><div class="r gap"><button class="btn" data-act="yes">Ya, berbagi data</button><button class="btn d" data-act="no">Tidak</button></div>'+(w?'<p class="lbl">Permintaan lain yang menunggu: <b>'+w+'</b></p>':""));
+  var w=rqQ.filter(function(x){return inc[x.rid]}).length;
+  mOpen("md2",'<p class="ph">Perangkat ingin tersambung</p><p>Apakah Anda mengenali perangkat ini?</p><div class="cd">'+fc(String(o.f))+'</div><p class="lbl">'+esc(o.n||"Tanpa nama")+(o.ts?' \u00B7 diminta '+ago(o.ts):'')+'</p><p>Bagikan data dengan perangkat ini? Jika ya, kedua perangkat akan tersambung dan dapat mengisi absensi bersama.</p><div class="r gap" style="flex-wrap:wrap"><button class="btn" data-act="yes">Ya, berbagi data</button><button class="btn d" data-act="no">Tidak</button><button class="btn d" data-act="later">Nanti</button></div><p class="lbl">Permintaan tidak kedaluwarsa. Pilih Nanti untuk menjawabnya kapan saja melalui menu Sinkron.</p>'+(w?'<p class="lbl">Permintaan lain yang menunggu: <b>'+w+'</b></p>':""));
 }
 function reqNext(){
   if(rq||!$("md2").hidden)return;
-  while(rqQ.length){var o=rqQ.shift();if(ans[o.rid]||Date.now()-o.t0>300000)continue;reqShow(o);return}
+  while(rqQ.length){var o=rqQ.shift();if(!inc[o.rid])continue;reqShow(o);return}
 }
 async function inbox(o){
   if(o.t==="req"){
     if(!o.pk||!o.rid)return;
+    var dn=st.done[o.rid];
+    if(dn){if(dn.y)approve(o);else reply(o.f,{t:"no",f:st.code,rid:o.rid});clr(ROOT+"rq/"+st.code+"/"+o.f);return}
     if(ans[o.rid]){reply(o.f,ans[o.rid]);return}
-    if(rq&&rq.rid===o.rid)return;
-    if(!$("md2").hidden||rq){if(rqQ.length<500&&!rqQ.some(function(x){return x.rid===o.rid})){o.t0=Date.now();rqQ.push(o)}return}
-    reqShow(o);
-  }else if(o.t==="ok"&&pend&&pend.to===o.f){
-    try{var k=await dk(pend.priv,o.pk),d=await de(k,o);st.gk=d.gk;st.par[st.code]=String(o.f);pdirty=true;await setKey();sv();stop("Tersambung dengan "+fc(o.f)+". Data akan disamakan.");subG();clean();st.peers[o.f]={t:Date.now()};note(o.f,"");hello()}
+    if(inc[o.rid])return;
+    o.t0=Date.now();inc[o.rid]=o;badge();
+    nfy("Permintaan sambungan baru",(o.n||"Perangkat")+" ("+fc(String(o.f))+") ingin tersambung dengan M-log Anda.","req-"+o.rid);
+    if(rq||!$("md2").hidden){if(rqQ.length<500)rqQ.push(o)}else reqShow(o);
+    ui();
+  }else if(o.t==="ok"&&pend&&pend.to===o.f&&(!o.rid||o.rid===pend.rid)){
+    if(pend.busy)return;pend.busy=true;
+    try{var k=await dk(pend.priv,o.pk),d=await de(k,o),f=o.f;st.gk=d.gk;st.par[st.code]=String(f);pdirty=true;await setKey();sv();clr(ROOT+"rs/"+st.code+"/"+f);stop("Tersambung dengan "+fc(f)+". Data akan disamakan.");subG();clean();st.peers[f]={t:Date.now()};note(f,"");hello();nfy("Permintaan disetujui","Perangkat ini tersambung dengan "+fc(f)+".","rs-"+f)}
     catch(e){stop("Gagal tersambung. Silakan coba lagi.")}
-  }else if(o.t==="no"&&pend&&pend.to===o.f)stop("Permintaan ditolak oleh "+fc(o.f)+".");
+  }else if(o.t==="no"&&pend&&pend.to===o.f&&(!o.rid||o.rid===pend.rid)){
+    var g=o.f;clr(ROOT+"rs/"+st.code+"/"+g);stop("Permintaan ditolak oleh "+fc(g)+".");nfy("Permintaan ditolak","Perangkat "+fc(g)+" menolak permintaan sambungan.","rs-"+g);
+  }else if((o.t==="ok"||o.t==="no")&&o.rid&&(!pend||o.rid!==pend.rid))clr(ROOT+"rs/"+st.code+"/"+o.f);
 }
-function answer(yes){
-  var o=rq;mClose("md2");$("md2").dataset.rid="";if(!o)return;rq=null;
-  if(!yes){var a={t:"no",f:st.code};ans[o.rid]=a;reply(o.f,a);setTimeout(reqNext,500);return}
-  approve(o);setTimeout(reqNext,500);
+function finish(o,yes){
+  delete inc[o.rid];rqQ=rqQ.filter(function(x){return x.rid!==o.rid});markDone(o.rid,yes);clr(ROOT+"rq/"+st.code+"/"+o.f);
+  if(yes)approve(o);else{var a={t:"no",f:st.code,rid:o.rid};ans[o.rid]=a;reply(o.f,a)}
+  badge();ui();
 }
+function answer(yes){var o=rq;mClose("md2");$("md2").dataset.rid="";if(!o)return;rq=null;finish(o,yes);setTimeout(reqNext,500)}
+function later(){mClose("md2");$("md2").dataset.rid="";rq=null;setTimeout(reqNext,500);ui()}
+function respond(rid,yes){var o=inc[rid];if(!o)return;if(rq&&rq.rid===rid){answer(yes);return}finish(o,yes)}
 async function approve(o){
   try{
     if(!st.gk){st.gk=b64(crypto.getRandomValues(new Uint8Array(32)));await setKey();sv();subG()}
     var p=await kp(),k=await dk(p.privateKey,o.pk),e=await en(k,{gk:st.gk}),pub=await crypto.subtle.exportKey("jwk",p.publicKey);
-    var a={t:"ok",f:st.code,pk:pub,v:e.v,c:e.c};ans[o.rid]=a;reply(o.f,a);st.par[o.f]=st.code;pdirty=true;sv();gsend({t:"par",c:o.f,p:st.code}).catch(function(){});st.peers[o.f]={n:o.n,t:Date.now()};note(o.f,o.n);if(st.ban[o.f]){delete st.ban[o.f];sv();gsend({t:"unban",c:o.f}).catch(function(){})}ui();hello();
+    var a={t:"ok",f:st.code,pk:pub,v:e.v,c:e.c,rid:o.rid};ans[o.rid]=a;reply(o.f,a);st.par[o.f]=st.code;pdirty=true;sv();gsend({t:"par",c:o.f,p:st.code}).catch(function(){});st.peers[o.f]={n:o.n,t:Date.now()};note(o.f,o.n);if(st.ban[o.f]){delete st.ban[o.f];sv();gsend({t:"unban",c:o.f}).catch(function(){})}ui();hello();
   }catch(e){}
 }
-function stop(m){if(pend)clearInterval(pend.iv);pend=null;msg=m;ui()}
+function pSave(){try{if(pend)localStorage.setItem(PK,JSON.stringify({to:pend.to,rid:pend.rid,pub:pend.pub,priv:pend.privJ,t0:pend.t0}));else localStorage.removeItem(PK)}catch(e){}}
+function sendReq(){if(!pend)return;var o={t:"req",f:st.code,n:nm(),pk:pend.pub,rid:pend.rid,ts:pend.t0};pubAll(ROOT+"rq/"+pend.to+"/"+st.code,o,true);pubAll(ROOT+"in/"+pend.to,o)}
+function loop(pd,k){clearTimeout(pd.tm);pd.tm=setTimeout(function(){if(pend!==pd)return;sendReq();loop(pd,k+1)},k<15?8000:30000)}
+function resend(){if(pend){sendReq();msg="Permintaan dikirim ulang.";ui()}}
+function stop(m){if(pend){clearTimeout(pend.tm);clr(ROOT+"rq/"+pend.to+"/"+st.code)}pend=null;pSave();msg=m;ui()}
 async function join(code){
   code=String(code).replace(/[^A-Za-z0-9]/g,"").toUpperCase();
   if(!okc){msg="Fitur ini memerlukan alamat https.";return ui()}
   if(code.length!==8){msg="Kode harus terdiri atas 8 huruf atau angka.";return ui()}
   if(code===st.code){msg="Itu kode perangkat ini.";return ui()}
   try{
-    var p=await kp(),pub=await crypto.subtle.exportKey("jwk",p.publicKey),rid=rnd(8);
-    if(pend)clearInterval(pend.iv);
-    var pd=pend={to:code,priv:p.privateKey,t0:Date.now()};
-    function go(){if(pend!==pd)return;if(Date.now()-pd.t0>300000){stop("Waktu habis. "+fc(code)+" tidak memberikan jawaban.");return}pubAll(ROOT+"in/"+code,{t:"req",f:st.code,n:nm(),pk:pub,rid:rid})}
-    pd.iv=setInterval(go,8000);go();msg="Menunggu persetujuan dari "+fc(code)+". Mohon minta pemilik kode untuk membuka aplikasinya.";ui();
+    var p=await kp(),pub=await crypto.subtle.exportKey("jwk",p.publicKey),pj=await crypto.subtle.exportKey("jwk",p.privateKey),rid=rnd(8);
+    if(pend){clearTimeout(pend.tm);clr(ROOT+"rq/"+pend.to+"/"+st.code)}
+    var pd=pend={to:code,priv:p.privateKey,privJ:pj,pub:pub,rid:rid,t0:Date.now(),tm:0};
+    pSave();sendReq();loop(pd,0);msg="Permintaan terkirim ke "+fc(code)+".";ui();
   }catch(e){msg="Gagal membuat permintaan.";ui()}
+}
+async function resume(){
+  var r=ld(PK,null);if(!r)return;
+  if(st.gk||!r.to||!r.priv||!r.pub){try{localStorage.removeItem(PK)}catch(e){}return}
+  try{
+    var priv=await crypto.subtle.importKey("jwk",r.priv,{name:"ECDH",namedCurve:"P-256"},true,["deriveKey"]);
+    var pd=pend={to:r.to,priv:priv,privJ:r.priv,pub:r.pub,rid:r.rid,t0:r.t0||Date.now(),tm:0};
+    sendReq();loop(pd,16);msg="";ui();
+  }catch(e){try{localStorage.removeItem(PK)}catch(x){}}
 }
 function clean(){
   S.events=S.events.filter(function(e){
@@ -1288,47 +1320,63 @@ function kick(c){
 function askKick(c){if(st.par[c]!==st.code)return;if(kk===c){kk=null;kick(c);return}kk=c;setTimeout(function(){if(kk===c){kk=null;ui()}},4000);ui()}
 
 /* tampilan */
+function nfUI(s){
+  var p=nfSt(),h;
+  if(p==="na")h='<p class="lbl gap">Notifikasi belum didukung di perangkat atau browser ini. Permintaan sambung tetap tampil saat aplikasi dibuka.</p>';
+  else if(p==="granted")h='<p class="lbl gap"><b>Notifikasi aktif.</b> M-log memberi tahu saat ada permintaan sambungan masuk atau permintaan Anda dijawab.</p><div class="r"><button class="btn d" data-act="nftest">Coba notifikasi</button></div>';
+  else if(p==="denied")h='<p class="lbl gap">Notifikasi diblokir. Aktifkan kembali melalui pengaturan situs pada browser Anda.</p>';
+  else h='<p class="lbl gap"><b>Notifikasi</b></p><p class="lbl">Aktifkan notifikasi agar M-log memberi tahu saat ada permintaan sambungan masuk atau permintaan Anda dijawab.</p><div class="r"><button class="btn" data-act="nfon">Aktifkan notifikasi</button></div>';
+  if(p!=="na")h+='<p class="lbl">Notifikasi muncul ketika aplikasi terbuka atau masih berjalan di latar belakang. Jika aplikasi sudah ditutup, permintaan tetap tersimpan dan langsung tampil saat aplikasi dibuka.</p>';
+  s.innerHTML=h;
+}
 function ui(){
-  var on=isOn(),d=$("sd");if(d)d.className="sd"+(on?" on":"");
+  var on=isOn(),d=$("sd");if(d)d.className="sd"+(on?" on":"");badge();
+  var n=$("syN");if(n)nfUI(n);
   var s=$("syS");if(!s||$("md").hidden)return;
-  var now=Date.now(),ps=Object.keys(st.peers).filter(function(k){return now-st.peers[k].t<240000});
-  var h='<p class="lbl gap">'+(on?"Online.":"Perangkat sedang offline. Data tetap tersimpan dan akan disinkronkan otomatis saat kembali online.")+'</p>';
+  var now=Date.now(),ps=Object.keys(st.peers).filter(function(k){return now-st.peers[k].t<240000}),h="",ik=Object.keys(inc);
+  if(ik.length)h+='<p class="lbl gap"><b>Permintaan masuk ('+ik.length+')</b></p><div class="dv">'+ik.map(function(r){var o=inc[r];return '<div class="dvi"><span class="dvt"><b>'+esc(o.n||"Tanpa nama")+'</b><small>'+fc(String(o.f))+(o.ts?' \u00B7 '+ago(o.ts):'')+'</small></span><button type="button" class="btn dvb" data-act="rqy" data-r="'+esc(r)+'">Setujui</button><button type="button" class="btn d dvb" data-act="rqn" data-r="'+esc(r)+'">Tolak</button></div>'}).join("")+'</div>';
+  h+='<p class="lbl gap">'+(on?"Online.":"Perangkat sedang offline. Data tetap tersimpan dan akan disinkronkan otomatis saat kembali online.")+'</p>';
   if(st.gk){
     var ms=Object.keys(st.mem).sort(function(x,y){return(st.mem[y].t||0)-(st.mem[x].t||0)});
     h+='<p class="lbl">Tergabung dalam grup berbagi data.</p>';
     h+=ms.length?'<div class="dv">'+ms.map(function(k){var m=st.mem[k],pe=st.peers[k],ac=!!pe&&now-pe.t<240000;return '<div class="dvi"><span class="dvd'+(ac?" on":"")+'"></span><span class="dvt"><b>'+esc(m.n||fc(k))+'</b><small>'+fc(k)+' \u00B7 '+(ac?"Aktif":"Tidak aktif")+'</small></span>'+(st.par[k]===st.code?'<button type="button" class="btn d dvb'+(kk===k?" arm":"")+'" data-act="kick" data-c="'+esc(k)+'">'+(kk===k?"Yakin putuskan?":"Putuskan")+'</button>':"")+'</div>'}).join("")+'</div><p class="lbl">Anda hanya dapat memutuskan perangkat yang tersambung melalui kode Anda. Perangkat lainnya hanya dapat keluar dari grup sendiri.</p>':'<p class="lbl">Belum ada perangkat lain di grup ini.</p>';
   }else h+='<p class="lbl">Belum tersambung dengan perangkat lain.</p>';
+  if(pend)h+='<p class="lbl"><b>Menunggu persetujuan dari '+fc(pend.to)+'.</b> Dikirim '+ago(pend.t0)+'. Permintaan tidak kedaluwarsa: aplikasi boleh ditutup dan dibuka kembali, dan permintaan tetap menunggu sampai disetujui, ditolak, atau dibatalkan.</p>';
   if(msg)h+='<p class="lbl"><b>'+esc(msg)+'</b></p>';
-  h+='<div class="r gap" style="flex-wrap:wrap">'+(pend?'<button class="btn d" data-act="cancel">Batalkan permintaan</button>':"")+(st.gk?'<button class="btn d" data-act="leave">Keluar dari grup</button>':"")+'<button class="btn d" data-act="close">Tutup</button></div>';
+  h+='<div class="r gap" style="flex-wrap:wrap">'+(pend?'<button class="btn d" data-act="resend">Kirim ulang</button><button class="btn d" data-act="cancel">Batalkan permintaan</button>':"")+(st.gk?'<button class="btn d" data-act="leave">Keluar dari grup</button>':"")+'<button class="btn d" data-act="close">Tutup</button></div>';
   s.innerHTML=h;
 }
 function panel(){
   if(!enabled)return '<p class="ph">Sinkronisasi</p><p class="lbl">Fitur ini belum dapat digunakan di sini. Buka melalui alamat https (misalnya GitHub Pages) agar dapat tersambung.</p><div class="r gap"><button class="btn d" data-act="close">Tutup</button></div>';
-  return '<p class="ph">Sinkronisasi</p><p class="lbl">Ini kode perangkat Anda. Berikan kode ini kepada perangkat lain agar dapat tersambung.</p><div class="cd">'+fc(st.code)+'</div><div class="r"><button class="btn d" data-act="cp">Salin kode</button></div>'+
+  return '<p class="ph">Sinkronisasi</p><p class="lbl">Ini kode perangkat Anda. Berikan kode ini kepada perangkat lain agar dapat tersambung.</p><div class="cd">'+fc(st.code)+'</div><div class="r" style="flex-wrap:wrap"><button class="btn d" data-act="cp">Salin kode</button><button class="btn d" data-act="shl">Bagikan tautan</button></div>'+
     '<p class="lbl gap">Nama perangkat (opsional, tampil di perangkat lain)</p><input type="text" id="syNm" maxlength="30" value="'+esc(st.name)+'" placeholder="'+esc(nm())+'">'+
-    '<p class="lbl gap">Masukkan kode perangkat lain</p><div class="r"><input type="text" id="syIn" maxlength="9" autocapitalize="characters" autocomplete="off" placeholder="XXXX-XXXX"><button class="btn" data-act="go">Hubungkan</button></div><div id="syS"></div>';
+    '<p class="lbl gap">Masukkan kode perangkat lain</p><div class="r"><input type="text" id="syIn" maxlength="9" autocapitalize="characters" autocomplete="off" placeholder="XXXX-XXXX"><button class="btn" data-act="go">Hubungkan</button></div><div id="syS"></div><div id="syN"></div>';
 }
-function upd(up){ui();if(up){cn.forEach(function(c){c.sub(ROOT+"in/"+st.code)});subG();hello()}}
+function subI(){cn.forEach(function(c){c.sub(ROOT+"in/"+st.code);c.sub(ROOT+"rq/"+st.code+"/+");c.sub(ROOT+"rs/"+st.code+"/+")})}
+function upd(up){ui();if(up){subI();subG();hello();resend()}}
 return{
   start:function(){
     if(window.claude&&window.claude.use)return;
-    enabled=true;var s=ld(SK,{});st.code=s.code||rnd(8);st.name=s.name||"";st.gk=s.gk||"";st.mem=s.mem||{};st.ban=s.ban||{};st.par=s.par||{};TB=ld(TK,{});sv();
+    enabled=true;var s=ld(SK,{});st.code=s.code||rnd(8);st.name=s.name||"";st.gk=s.gk||"";st.mem=s.mem||{};st.ban=s.ban||{};st.par=s.par||{};st.done=s.done||{};TB=ld(TK,{});sv();
     ["teachers","events"].forEach(function(k){arr(k).forEach(function(o){var kk=k+"/"+o.id;if(!PREV[kk])PREV[kk]=flat(k,o)})});
     if(!okc){ui();return}
     setKey().then(function(){
-      BR.forEach(function(u){var c=mq(u,{chg:upd,msg:onMsg});cn.push(c);c.sub(ROOT+"in/"+st.code);if(gid)c.sub(ROOT+"g/"+gid);c.kick()});
+      BR.forEach(function(u){var c=mq(u,{chg:upd,msg:onMsg});cn.push(c);c.sub(ROOT+"in/"+st.code);c.sub(ROOT+"rq/"+st.code+"/+");c.sub(ROOT+"rs/"+st.code+"/+");if(gid)c.sub(ROOT+"g/"+gid);c.kick()});
       (function hb(){
         var act=0,now=Date.now();Object.keys(st.peers).forEach(function(k){if(now-st.peers[k].t<240000)act++});
         setTimeout(function(){if(gKey&&isOn())hello();hb()},Math.min(120000,45000+act*3000)*(0.85+Math.random()*0.3));
       })();
-      setInterval(reqNext,1500);
+      setInterval(reqNext,1500);resume();badge();
       function kick(){cn.forEach(function(c){c.kick()});hello()}
       window.addEventListener("online",kick);
       setTimeout(function(){if(dedupe()){saveLocal();svT();ensureSel();all()}},3500);
       document.addEventListener("visibilitychange",function(){if(!document.hidden)kick()});
     });
   },
-  mark:mark,del:del,join:join,leave:leave,askKick:askKick,answer:answer,panel:panel,ui:ui,
+  mark:mark,del:del,join:join,leave:leave,askKick:askKick,answer:answer,panel:panel,ui:ui,later:later,respond:respond,resend:resend,say:function(m){msg=m;ui()},
+  share:function(){var u=location.href.split("#")[0]+"#join="+st.code,t="Sambungkan perangkat Anda ke M-log. Kode: "+fc(st.code);if(navigator.share)navigator.share({title:"M-log",text:t,url:u}).catch(function(){});else{try{navigator.clipboard.writeText(t+"\n"+u);toast("Tautan sambung disalin")}catch(e){toast(u)}}},
+  nfAsk:function(){if(nfSt()==="na")return;Notification.requestPermission().then(function(p){ui();if(p==="granted")nfy("Notifikasi aktif","M-log akan memberi tahu saat ada permintaan sambungan.","mlog-test",true)})},
+  nfTest:function(){nfy("Uji notifikasi","Notifikasi M-log berfungsi dengan baik.","mlog-test",true)},
   cancel:function(){stop("Permintaan dibatalkan.")},
   code:function(){return fc(st.code)},
   setName:function(v){st.name=v.trim();sv()}
@@ -1352,6 +1400,13 @@ document.addEventListener("click",function(e){
   else if(a==="close")mClose("md");
   else if(a==="yes")Sy.answer(true);
   else if(a==="no")Sy.answer(false);
+  else if(a==="later")Sy.later();
+  else if(a==="rqy")Sy.respond(b.dataset.r,true);
+  else if(a==="rqn")Sy.respond(b.dataset.r,false);
+  else if(a==="resend")Sy.resend();
+  else if(a==="shl")Sy.share();
+  else if(a==="nfon")Sy.nfAsk();
+  else if(a==="nftest")Sy.nfTest();
   else if(a==="go")Sy.join($("syIn").value);
   else if(a==="cancel")Sy.cancel();
   else if(a==="leave"){if(confirm("Keluar dari grup? Data di perangkat ini tetap tersimpan."))Sy.leave()}
@@ -2007,6 +2062,27 @@ function bday(){
   bdT=setTimeout(function(){var c=w.querySelector(".bdc");if(c)c.classList.add("out");setTimeout(bdClear,380)},4620);
 }
 $("tbAbout").addEventListener("click",function(){if(isBday())bday()});
+
+/* ===== notifikasi, tautan sambung ===== */
+function ago(ts){ts=+ts;if(!ts)return"";var m=Math.floor(Math.max(0,Date.now()-ts)/60000);if(m<1)return"baru saja";if(m<60)return m+" menit lalu";var h=Math.floor(m/60);if(h<24)return h+" jam lalu";return Math.floor(h/24)+" hari lalu"}
+function nfSt(){return"Notification" in window?Notification.permission:"na"}
+function nfy(t,b,tag,force){
+  try{
+    if(nfSt()!=="granted")return;
+    if(!force&&!document.hidden&&document.hasFocus())return;
+    var o={body:b,tag:tag||"mlog",icon:"logo-192.png",badge:"logo-192.png",renotify:true};
+    if(navigator.serviceWorker&&navigator.serviceWorker.getRegistration)navigator.serviceWorker.getRegistration().then(function(r){if(r&&r.showNotification)r.showNotification(t,o);else new Notification(t,o)}).catch(function(){try{new Notification(t,o)}catch(e){}});
+    else new Notification(t,o);
+  }catch(e){}
+}
+function openSync(){mOpen("md",Sy.panel());$("md").dataset.p="sync";Sy.ui()}
+function hashGo(){
+  var h=location.hash||"",m=h.match(/^#join=([A-Za-z0-9-]{8,9})/i);
+  if(m){var c=m[1].replace(/-/g,"").toUpperCase();openSync();var i=$("syIn");if(i)i.value=c.slice(0,4)+"-"+c.slice(4);Sy.say("Tautan sambung terdeteksi. Periksa kodenya, lalu tekan Hubungkan untuk mengirim permintaan.");try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}
+  else if(h==="#sync"){openSync();try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}
+}
+setTimeout(hashGo,1200);
+if("serviceWorker" in navigator)navigator.serviceWorker.addEventListener("message",function(e){if(e.data&&e.data.t==="mlog-open")openSync()});
 
 resetForm(false);all();boot();Sy.start();
 </script>
